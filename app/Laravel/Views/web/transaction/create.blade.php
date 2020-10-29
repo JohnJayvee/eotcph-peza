@@ -71,10 +71,10 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="text-form pb-2">Zone Location</label>
-                                {!!Form::select("regional_id", $zone_locations, old('regional_id'), ['id' => "input_zone_id", 'class' => "form-control form-control-sm classic ".($errors->first('regional_id') ? 'border-red' : NULL)])!!}
+                                {!!Form::select("zone_id", $zone_locations, old('zone_id'), ['id' => "input_zone_id", 'class' => "form-control form-control-sm classic ".($errors->first('zone_id') ? 'border-red' : NULL)])!!}
                             </div>
-                            @if($errors->first('regional_id'))
-                                <small class="form-text pl-1" style="color:red;">{{$errors->first('regional_id')}}</small>
+                            @if($errors->first('zone_id'))
+                                <small class="form-text pl-1" style="color:red;">{{$errors->first('zone_id')}}</small>
                             @endif
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
