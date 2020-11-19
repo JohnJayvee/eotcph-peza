@@ -34,8 +34,8 @@
         <a href="{{route('system.zone_location.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+    <div class="table-responsive shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
             <th width="15%" class="text-title p-3">Zone Code</th>
@@ -64,7 +64,7 @@
           </tr>
           @empty
           <tr>
-            <td colspan="5" class="text-center"><i>No Zone Location Records Available.</i></td>
+            <td colspan="6" class="text-center"><i>No Zone Location Records Available.</i></td>
           </tr>
           @endforelse
           

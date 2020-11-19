@@ -3,9 +3,7 @@
 namespace App\Laravel\Middlewares\System;
 
 use Closure, Helper,Str;
-use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements};
-
-use App\Laravel\Models\{AccountCode};
+use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation};
 
 class ExistRecord
 {
@@ -73,7 +71,7 @@ class ExistRecord
                     session()->flash('notification-status', "failed");
                     session()->flash('notification-msg', "No record found or resource already removed.");
 
-                    $module = "zone-location.index";
+                    $module = "regional-office.index";
                 }
             break;
             case 'requirements':
@@ -83,6 +81,15 @@ class ExistRecord
                     session()->flash('notification-msg', "No record found or resource already removed.");
 
                     $module = "application-requirements.index";
+                }
+            break;
+            case 'zone-location':
+                if(! $this->__exist_zone_location($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "zone-location.index";
                 }
             break;
             
@@ -152,6 +159,16 @@ class ExistRecord
 
         if($requirements){
             $request->merge(['requirement_data' => $requirements]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+    private function __exist_zone_location($request){
+        $zone= ZoneLocation::find($this->reference_id);
+
+        if($zone){
+            $request->merge(['zone_location_data' => $zone]);
             return TRUE;
         }
 

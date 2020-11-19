@@ -77,8 +77,8 @@ class ApplicationController extends Controller
 			$application = $request->get('application_data');
 			$application->department_id = $request->get('department_id');
 			$application->name = $request->get('name');
-			$application->processing_fee = Helper::db_amount($request->get('processing_fee'));
-			$application->partial_amount = Helper::db_amount($request->get('partial_amount'));
+			$application->processing_fee = Helper::db_amount($request->get('processing_fee') ?: 0);
+			$application->partial_amount = Helper::db_amount($request->get('partial_amount') ?: 0);
 			$application->processing_days = $request->get('processing_days');
 			$application->requirements_id = implode(",", $request->get('requirements_id'));
 			$application->save();

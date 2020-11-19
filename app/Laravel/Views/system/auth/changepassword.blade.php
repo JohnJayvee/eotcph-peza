@@ -24,7 +24,7 @@
                                 {{ csrf_field() }}
                                 @include('system._components.notifications')
                               <div class="brand-logo text-center">
-                                <img src="{{asset('web/img/peza-eotcphp-logo.png')}}" alt="logo" class="img-fluid" />
+                                <img src="{{asset('web/img/peza-epams-logo.png')}}" alt="logo" class="img-fluid" />
                              </div>
                             <h4 class="fw-600 text-black text-center mb-4">Setup your account</h4>
                             <div class="form-group">

@@ -54,7 +54,7 @@
 				<th colspan="2" class="primary" style="padding: 25px;">
 					<div id="pageElement">
 						<div style="float: left;color: #000;padding-left: 30px;">Thank You for using &nbsp;</div>
-					  	<div style="padding-right: 30px;"> <img src="{{asset('web/img/peza-eotcphp-logo.png')}}" alt="" style="width: 130px;"> </div>
+					  	<div style="padding-right: 30px;"> <img src="{{asset('web/img/peza-epams-logo.png')}}" alt="" style="width: 130px;"> </div>
 					</div>
 				</th>
 			</tr>

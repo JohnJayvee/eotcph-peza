@@ -7,7 +7,7 @@
     border-bottom: 4px solid #254DA0;">
         <div class="container">
             <a class="brand-logo" href="{{route('web.main.index')}}">
-                <img src="{{asset('web/img/peza-eotcphp-logo.png')}}" alt="logo" class="img-fluid" width="30%" />
+                <img src="{{asset('web/img/peza-epams-logo.png')}}" alt="logo" class="img-fluid" width="30%" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="ti-menu"></span>
@@ -42,7 +42,7 @@
     border-bottom: 4px solid #254DA0;">
         <div class="container">
             <a class="brand-logo" href="{{route('web.main.index')}}">
-                <img src="{{asset('web/img/peza-eotcphp-logo.png')}}" alt="logo" class="img-fluid" width="30%" />
+                <img src="{{asset('web/img/peza-epams-logo.png')}}" alt="logo" class="img-fluid" width="30%" />
             </a>
             <div class="date-time pl-4">
                 <i class="fa fa-calendar-alt" style="color: #C74A4F"> <span id="current_date" class=""></span></i> 

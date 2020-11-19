@@ -90,6 +90,22 @@ class ZoneLocationController extends Controller
 			return redirect()->back();
 		}
 	}
+	public function  destroy(PageRequest $request,$id = NULL){
+		$zone = $request->get('zone_location_data');
+		DB::beginTransaction();
+		try{
+			$zone->delete();
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Zone Location removed successfully.");
+			return redirect()->route('system.zone_location.index');
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
+		}
+	}
 
 	public function get_region(PageRequest $request){
 		$id = $request->get('region_code');
