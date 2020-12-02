@@ -124,8 +124,8 @@ class ProcessorController extends Controller
 	                'otp' => $new_processor->otp,
 	                'type' => $new_processor->type
 	            ];	
-				$notification_data = new SendProcessorReference($insert);
-			    Event::dispatch('send-sms-processor', $notification_data);
+				/*$notification_data = new SendProcessorReference($insert);
+			    Event::dispatch('send-sms-processor', $notification_data);*/
 
 				DB::commit();
 				session()->flash('notification-status', "success");
