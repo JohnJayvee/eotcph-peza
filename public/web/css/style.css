@@ -1003,6 +1003,13 @@ select.form-control.has-value{
     right: 0;
 }
 
+@media screen and (max-width: 991px) {
+    .home-bg:before{
+        background: #005cbf;
+    }
+}
+
+
 .hero-bg-2:before{
     position: absolute;
     content: '';
