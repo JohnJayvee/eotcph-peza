@@ -13,8 +13,8 @@
                     <h5 class="text-title text-uppercase pt-5">Account Details</h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-6 ">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Email</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Email</label>
                                 <input type="email" class="form-control {{ $errors->first('email') ? 'is-invalid': NULL  }} form-control-sm" name="email" placeholder="Email Address" value="{{old('email')}}">
                                 @if($errors->first('email'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('email')}}</small>
@@ -22,8 +22,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Password</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Password</label>
                                 <input type="password" class="form-control {{ $errors->first('password') ? 'is-invalid': NULL  }} form-control-sm" name="password" placeholder="Password" id="password-field">
                                 <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                 @if($errors->first('password'))
@@ -34,8 +34,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Confirm Password</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Confirm Password</label>
                                 <input type="password" class="form-control form-control-sm" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
                                 <span toggle="#password_confirmation" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             </div>
@@ -47,8 +47,8 @@
                     <h5 class="text-title text-uppercase ">Account Information</h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">First Name</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">First Name</label>
                                 <input type="text" class="form-control {{ $errors->first('fname') ? 'is-invalid': NULL  }} form-control-sm" name="fname" placeholder="Firstname" value="{{old('fname')}}">
                                  @if($errors->first('fname'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('fname')}}</small>
@@ -56,8 +56,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group mb-0">
-                                <label class="text-form pb-2">Last Name</label>
+                            <div class="form-group mb-0 required">
+                                <label class="text-form pb-2 control-label">Last Name</label>
                                 <input type="text" class="form-control {{ $errors->first('lname') ? 'is-invalid': NULL  }} form-control-sm" name="lname" placeholder="Lastname" value="{{old('lname')}}">
                                 @if($errors->first('lname'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('lname')}}</small>
@@ -73,8 +73,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Contact Number</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Contact Number</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-title fw-600">+63 <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
@@ -93,8 +93,8 @@
                     <input type="hidden" class="form-control" name="brgy_name" id="input_brgy_name" value="{{old('brgy_name')}}">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Region</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Region</label>
                                 {!!Form::select('region',[],old('region'),['id' => "input_region",'class' => "form-control form-control-sm classic ".($errors->first('region') ? 'border-red' : NULL)])!!}
                                 @if($errors->first('region'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('region')}}</small>
@@ -102,8 +102,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">City Municipality</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">City Municipality</label>
                                 {!!Form::select('town',[],old('town'),['id' => "input_town",'class' => "form-control form-control-sm classic ".($errors->first('city') ? 'border-red' : NULL)])!!}
                                 @if($errors->first('town'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('town')}}</small>
@@ -111,8 +111,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Barangay</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Barangay</label>
                                 {!!Form::select('brgy',[],old('brgy'),['id' => "input_brgy",'class' => "form-control form-control-sm classic ".($errors->first('brgy') ? 'border-red' : NULL)])!!}
                                 @if($errors->first('brgy'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('brgy')}}</small>
@@ -122,8 +122,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Street Name</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Street Name</label>
                                 <input type="text" class="form-control {{ $errors->first('street_name') ? 'is-invalid': NULL  }} form-control-sm" name="street_name" placeholder="Street Name" value="{{old('street_name')}}">
                                  @if($errors->first('street_name'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('street_name')}}</small>
@@ -131,8 +131,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">BLDG/ Unit Number</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">BLDG/ Unit Number</label>
                                 <input type="text" class="form-control {{ $errors->first('unit_number') ? 'is-invalid': NULL  }} form-control-sm" name="unit_number" placeholder="Unit Number" value="{{old('unit_number')}}">
                                 @if($errors->first('unit_number'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('unit_number')}}</small>
@@ -143,8 +143,8 @@
                     <div class="row">
 
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label for="input_zipcode" class="text-form pb-2">Zipcode</label>
+                            <div class="form-group required">
+                                <label for="input_zipcode" class="text-form pb-2 control-label">Zipcode</label>
                                 <input type="text" id="input_zipcode" class="form-control {{ $errors->first('zipcode') ? 'is-invalid': NULL  }}" name="zipcode" value="{{old('zipcode',session()->get('soleproprietorship.new_business.zip_code'))}}" readonly="readonly">
                                 @if($errors->first('zipcode'))
                                 <p class="help-block text-danger">{{$errors->first('zipcode')}}</p>
@@ -152,8 +152,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <label class="text-form pb-2">Birthdate</label>
+                            <div class="form-group required">
+                                <label class="text-form pb-2 control-label">Birthdate</label>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control datepicker {{ $errors->first('birthdate') ? 'is-invalid': NULL  }} br-right-white p-2" name="birthdate" placeholder="YYYY-MM-DD" value="{{old('birthdate')}}">
                                     <div class="input-group-append">
