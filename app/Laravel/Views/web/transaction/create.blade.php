@@ -21,7 +21,10 @@
                 <input type="hidden" name="application_name" id="input_application_name" value="{{old('application_name')}}">
                 <input type="hidden" name="zone_name" id="input_zone_name" value="{{old('zone_name')}}">
                 <div class="card-body px-5 py-0">
-                    <h5 class="text-title text-uppercase pt-5">Application information</h5>
+                    <div class="d-flex justify-content-center">
+                        <small class="pt-2" style="color:red;">All fields are required</small>
+                    </div>
+                    <h5 class="text-title text-uppercase pt-4">Application information</h5>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
@@ -172,7 +175,9 @@
                 </div>
                 <hr class="form pt-0">
                 <div class=" card-body px-5 pb-5">
-                    <h5 class="text-title text-uppercase ">Physical Submission</h5>
+                <div class="row">
+                    <h5 class="text-title text-uppercase">Physical Submission</h5> <small class="pl-2">(Optional)</small>
+                </div>
                     <div class="custom-control custom-checkbox mb-3">
                         <input type="checkbox" class="custom-control-input" id="customControlValidation1" name="is_check" value="1">
                         <label class="custom-control-label fs-14 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option if you're going to submit physical copies of your documents. The system will generate a QR Code that you'll have to attach to the envelope of your physical copies.</label>
