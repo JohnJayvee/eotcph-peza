@@ -4167,6 +4167,12 @@ a.sign-up:hover{
     font-weight: 500;
     font-size: 90%;
 }
+
+.form-group.required .control-label:after { 
+    content:"*";
+    color:red;
+ }
+
 .login-signup-form .form-group >.form-control{
     border-radius: 7px;
     border: solid 2px;
