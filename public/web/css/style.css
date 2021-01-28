@@ -1003,9 +1003,31 @@ select.form-control.has-value{
     right: 0;
 }
 
-@media screen and (max-width: 991px) {
-    .home-bg:before{
-        background: #005cbf;
+@media screen and (max-width: 600px) {
+    @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+        
+        .landing-form {
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+          background-color: rgba(255, 255, 255, 0.5);  
+          padding-top: 5px;
+          color:#222 !important; 
+        }
+      }
+
+      .home-bg:before{
+        position: absolute;
+        content: '';
+        background: url("../img/mobile-banner.png")no-repeat;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    .gwt-standard-footer img{
+        opacity: 0.2;
     }
 }
 
