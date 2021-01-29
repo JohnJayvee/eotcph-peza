@@ -38,7 +38,8 @@
       <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
-            <th width="25%" class="text-title p-3">Reference #</th>
+            <th width="25%" class="text-title p-3">Last Name</th>
+            <th width="25%" class="text-title p-3">Username</th>
             <th width="25%" class="text-title p-3">Last Name</th>
             <th width="25%" class="text-title p-3">First Name</th>
             <th width="10%" class="text-title p-3">Department</th>
@@ -52,6 +53,7 @@
           @forelse($processors as $processor)
           <tr>
             <td>{{ $processor->reference_id}}</td>
+            <td>{{ $processor->username}}</td>
             <td>{{ Str::title($processor->lname)}}</td>
             <td>{{ Str::title($processor->fname)}}</td>
             <td>{{ Str::title($processor->department ? $processor->department->name : "N/A")}}</td>
