@@ -47,6 +47,7 @@ class CustomerTransactionController extends Controller
 
 	public function store(TransactionRequest $request){
 
+
 		$temp_id = time();
 		$auth = Auth::guard('customer')->user();
 		
