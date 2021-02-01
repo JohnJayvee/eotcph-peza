@@ -41,6 +41,7 @@ class CustomerTransactionController extends Controller
 	public function create(PageRequest $request){
 		
 		$this->data['page_title'] = "E-Submission";
+		$this->data['all_requirements'] = ApplicationRequirements::all();
 		return view('web.transaction.create',$this->data);
 	}
 
@@ -53,7 +54,6 @@ class CustomerTransactionController extends Controller
 		
 		
 		DB::beginTransaction();
-		try{
 			$new_transaction = new Transaction;
 			$new_transaction->company_name = $request->get('company_name');
 			$new_transaction->email = $request->get('email');
@@ -88,29 +88,33 @@ class CustomerTransactionController extends Controller
 
 			$new_transaction->save();
 
-			if($request->hasFile('file')) { 
-				foreach ($request->file as $key => $image) {
-					$ext = $image->getClientOriginalExtension();
-					if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
-						$type = 'file';
-						$original_filename = $image->getClientOriginalName();
-						$upload_image = FileUploader::upload($image, "uploads/documents/transaction/{$new_transaction->transaction_code}");
-					} 
-					$new_file = new TransactionRequirements;
-					$new_file->path = $upload_image['path'];
-					$new_file->directory = $upload_image['directory'];
-					$new_file->filename = $upload_image['filename'];
-					$new_file->type =$type;
-					$new_file->original_name =$original_filename;
-					$new_file->transaction_id = $new_transaction->id;
-					$new_file->save();
+			if($request->get('requirements_id')) { 
+				$req_id = explode(",", $request->get('requirements_id'));
+				foreach ($req_id as $key => $image) {
+					if ($request->file('file'.$image)) {
+						$ext = $request->file('file'.$image)->getClientOriginalExtension();
+						if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
+							$type = 'file';
+							$original_filename = $request->file('file'.$image)->getClientOriginalName();
+							$upload_image = FileUploader::upload($request->file('file'.$image), "uploads/documents/transaction/{$new_transaction->transaction_code}");
+						} 
+						$new_file = new TransactionRequirements;
+						$new_file->path = $upload_image['path'];
+						$new_file->directory = $upload_image['directory'];
+						$new_file->filename = $upload_image['filename'];
+						$new_file->type =$type;
+						$new_file->original_name =$original_filename;
+						$new_file->transaction_id = $new_transaction->id;
+						$new_file->requirement_id = $image;
+						$new_file->save();
+					}
+					
 				}
 			}
 			
 			DB::commit();
 
 			if($request->get('is_check')) {
-
 				if($new_transaction->customer) {
 					$insert_data[] = [
 		                'email' => $new_transaction->email,
@@ -120,7 +124,7 @@ class CustomerTransactionController extends Controller
 		                'application_name' => $new_transaction->application_name,
 		                'ref_num' => $new_transaction->code,
 		                'created_at' => Helper::date_only($new_transaction->created_at),
-		                'link' => "http://54.251.82.120/physical-copy/".$new_transaction->id,
+		                'link' => env("APP_URL")."/physical-copy/".$new_transaction->id,
 
 		            ];	
 					$application_data = new SendApplication($insert_data);
@@ -135,12 +139,7 @@ class CustomerTransactionController extends Controller
 			session()->flash('notification-msg',' Thank you, we have received your application. Our processor in charge will process your application and will inform you of the status');
 			return redirect()->route('web.transaction.history');
 			
-		}catch(\Exception $e){
-			DB::rollback();
-			session()->flash('notification-status', "failed");
-			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
-			return redirect()->back();
-		}
+		
 		
 	}
 	public function history(){
