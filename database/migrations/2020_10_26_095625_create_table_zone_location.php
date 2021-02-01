@@ -44,6 +44,6 @@ class CreateTableZoneLocation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_zone_location');
+        Schema::dropIfExists('zone_location');
     }
 }
