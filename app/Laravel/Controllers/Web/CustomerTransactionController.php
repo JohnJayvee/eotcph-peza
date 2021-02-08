@@ -349,12 +349,12 @@ class CustomerTransactionController extends Controller
 
 	public function upload(PageRequest $request , $code = NULL){
 		$code = $request->has('code') ? $request->get('code') : $code;
-		$transaction = Transaction::where('document_reference_code', $code)->first();
+		$transaction = Transaction::where('code', $code)->first();
 
 
 		if(!$transaction || ($transaction AND $transaction->status != "DECLINED")){
 			session()->flash('notification-status',"failed");
-			session()->flash('notification-msg',"Record record not found.");
+			session()->flash('notification-msg',"Record not found.");
 			return redirect()->route('web.main.index');
 		}
 
@@ -372,7 +372,7 @@ class CustomerTransactionController extends Controller
 		
 		if(!$transaction){
 			session()->flash('notification-status',"failed");
-			session()->flash('notification-msg',"Record record not found.");
+			session()->flash('notification-msg',"Record not found.");
 			return redirect()->route('web.main.index');
 		}
 
