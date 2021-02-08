@@ -67,7 +67,7 @@
             <span class="menu-title">Applications</span>
           </a>
         </li>
-        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.department.index','system.department.create','system.department.edit')) ? 'active' : ''}}">
+        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.department .upload','system.department.index','system.department.create','system.department.edit')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.department.index')}}">
             <i class="fa fa-globe menu-icon"></i>
             <span class="menu-title">Peza Unit</span>
@@ -80,7 +80,7 @@
           </a>
         </li>
        
-        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application_requirements.index','system.application_requirements.create','system.application_requirements.edit')) ? 'active' : ''}}">
+        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application_requirements.upload','system.application_requirements.index','system.application_requirements.create','system.application_requirements.edit')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.application_requirements.index')}}">
             <i class="fa fa-check-circle menu-icon"></i>
             <span class="menu-title">Application Requirements</span>

@@ -13,4 +13,4 @@
 
 <title>{{$page_title}}</title>
 
-<link rel="icon" href="{{asset('web/img/favicon.png')}}" type="image/png" sizes="16x16">
+<link rel="icon" href="{{asset('web/img/eotc-fav.png')}}" type="image/png" sizes="16x16">

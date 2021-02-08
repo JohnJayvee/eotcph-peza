@@ -18,12 +18,20 @@
   <div class="col-12 ">
     <form>
       <div class="row">
-        
-        <div class="col-md-3 p-2">
+        <div class="col-md-3">
+          <label>Zone Type</label>
+          {!!Form::select("type", $zone_types, $selected_type, ['id' => "input_type", 'class' => "custom-select"])!!}
+        </div>
+        <div class="col-md-3">
+          <label>Keywords</label>
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control form-control-lg" placeholder="Search">
+            <input type="text" class="form-control mb-2 mr-sm-2" id="input_keyword" name="keyword" value="{{$keyword}}" placeholder="Zone Code , EcoZone , Zone nature">
           </div>
+        </div>
+        <div class="col-md-3 mt-4 p-1">
+          <button class="btn btn-primary btn-sm p-2" type="submit">Filter</button>
+          <a href="{{route('system.zone_location.index')}}" class="btn btn-primary btn-sm p-2">Clear</a>
         </div>
       </div>
     </form>
@@ -71,6 +79,13 @@
         </tbody>
       </table>
     </div>
+    @if($zone_locations->total() > 0)
+      <nav class="mt-2">
+       <!--  <p>Showing <strong>{{$zone_locations->firstItem()}}</strong> to <strong>{{$zone_locations->lastItem()}}</strong> of <strong>{{$zone_locations->total()}}</strong> entries</p> -->
+        {!!$zone_locations->appends(request()->query())->render()!!}
+        </ul>
+      </nav>
+    @endif
   </div>
 </div>
 @stop

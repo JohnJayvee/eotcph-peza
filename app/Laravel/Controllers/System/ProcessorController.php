@@ -31,11 +31,20 @@ class ProcessorController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
-		$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
-		if (Auth::user()->type == "admin" || Auth::user()->type == "office_head") {
-			$this->data['user_type'] = ['' => "Choose Type",'office_head' => "Department Head",'processor' => "Processor"];
-		}else {
 
+		if (Auth::user()) {
+			if (Auth::user()->type == "super_user" || Auth::user()->type == "admin") {
+				$this->data['department'] = ['' => "Choose Peza Unit"] + Department::pluck('name', 'id')->toArray();
+			}elseif (Auth::user()->type == "office_head" || Auth::user()->type == "processor") {
+				$this->data['department'] = ['' => "Choose Peza Unit"] + Department::where('id',Auth::user()->department_id)->pluck('name', 'id')->toArray();
+			}
+			if (Auth::user()->type == "admin" || Auth::user()->type == "office_head") {
+				$this->data['user_type'] = ['' => "Choose Type",'office_head' => "Department Head",'processor' => "Processor"];
+			}else {
+				$this->data['user_type'] = ['' => "Choose Type",'admin' => "Admin",'office_head' => "Department Head",'processor' => "Processor"];
+			}
+		}else{
+			$this->data['department'] = ['' => "Choose Peza Unit"] + Department::pluck('name', 'id')->toArray();
 			$this->data['user_type'] = ['' => "Choose Type",'admin' => "Admin",'office_head' => "Department Head",'processor' => "Processor"];
 		}
 
@@ -47,14 +56,31 @@ class ProcessorController extends Controller
 		$this->data['page_title'] = "Accounts";
 		$auth = Auth::user();
 
-		switch ($auth->type) {
-			case 'office_head':
-				$this->data['processors'] = User::where('type',"processor")->where('department_id',$auth->department_id)->orderBy('created_at',"DESC")->get(); 
-				break;
-			default:
-				$this->data['processors'] = User::where('type','<>','super_user')->orderBy('created_at',"DESC")->get(); 
-				break;
-		}
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+		$this->data['selected_department_id'] = $auth->type == "office_head" ? $auth->department_id : $request->get('department_id');
+		$this->data['selected_type'] = $request->get('type');
+
+		$this->data['processors'] = User::where('type','<>','super_user')->where(function($query){
+		if(strlen($this->data['keyword']) > 0){
+			return $query->WhereRaw("LOWER(concat(fname,' ',lname))  LIKE  '%{$this->data['keyword']}%'")
+					->orWhereRaw("LOWER(reference_id) LIKE  '%{$this->data['keyword']}%'");
+			}
+		})
+		->where(function($query){
+			if ($this->data['auth']->type == "office_head") {
+				return $query->where('department_id',$this->data['auth']->department_id);
+			}else{
+				if(strlen($this->data['selected_department_id']) > 0){
+					return $query->where('department_id',$this->data['selected_department_id']);
+				}
+			}
+		})
+		->where(function($query){
+			if(strlen($this->data['selected_type']) > 0){
+				return $query->where('type',$this->data['selected_type']);
+			}
+		})
+		->orderBy('created_at',"DESC")->paginate($this->per_page);
 		
 		return view('system.processor.index',$this->data);
 	}
@@ -256,22 +282,30 @@ class ProcessorController extends Controller
 		}
 	}
 
-	public function  list(){
+	public function  list(PageRequest $request){
 		$this->data['page_title'] .= " List of Processor";
+
 		$auth = Auth::user();
-		switch ($auth->type) {
-			case 'super_user':
-				$this->data['processors']  = User::where('type',"processor")->orderBy('created_at',"DESC")->get();
-				break;
-			case 'admin':
-				$this->data['processors']  = User::where('type',"processor")->orderBy('created_at',"DESC")->get();
-				break;
-			case 'office_head':
-				$this->data['processors']  = User::where('department_id',$auth->department_id)->where('type',"processor")->orderBy('created_at',"DESC")->get();
-				break;
-			default:
-				break;
-		}
+
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+		$this->data['selected_department_id'] = $auth->type == "office_head" ? $auth->department_id : $request->get('department_id');
+
+
+		$this->data['processors'] = User::where('type','processor')->where(function($query){
+		if(strlen($this->data['keyword']) > 0){
+			return $query->WhereRaw("LOWER(concat(fname,' ',lname))  LIKE  '%{$this->data['keyword']}%'");
+			}
+		})
+		->where(function($query){
+			if ($this->data['auth']->type == "office_head") {
+				return $query->where('department_id',$this->data['auth']->department_id);
+			}else{
+				if(strlen($this->data['selected_department_id']) > 0){
+					return $query->where('department_id',$this->data['selected_department_id']);
+				}
+			}
+		})
+		->orderBy('created_at',"DESC")->paginate($this->per_page);
 
 		return view('system.processor.list',$this->data);
 	}

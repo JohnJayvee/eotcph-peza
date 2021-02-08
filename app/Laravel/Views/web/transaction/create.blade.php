@@ -291,7 +291,7 @@ $(document).ready(function() {
         });
     };
 
-    $.fn.get_partial_amount = function(application_id){
+    /*$.fn.get_partial_amount = function(application_id){
         $.getJSON('/amount?type_id='+application_id, function(result){
             amount = parseFloat(result.data[0])
             partial_amount = parseFloat(result.data[1])
@@ -306,7 +306,7 @@ $(document).ready(function() {
             $('#input_collection_type').val(formatNumber(collection_type));
         });
         // return result;
-    };
+    };*/
 
     $("#input_department_id").on("change",function(){
       var department_id = $(this).val()

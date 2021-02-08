@@ -118,6 +118,13 @@
         </tbody>
       </table>
     </div>
+    @if($transactions->total() > 0)
+      <nav class="mt-2">
+        <!-- <p>Showing <strong>{{$transactions->firstItem()}}</strong> to <strong>{{$transactions->lastItem()}}</strong> of <strong>{{$transactions->total()}}</strong> entries</p> -->
+        {!!$transactions->appends(request()->query())->render()!!}
+        </ul>
+      </nav>
+    @endif
   </div>
 </div>
 @stop

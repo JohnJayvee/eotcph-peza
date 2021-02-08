@@ -479,8 +479,6 @@ class CustomerTransactionController extends Controller
 	public function physical_pdf(PageRequest $request , $id){
 
 		$this->data['transaction'] = Transaction::find($id);
-		
-
 		$pdf = PDF::loadView('pdf.physical',$this->data);
 		return $pdf->stream("physical.pdf");	
 

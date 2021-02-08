@@ -18,12 +18,16 @@
   <div class="col-12 ">
     <form>
       <div class="row">
-        
-        <div class="col-md-3 p-2">
+        <div class="col-md-3">
+          <label>Keywords</label>
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control form-control-lg" placeholder="Search">
+            <input type="text" class="form-control mb-2 mr-sm-2" id="input_keyword" name="keyword" value="{{$keyword}}" placeholder="Requirement name">
           </div>
+        </div>
+        <div class="col-md-3 mt-4 p-1">
+          <button class="btn btn-primary btn-sm p-2" type="submit">Filter</button>
+          <a href="{{route('system.application_requirements.index')}}" class="btn btn-primary btn-sm p-2">Clear</a>
         </div>
       </div>
     </form>
@@ -68,6 +72,13 @@
         </tbody>
       </table>
     </div>
+    @if($application_requirements->total() > 0)
+      <nav class="mt-2">
+       <!--  <p>Showing <strong>{{$application_requirements->firstItem()}}</strong> to <strong>{{$application_requirements->lastItem()}}</strong> of <strong>{{$application_requirements->total()}}</strong> entries</p> -->
+        {!!$application_requirements->appends(request()->query())->render()!!}
+        </ul>
+      </nav>
+    @endif
   </div>
 </div>
 @stop

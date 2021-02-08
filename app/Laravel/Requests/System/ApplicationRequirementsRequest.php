@@ -7,8 +7,10 @@ class ApplicationRequirementsRequest extends RequestManager{
 
 	public function rules(){
 
+		$id = $this->route('id')?:0;
+
 		$rules = [
-			'name' => "required",
+			'name' => "required|unique:application_requirements,name,{$id}",
 			'is_required' => "required"
 		];
 

@@ -35,7 +35,25 @@ class ZoneLocationController extends Controller
 
     public function  index(PageRequest $request){
 		$this->data['page_title'] = "Zone Location";
-		$this->data['zone_locations'] = ZoneLocation::orderBy('created_at',"DESC")->get(); 
+
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+		$this->data['selected_type'] = $request->get('type');
+
+		$this->data['zone_locations'] = ZoneLocation::orderBy('created_at',"DESC")->where(function($query){
+		if(strlen($this->data['keyword']) > 0){
+			return $query->WhereRaw("LOWER(code)  LIKE  '%{$this->data['keyword']}%'")
+					->orWhereRaw("LOWER(ecozone) LIKE  '%{$this->data['keyword']}%'")
+					->orWhereRaw("LOWER(nature) LIKE  '%{$this->data['keyword']}%'");
+			}
+		})
+		->where(function($query){
+			if(strlen($this->data['selected_type']) > 0){
+				return $query->where('type',$this->data['selected_type']);
+			}
+		})
+		->orderBy('created_at',"DESC")->paginate($this->per_page);
+		
+
 		return view('system.zone-location.index',$this->data);
 	}
 

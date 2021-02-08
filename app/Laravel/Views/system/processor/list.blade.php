@@ -18,12 +18,25 @@
   <div class="col-12 ">
     <form>
       <div class="row">
-        
-        <div class="col-md-3 p-2">
+        <div class="col-md-3">
+          <label>Peza Unit</label>
+          @if(Auth::user()->type == "super_user" || Auth::user()->type == "admin")
+            {!!Form::select("department_id", $department, $selected_department_id, ['id' => "input_department_id", 'class' => "custom-select"])!!}
+          @elseif(Auth::user()->type == "office_head")
+            <input type="text" class="form-control mb-2 mr-sm-2" value="{{Auth::user()->department->name}}" readonly>
+            <input type="hidden" name="selected_department_id" value="{{$selected_department_id}}">
+          @endif
+        </div>
+        <div class="col-md-3">
+          <label>Keywords</label>
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control form-control-lg" placeholder="Search">
+            <input type="text" class="form-control mb-2 mr-sm-2" id="input_keyword" name="keyword" value="{{$keyword}}" placeholder="Keyword">
           </div>
+        </div>
+        <div class="col-md-3 mt-4 p-1">
+          <button class="btn btn-primary btn-sm p-2" type="submit">Filter</button>
+          <a href="{{route('system.processor.index')}}" class="btn btn-primary btn-sm p-2">Clear</a>
         </div>
       </div>
     </form>
@@ -36,7 +49,7 @@
           <tr>
             <th class="text-title p-3" width="35%">Name</th>
             <th class="text-title p-3" width="35%"># of Application Processed</th>
-            <th class="text-title p-3" width="35%">Department</th>
+            <th class="text-title p-3" width="35%">Peza Unit</th>
             <th class="text-title p-3" width="30%">Action</th>
           </tr>
         </thead>

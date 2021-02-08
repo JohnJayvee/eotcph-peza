@@ -18,12 +18,16 @@
   <div class="col-12 ">
     <form>
       <div class="row">
-        
-        <div class="col-md-3 p-2">
+        <div class="col-md-3">
+          <label>Keywords</label>
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control form-control-lg" placeholder="Search">
+            <input type="text" class="form-control mb-2 mr-sm-2" id="input_keyword" name="keyword" value="{{$keyword}}" placeholder="Peza Unit Name">
           </div>
+        </div>
+        <div class="col-md-3 mt-4 p-1">
+          <button class="btn btn-primary btn-sm p-2" type="submit">Filter</button>
+          <a href="{{route('system.department.index')}}" class="btn btn-primary btn-sm p-2">Clear</a>
         </div>
       </div>
     </form>
@@ -68,7 +72,7 @@
     </div>
     @if($departments->total() > 0)
     <nav class="mt-2">
-      <p>Showing <strong>{{$departments->firstItem()}}</strong> to <strong>{{$departments->lastItem()}}</strong> of <strong>{{$departments->total()}}</strong> entries</p>
+      <!-- <p>Showing <strong>{{$departments->firstItem()}}</strong> to <strong>{{$departments->lastItem()}}</strong> of <strong>{{$departments->total()}}</strong> entries</p> -->
       {!!$departments->appends(request()->query())->render()!!}
       </ul>
     </nav>
