@@ -83,7 +83,7 @@
 			<tr>
 				<th colspan="2">
 					<p style="float: left;text-align: justify;">If you didn't request this or believe that you received this in error, please ignore this EMAIL.</p><br>
-					<p>Thank you for choosing DTI Online Pay!</p>
+					<p>Thank you for choosing PEZA Online Pay!</p>
 				</th>
 			</tr>
 		

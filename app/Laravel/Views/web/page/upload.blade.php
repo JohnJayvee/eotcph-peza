@@ -53,7 +53,6 @@
           </div> 
         </div>
       </div>
-
       <div class="card card-rounded shadow-sm mt-4">
         <div class="card-body">
           <h5 class="text-title text-uppercase pt-2">Re-Upload Requirements</h5>
@@ -62,25 +61,30 @@
             <input type="hidden" name="code" value="{{$transaction->code}}">
             <div class="row">
               <div class="col-md-12 col-lg-12">
-                <label class="text-form pb-2">Application Requirements</label>
-                  <div class="form-group">
-                    <div class="upload-btn-wrapper">
-                      <button class="btn vertical" style="color: #ADADAD">
-                        <i class="fa fa-upload fa-4x" ></i>
-                        <span class="pt-1">Upload Here</span>
-                      </button>
-                      <input type="file" name="file[]" class="form-control" id="file" accept="application/pdf" multiple>
-                    </div>
-                    @forelse($errors->all() as $error)
-                      
-                        <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$error}}</label>
-                      
-                        
-                      
-                    @empty
-                      <label id="lblName" style="vertical-align: top;padding-top: 40px;" class="fw-500 pl-3"></label>
-                    @endforelse
-                  </div>
+                <label class="text-form pb-2">Application Declined Requirements</label>
+                  <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;" id="requirements">
+                    <thead>
+                      <tr>
+                        <th class="text-title fs-15 fs-500 p-3" width="15%">Requirement Name</th>
+                        <th class="text-title fs-15 fs-500 p-3" width="15%">File <code>(Only PDF file extensions is allowed)</th>
+                      </tr>
+                      <tbody>
+                        @forelse($transaction_requirements as $index => $requirement)
+                          <input type="hidden" name="requirement_id[]" value="{{$requirement->requirement_name->id}}">
+                          <tr>
+                            <td>{{$requirement->requirement_name ? $requirement->requirement_name->name : "N/A"}}</td>
+                            <td>
+                              <input type="file" name="file{{$requirement->requirement_name->id}}">
+                              @if($errors->first('file'.$requirement->requirement_name->id))
+                                <small class="form-text pl-1" style="color:red;">{{$errors->first('file'.$requirement->requirement_name->id)}}</small>
+                              @endif
+                            </td>
+                          </tr>
+                        @empty
+                        @endforelse
+                      </tbody>
+                    </thead>
+                  </table>
               </div>
             </div>
             <button class="btn badge badge-primary-2 text-white px-4 py-2 fs-14" type="submit"></i>SUBMIT</button>

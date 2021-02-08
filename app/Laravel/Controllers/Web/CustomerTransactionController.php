@@ -349,13 +349,16 @@ class CustomerTransactionController extends Controller
 
 	public function upload(PageRequest $request , $code = NULL){
 		$code = $request->has('code') ? $request->get('code') : $code;
-		$transaction = Transaction::where('code', $code)->first();
+		$transaction = Transaction::where('document_reference_code', $code)->first();
+
 
 		if(!$transaction || ($transaction AND $transaction->status != "DECLINED")){
 			session()->flash('notification-status',"failed");
 			session()->flash('notification-msg',"Record record not found.");
 			return redirect()->route('web.main.index');
 		}
+
+		$this->data['transaction_requirements'] = TransactionRequirements::groupBy('requirement_id')->where('transaction_id',$transaction->id)->where('status',"DECLINED")->get();
 
 		$this->data['transaction'] = $transaction;
 										
