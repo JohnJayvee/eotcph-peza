@@ -9,24 +9,23 @@ class UploadRequest extends RequestManager{
 	public function rules(){
 
 		$id = $this->route('id')?:0;
-		$file = $this->file('file') ? count($this->file('file')) : 0;
-
 		
-		$required = ApplicationRequirements::whereIn('id',$this->get('requirement_id'))->get();
+
+		$required = ApplicationRequirements::whereIn('id',$this->get('requirements_id'))->get();
 
 		foreach ($required as $key => $value) {
 			$rules['file'.$value->id] = "required|mimes:pdf,docx,doc|max:5000";
 		}
 
 		return $rules;
-		
 	}
 
 	public function messages(){
 		return [
 			'required'	=> "Field is required.",
 			'file.required'	=> "No File Uploaded.",
-			'file.*' => 'Only PDF File are allowed.'
+			'file.*' => 'Only PDF File are allowed.',
+			'mimes' => 'The file Failed to upload.'
 		];
 	}
 }

@@ -365,7 +365,6 @@ class CustomerTransactionController extends Controller
 	}
 
 	public function store_documents(UploadRequest $request , $code = NULL){
-
 		$code = $request->has('code') ? $request->get('code') : $code;
 		$transaction = Transaction::where('code', $code)->first();
 		
@@ -383,22 +382,27 @@ class CustomerTransactionController extends Controller
 			$transaction->save();
 	
 			//store transaction requirement
-			if($request->hasFile('file')) { 
-				foreach ($request->file as $key => $image) {
-					$ext = $image->getClientOriginalExtension();
-					if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
-						$type = 'file';
-						$original_filename = $image->getClientOriginalName();
-						$upload_image = FileUploader::upload($image, "uploads/documents/transaction/{$transaction->transaction_code}");
-					} 
-					$new_file = new TransactionRequirements;
-					$new_file->path = $upload_image['path'];
-					$new_file->directory = $upload_image['directory'];
-					$new_file->filename = $upload_image['filename'];
-					$new_file->type =$type;
-					$new_file->original_name =$original_filename;
-					$new_file->transaction_id = $transaction->id;
-					$new_file->save();
+			if($request->get('requirements_id')) { 
+				$req_id = $request->get('requirements_id');
+				foreach ($req_id as $key => $image) {
+					if ($request->file('file'.$image)) {
+						$ext = $request->file('file'.$image)->getClientOriginalExtension();
+						if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
+							$type = 'file';
+							$original_filename = $request->file('file'.$image)->getClientOriginalName();
+							$upload_image = FileUploader::upload($request->file('file'.$image), "uploads/documents/transaction/{$transaction->transaction_code}");
+						} 
+						$new_file = new TransactionRequirements;
+						$new_file->path = $upload_image['path'];
+						$new_file->directory = $upload_image['directory'];
+						$new_file->filename = $upload_image['filename'];
+						$new_file->type =$type;
+						$new_file->original_name =$original_filename;
+						$new_file->transaction_id = $transaction->id;
+						$new_file->requirement_id = $image;
+						$new_file->save();
+					}
+					
 				}
 			}
 
