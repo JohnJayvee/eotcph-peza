@@ -351,14 +351,13 @@ class CustomerTransactionController extends Controller
 		$code = $request->has('code') ? $request->get('code') : $code;
 		$transaction = Transaction::where('code', $code)->first();
 
-
 		if(!$transaction || ($transaction AND $transaction->status != "DECLINED")){
 			session()->flash('notification-status',"failed");
 			session()->flash('notification-msg',"Record not found.");
 			return redirect()->route('web.main.index');
 		}
 
-		$this->data['transaction_requirements'] = TransactionRequirements::groupBy('requirement_id')->where('transaction_id',$transaction->id)->where('status',"DECLINED")->get();
+		$this->data['transaction_requirements'] = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"DECLINED")->get();
 
 		$this->data['transaction'] = $transaction;
 										

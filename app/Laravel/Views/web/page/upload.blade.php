@@ -72,7 +72,7 @@
                         @forelse($transaction_requirements as $index => $requirement)
                           <input type="hidden" name="requirement_id[]" value="{{$requirement->requirement_name->id}}">
                           <tr>
-                            <td>{{$requirement->requirement_name ? $requirement->requirement_name->name : "N/A"}}</td>
+                            <td>{{$requirement->requirement_name ? $requirement->requirement_name->name : "N/A"}} {{$requirement->requirement_name->is_required == "yes" ? "(Required)" : "(Optional)"}}</td>
                             <td>
                               <input type="file" name="file{{$requirement->requirement_name->id}}">
                               @if($errors->first('file'.$requirement->requirement_name->id))
