@@ -67,7 +67,8 @@
             <th class="text-title p-3" width="10%">Transaction Date</th>
             <th class="text-title p-3" width="10%">Submitted By/Company Name</th>
             <th class="text-title p-3" width="10%">Application Type</th>
-            <th class="text-title p-3" width="10%">Department</th>
+            <th class="text-title p-3" width="10%">Peza Unit</th>
+            <th class="text-title p-3" width="10%">Account Code</th>
             <th class="text-title p-3" width="10%">Processing Fee</th>
             <th class="text-title p-3" width="10%">Amount</th>
             <th class="text-title p-3" width="10%">Processor/Status</th>
@@ -81,6 +82,7 @@
             <td>{{ $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name}} /<br> {{ str::title($transaction->company_name)}}</td>
             <td>{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</td>
             <td>{{ $transaction->department ? $transaction->department->name : "N/A"}}</td>
+            <td>{{ $transaction->type ? str::title($transaction->type->accounts->code) : "N/A"}}</td>
             <td>
               <div>{{Helper::money_format($transaction->processing_fee) ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small></div>

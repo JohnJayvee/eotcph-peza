@@ -47,15 +47,16 @@
         <a href="{{route('system.application.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+    <div class="table-responsive  shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr>
-            <th width="25%" class="text-title p-3">Application Name</th>
-            <th width="25%" class="text-title p-3">Payment Fee</th>
-            <th width="25%" class="text-title p-3">Department</th>
-            <th width="25%" class="text-title p-3">Created At</th>
-            <th width="10%" class="text-title p-3">Action</th>
+            <th class="text-title p-3">Application Name</th>
+            <th class="text-title p-3">Payment Fee</th>
+            <th class="text-title p-3">Peza Unit</th>
+            <th class="text-title p-3">Account Code</th>
+            <th class="text-title p-3">Created At</th>
+            <th class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -64,6 +65,8 @@
             <td>{{ $application->name}}</td>
             <td>PHP {{ Helper::money_format($application->processing_fee)}}</td>
             <td>{{ $application->department ? Str::title($application->department->name) : "N/A"}}</td>
+            <td>{{ $application->accounts ? Str::title($application->accounts->code) : "N/A"}}</td>
+
             <td>{{ Helper::date_format($application->created_at)}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>

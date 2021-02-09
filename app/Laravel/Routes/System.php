@@ -78,6 +78,16 @@ Route::group(['as' => "auth."], function(){
 			Route::post('upload',['uses' => "ApplicationRequirementController@upload_department"]);
 			
 		});
+		Route::group(['as' => "account_code.",'prefix' => "account-code"], function(){
+			Route::get('/',['as' => "index",'uses' => "AccountCodeController@index"]);
+			Route::get('create',['as' => "create",'uses' => "AccountCodeController@create"]);
+			Route::post('create',['uses' => "AccountCodeController@store"]);
+			Route::get('edit/{id?}',['as' => "edit",'uses' => "AccountCodeController@edit",'middleware' => "system.exist:account-code"]);
+			Route::post('edit/{id?}',['uses' => "AccountCodeController@update",'middleware' => "system.exist:account-code"]);
+			Route::any('delete/{id?}',['as' => "destroy",'uses' => "AccountCodeController@destroy",'middleware' => "system.exist:account-code"]);
+			Route::get('upload',['as' => "upload",'uses' => "AccountCodeController@upload"]);
+			Route::post('upload',['uses' => "AccountCodeController@upload_store"]);
+		});
 		
 		Route::group(['as' => "zone_location.",'prefix' => "zone-location"], function(){
 			Route::get('/',['as' => "index",'uses' => "ZoneLocationController@index"]);

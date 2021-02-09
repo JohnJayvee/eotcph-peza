@@ -12,6 +12,7 @@ use App\Laravel\Requests\System\ApplicationRequest;
  */
 use App\Laravel\Models\Application;
 use App\Laravel\Models\Department;
+use App\Laravel\Models\AccountCode;
 use App\Laravel\Models\ApplicationRequirements;
 
 /* App Classes
@@ -43,6 +44,7 @@ class ApplicationController extends Controller
 			$this->data['user_type'] = ['' => "Choose Type",'admin' => "Admin",'office_head' => "Department Head",'processor' => "Processor"];
 		}
 
+		$this->data['account_codes'] =  ['' => "Choose Account Code"] + AccountCode::pluck('code','id')->toArray();
 		$this->data['requirements'] =  ApplicationRequirements::pluck('name','id')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
@@ -81,6 +83,8 @@ class ApplicationController extends Controller
 			$new_application = new Application;
 			$new_application->department_id = $request->get('department_id');
 			$new_application->name = $request->get('name');
+			$new_application->description = $request->get('description');
+			$new_application->account_code = $request->get('account_code');
 			$new_application->processing_fee = Helper::db_amount($request->get('processing_fee'));
 			//$new_application->partial_amount = Helper::db_amount($request->get('partial_amount'));
 			// $new_application->processing_days = $request->get('processing_days');
@@ -111,6 +115,8 @@ class ApplicationController extends Controller
 			$application = $request->get('application_data');
 			$application->department_id = $request->get('department_id');
 			$application->name = $request->get('name');
+			$application->description = $request->get('description');
+			$application->account_code = $request->get('account_code');
 			$application->processing_fee = Helper::db_amount($request->get('processing_fee') ?: 0);
 			//$application->partial_amount = Helper::db_amount($request->get('partial_amount') ?: 0);
 			//$application->processing_days = $request->get('processing_days');

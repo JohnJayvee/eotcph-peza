@@ -25,12 +25,26 @@
           <p class="mt-1 text-danger">{!!$errors->first('name')!!}</p>
           @endif
         </div>
-       
+        <div class="form-group">
+          <label for="input_title">Description</label>
+          <input type="text" class="form-control {{$errors->first('description') ? 'is-invalid' : NULL}}" id="input_title" name="description" placeholder="Description" value="{{old('description',$application->description)}}">
+          @if($errors->first('description'))
+          <p class="mt-1 text-danger">{!!$errors->first('description')!!}</p>
+          @endif
+        </div>
+
         <div class="form-group">
           <label for="input_suffix">Peza Unit</label>
           {!!Form::select("department_id", $department, old('department_id',$application->department_id), ['id' => "input_department_id", 'class' => "form-control mb-2 mr-sm-2 ".($errors->first('department_id') ? 'is-invalid' : NULL)])!!}
           @if($errors->first('department_id'))
           <p class="mt-1 text-danger">{!!$errors->first('department_id')!!}</p>
+          @endif
+        </div>
+        <div class="form-group">
+          <label for="input_suffix">Account Code</label>
+          {!!Form::select("account_code", $account_codes, old('account_code',$application->account_code), ['id' => "input_account_code", 'class' => "form-control mb-2 mr-sm-2 ".($errors->first('account_code') ? 'is-invalid' : NULL)])!!}
+          @if($errors->first('account_code'))
+          <p class="mt-1 text-danger">{!!$errors->first('account_code')!!}</p>
           @endif
         </div>
         <div class="form-group">

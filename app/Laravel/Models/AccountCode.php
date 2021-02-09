@@ -36,7 +36,7 @@ class AccountCode extends Model{
 	 *
 	 * @var array
 	 */
-	protected $fillable = [];
+	protected $fillable = ['code','description','alias','default_cost','ngas_code','assigned_to_unit'];
 
 
 	/**
@@ -60,15 +60,9 @@ class AccountCode extends Model{
 	 *
 	 * @var array
 	 */
-	protected $casts = [
-		    'redeem_at' => 'datetime',
-		    'expire_at' => 'datetime',
-
-	];
+	protected $casts = [];
 
 	public function officer(){
 	    return $this->hasOne("App\Laravel\Models\User",'id','user_id');
 	}
-
-
 }

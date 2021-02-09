@@ -62,18 +62,19 @@
     </form>
   </div>
   <div class="col-md-12">
-     <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+     <div class="table-responsive shadow fs-15">
+      <table class="table table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr class="text-center ">
-            <th class="text-title p-3" width="15%">Transaction Date</th>
-            <th class="text-title p-3" width="15%">Submitted By/Company Name</th>
-            <th class="text-title p-3" width="15%">Peza Unit</th>
-            <th class="text-title p-3" width="30%">Application Type</th>
-            <th class="text-title p-3" width="10%">Processing Fee</th>
-            <th class="text-title p-3" width="10%">Amount</th>
-            <th class="text-title p-3" width="10%">Processor/Status</th>
-            <th class="text-title p-3" width="10%">Action</th>
+            <th class="text-title p-3">Transaction Date</th>
+            <th class="text-title p-3">Submitted By/Company Name</th>
+            <th class="text-title p-3">Peza Unit</th>
+            <th class="text-title p-3">Account Code</th>
+            <th class="text-title p-3">Application Type</th>
+            <th class="text-title p-3">Processing Fee</th>
+            <th class="text-title p-3">Amount</th>
+            <th class="text-title p-3">Processor/Status</th>
+            <th class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -82,6 +83,7 @@
             <td>{{ Helper::date_format($transaction->created_at)}}</td>
             <td>{{ $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name}}/<br>{{str::title($transaction->company_name)}}</td>
             <td>{{ $transaction->department->name}}</td>
+            <td>{{ $transaction->type ? str::title($transaction->type->accounts->code) : "N/A"}}</td>
             <td>{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</td>
             <td>
               <div>{{Helper::money_format($transaction->processing_fee) ?: 0 }}</div>
