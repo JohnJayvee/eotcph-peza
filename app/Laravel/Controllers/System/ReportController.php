@@ -23,9 +23,9 @@ class ReportController extends Controller
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
 		if (Auth::user()->type == "super_user" || Auth::user()->type == "admin") {
-			$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
+			$this->data['department'] = ['' => "Choose Peza Unit"] + Department::pluck('name', 'id')->toArray();
 		}elseif (Auth::user()->type == "office_head" || Auth::user()->type == "processor") {
-			$this->data['department'] = ['' => "Choose Department"] + Department::where('id',Auth::user()->department_id)->pluck('name', 'id')->toArray();
+			$this->data['department'] = ['' => "Choose Peza Unit"] + Department::where('id',Auth::user()->department_id)->pluck('name', 'id')->toArray();
 		}
 
 		$this->data['types'] = ['' => "Choose Type",'PENDING' => "New Submission" , 'APPROVED' => "Approved Applications",'DECLINED' => "Declined Applications",'resent' => "Resent Applications"];

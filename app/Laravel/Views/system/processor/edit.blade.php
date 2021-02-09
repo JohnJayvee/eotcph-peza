@@ -67,7 +67,7 @@
           @endif
         </div>
         <div class="form-group" id="office_container">
-          <label for="input_title">Department</label>
+          <label for="input_title">Peza Unit</label>
           {!!Form::select("department_id", $department, old('department_id',$processor->department_id), ['id' => "input_department_id", 'class' => "custom-select".($errors->first('department_id') ? ' is-invalid' : NULL)])!!}
           @if($errors->first('department_id'))
           <p class="mt-1 text-danger">{!!$errors->first('department_id')!!}</p>
