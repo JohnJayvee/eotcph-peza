@@ -22,20 +22,17 @@ class AccountCodeImport implements ToCollection
                 continue;
             }
 
-            $is_exist = AccountCode::where('code',$row[0])->first();
 
-            if (!$is_exist) {
-                 $department = AccountCode::create([
+            $department = AccountCode::create([
                 'code' => $row[0],
                 'description' => $row[1],
                 'alias' => $row[2],
                 'default_cost' => $row[3],
                 'ngas_code' => $row[4],
                 'assigned_to_unit' => $row[5],
-                ]);
-               
-                $department->save();
-            }
+            ]);
+           
+            $department->save();
            
            
         }

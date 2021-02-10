@@ -43,6 +43,8 @@
             <th width="25%" class="text-title p-3">Code</th>
             <th width="25%" class="text-title p-3">Description</th>
             <th width="25%" class="text-title p-3">Alias</th>
+            <th width="25%" class="text-title p-3">Default Cost</th>
+            <th width="25%" class="text-title p-3">Assigned To Unit</th>
             <th width="25%" class="text-title p-3">Created At</th>
             <th width="10%" class="text-title p-3">Action</th>
           </tr>
@@ -53,6 +55,8 @@
             <td>{{ $account_code->code}}</td>
             <td>{{ Str::title($account_code->description)}}</td>
             <td>{{ $account_code->alias}}</td>
+            <td>{{ $account_code->default_cost ?: "---"}}</td>
+            <td>{{ $account_code->assigned_to_unit}}</td>
             <td>{{ Helper::date_format($account_code->created_at)}}</td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
