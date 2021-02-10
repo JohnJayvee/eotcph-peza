@@ -33,7 +33,17 @@ class AccountCodeController extends Controller
 
 	public function  index(PageRequest $request){
 		$this->data['page_title'] = "Account Codes";
-		$this->data['account_codes'] = AccountCode::orderBy('created_at',"DESC")->paginate($this->per_page);
+
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+
+		$this->data['account_codes'] = AccountCode::orderBy('created_at',"DESC")->where(function($query){
+		if(strlen($this->data['keyword']) > 0){
+			return $query->WhereRaw("LOWER(code)  LIKE  '%{$this->data['keyword']}%'")
+						->orWhereRaw("LOWER(alias) LIKE  '%{$this->data['keyword']}%'")
+						->orWhereRaw("LOWER(ngas_code) LIKE  '%{$this->data['keyword']}%'")
+						->orWhereRaw("LOWER(assigned_to_unit) LIKE  '%{$this->data['keyword']}%'");
+			}
+		})->paginate($this->per_page);
 		return view('system.account-code.index',$this->data);
 	}
 
@@ -125,7 +135,7 @@ class AccountCodeController extends Controller
 		    Excel::import(new AccountCodeImport, request()->file('file'));
 
 		    session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "Importing data was successful. [Note: if your data does not reflect , The Account Code name is already exist]");
+			session()->flash('notification-msg', "Importing data was successful.");
 			return redirect()->route('system.account_code.index');
 		} catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
 		     $failures = $e->failures();

@@ -40,6 +40,11 @@ class MainController extends Controller{
 			$this->data['labels'] = Department::pluck('name')->toArray();
 			$this->data['transaction_per_department'] = Department::withCount('assignTransaction')->pluck('assign_transaction_count')->toArray();
 
+			$this->data['ongoing_transactions'] = Department::withCount('assignTransactionOngoing')->get();
+			$this->data['monthly_transations'] = Department::withCount('assignTransactionMonthly')->get();
+			$this->data['paid_monthly_transations'] = Department::withCount('assignTransactionPaid')->get();
+
+
 			$transaction_query = Transaction::groupBy('department_id')->select("department_id", DB::raw('SUM(processing_fee + amount) AS amount_sum'));
 
 		 	$this->data['amount_per_application'] = Department::leftjoin(DB::raw("({$transaction_query->toSql()}) AS tq"), 'tq.department_id', '=', 'department.id')->mergeBindings($transaction_query->getQuery())

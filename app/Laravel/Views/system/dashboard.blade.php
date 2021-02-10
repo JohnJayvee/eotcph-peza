@@ -91,6 +91,77 @@
 
 			</div>
 		</div>
+		<div class="col-md-6">
+			<div class="card h-100" style="border: none;border-radius: 10px;">
+				<div class="card-body">
+					<table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+						<thead>
+							<tr>
+								<th width="25%" class="text-title p-3">Peza Unit</th>
+								<th width="25%" class="text-title p-3">No. Of Ongoing Applications</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($ongoing_transactions as $transaction)
+							<tr>
+								<td>{{$transaction->name}}</td>
+								<td>{{$transaction->assign_transaction_ongoing_count}}</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-md-6">
+			<div class="card h-100" style="border: none;border-radius: 10px;">
+				<div class="card-body">
+					<table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+						<thead>
+							<tr>
+								<th width="25%" class="text-title p-3">Peza Unit</th>
+								<th width="25%" class="text-title p-3">No. Of New Applications for {{ Carbon::now()->format("F Y")}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($monthly_transations as $transaction)
+							<tr>
+								<td>{{$transaction->name}}</td>
+								<td>{{$transaction->assign_transaction_monthly_count}}</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card h-100" style="border: none;border-radius: 10px;">
+				<div class="card-body">
+					<table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+						<thead>
+							<tr>
+								<th width="25%" class="text-title p-3">Peza Unit</th>
+								<th width="25%" class="text-title p-3">Fullfilled Applications for {{ Carbon::now()->format("F Y")}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($paid_monthly_transations as $transaction)
+							<tr>
+								<td>{{$transaction->name}}</td>
+								<td>{{$transaction->assign_transaction_paid_count}}</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
 	</div>
 	@endif
 </div>

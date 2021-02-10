@@ -5,7 +5,7 @@ namespace App\Laravel\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Laravel\Traits\DateFormatter;
-use Str;
+use Str,Carbon;
 
 class Department extends Model{
     
@@ -65,6 +65,18 @@ class Department extends Model{
 
     public function assignTransaction(){
         return $this->hasMany("App\Laravel\Models\Transaction", 'department_id', 'id');
+    }
+
+    public function assignTransactionOngoing(){
+        return $this->hasMany("App\Laravel\Models\Transaction", 'department_id', 'id')->where('application_payment_status' , "UNPAID");
+    }
+
+    public function assignTransactionPaid(){
+        return $this->hasMany("App\Laravel\Models\Transaction", 'department_id', 'id')->whereMonth('created_at', Carbon::now()->month)->where('application_payment_status' , "PAID");
+    }
+
+    public function assignTransactionMonthly(){
+        return $this->hasMany("App\Laravel\Models\Transaction", 'department_id', 'id')->whereMonth('created_at', Carbon::now()->month);
     }
 
 }
