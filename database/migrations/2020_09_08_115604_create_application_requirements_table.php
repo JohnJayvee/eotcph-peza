@@ -15,7 +15,7 @@ class CreateApplicationRequirementsTable extends Migration
     {
         Schema::create('application_requirements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->nullable();
+            $table->longtext('name')->nullable();
             $table->string('is_required')->nullable();
             $table->timestamps();
             $table->softDeletes();
