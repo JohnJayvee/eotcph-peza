@@ -70,6 +70,7 @@
             <th class="text-title p-3">Submitted By/Company Name</th>
             <th class="text-title p-3">Peza Unit</th>
             <th class="text-title p-3">Account Code</th>
+            <th class="text-title p-3">Description</th>
             <th class="text-title p-3">Application Type</th>
             <th class="text-title p-3">Processing Fee</th>
             <th class="text-title p-3">Amount</th>
@@ -84,6 +85,7 @@
             <td>{{ $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name}}/<br>{{str::title($transaction->company_name)}}</td>
             <td>{{ $transaction->department->name}}</td>
             <td>{{ $transaction->type ? str::title($transaction->type->accounts->code) : "N/A"}}</td>
+            <td>{{ $transaction->type ? str::title($transaction->type->description) : "N/A"}}</td>
             <td>{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</td>
             <td>
               <div>{{Helper::money_format($transaction->processing_fee) ?: 0 }}</div>

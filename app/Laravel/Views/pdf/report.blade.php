@@ -12,6 +12,7 @@
 				<td>Company Name</td>
 				<td>Peza unit</td>
 				<td>Account Code</td>
+				<td>Description</td>
 				<td>Processing Fee</td>
 				<td>Processing Fee Status</td>
 				<td>Application Amount</td>
@@ -27,7 +28,8 @@
 					<td>{{$value->customer_name}}</td>
 					<td>{{$value->company_name}}</td>
 					<td>{{$value->department->name}}</td>
-					<td>{{ $transaction->type ? str::title($transaction->type->accounts->code) : "N/A"}}</td>
+					<td>{{ $value->type ? str::title($value->type->accounts->code) : "N/A"}}</td>
+            		<td>{{ $value->type ? str::title($value->type->description) : "N/A"}}</td>
 					<td>{{Helper::money_format($value->processing_fee)}}</td>
 					<td>{{$value->payment_status}}</td>
 					<td>{{Helper::money_format($value->amount) ?: '---'}}</td>
