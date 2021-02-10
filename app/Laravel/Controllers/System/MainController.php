@@ -31,7 +31,7 @@ class MainController extends Controller{
 		$auth = $request->user();
 		$this->data['page_title'] .= "Dashboard";
 
-		if ($auth->type == "admin" || $auth->type == "super_user") {
+		if ($auth->type == "admin" || $auth->type == "super_user" ) {
 			$this->data['applications'] = Transaction::orderBy('created_at',"DESC")->get(); 
 			$this->data['pending'] = Transaction::where('status',"PENDING")->count();
 			$this->data['approved'] = Transaction::where('status',"APPROVED")->count(); 
@@ -80,6 +80,10 @@ class MainController extends Controller{
 			$this->data['approved'] = Transaction::where('department_id',$auth->department_id)->where('status',"APPROVED")->count(); 
 			$this->data['declined'] = Transaction::where('department_id',$auth->department_id)->where('status',"DECLINED")->count(); 
 			$this->data['application_today'] = Transaction::where('department_id',$auth->department_id)->whereDate('created_at', Carbon::now())->count(); 
+			
+			$this->data['ongoing_transactions'] = Department::withCount('assignTransactionOngoing')->get();
+			$this->data['monthly_transations'] = Department::withCount('assignTransactionMonthly')->get();
+			$this->data['paid_monthly_transations'] = Department::withCount('assignTransactionPaid')->get();
 
 			$this->data['labels'] = Application::where('department_id',$auth->department_id)->pluck('name')->toArray();
 
