@@ -9,6 +9,8 @@ use App\Laravel\Requests\PageRequest;
 use App\Laravel\Models\Application;
 use App\Laravel\Models\Transaction;
 use App\Laravel\Models\ApplicationRequirements;
+use App\Laravel\Models\AccountCode;
+
 /*
  * Models
  */
@@ -57,7 +59,7 @@ class MainController extends Controller{
 		$payment_amount = Application::find($id);
 		$response['msg'] = "List of Application";
 		$response['status_code'] = "TYPE_LIST";
-		$response['data'] = [$payment_amount->processing_fee,$payment_amount->partial_amount];
+		$response['data'] = [$payment_amount->pre_processing_cost];
 		callback:
 		
 		return response()->json($response, 200);
@@ -122,4 +124,15 @@ class MainController extends Controller{
 
 	}
 
+	public function get_cost(PageRequest $request){
+
+		$id = $request->get('type_id');
+		$account_cost = AccountCode::find($id);
+		$response['msg'] = "List of AccountCode";
+		$response['status_code'] = "TYPE_LIST";
+		$response['data'] = [$account_cost->default_cost,$account_cost->description];
+		callback:
+		
+		return response()->json($response, 200);
+	}
 }

@@ -19,8 +19,8 @@
         @include('system._components.notifications')
         {!!csrf_field()!!}
         <div class="form-group">
-          <label for="input_title">Application Name</label>
-          <input type="text" class="form-control {{$errors->first('name') ? 'is-invalid' : NULL}}" id="input_title" name="name" placeholder="Application Name" value="{{old('name')}}">
+          <label for="input_name">Application Name</label>
+          <input type="text" class="form-control {{$errors->first('name') ? 'is-invalid' : NULL}}" id="input_name" name="name" placeholder="Application Name" value="{{old('name')}}">
           @if($errors->first('name'))
           <p class="mt-1 text-danger">{!!$errors->first('name')!!}</p>
           @endif
@@ -33,24 +33,45 @@
           @endif
         </div>
         <div class="form-group">
-          <label for="input_suffix">Account Code</label>
-          {!!Form::select("account_code", $account_codes, old('account_code'), ['id' => "input_account_code", 'class' => "custom-select mb-2 mr-sm-2 ".($errors->first('account_code') ? 'is-invalid' : NULL)])!!}
-          @if($errors->first('account_code'))
-          <p class="mt-1 text-danger">{!!$errors->first('account_code')!!}</p>
+          <label for="input_suffix">Pre-Processing Code</label>
+          {!!Form::select("pre_processing_code", $account_codes, old('pre_processing_code'), ['id' => "input_pre_processing_code", 'class' => "custom-select mb-2 mr-sm-2 ".($errors->first('pre_processing_code') ? 'is-invalid' : NULL)])!!}
+          @if($errors->first('pre_processing_code'))
+          <p class="mt-1 text-danger">{!!$errors->first('pre_processing_code')!!}</p>
           @endif
         </div>
         <div class="form-group">
-          <label for="input_title">Description</label>
-          <input type="text" class="form-control {{$errors->first('description') ? 'is-invalid' : NULL}}" id="input_title" name="description" placeholder="Description" value="{{old('description')}}">
-          @if($errors->first('description'))
-          <p class="mt-1 text-danger">{!!$errors->first('description')!!}</p>
+          <label for="input_pre_processing_description">Pre-Processing Description</label>
+          <input type="text" class="form-control {{$errors->first('pre_processing_description') ? 'is-invalid' : NULL}}" id="input_pre_processing_description" name="pre_processing_description" placeholder="Pre-Processing Description" value="{{old('pre_processing_description')}}" readonly>
+          @if($errors->first('pre_processing_description'))
+          <p class="mt-1 text-danger">{!!$errors->first('pre_processing_description')!!}</p>
           @endif
         </div>
         <div class="form-group">
-          <label for="input_title">Processing Fee <code style="font-size: 12px;"><i>Note: Input 0 If there is no processing Fee</i></code></label>
-          <input type="text" class="form-control {{$errors->first('processing_fee') ? 'is-invalid' : NULL}}" id="input_title" name="processing_fee" placeholder="Payment Fee" value="{{old('processing_fee')}}">
-          @if($errors->first('processing_fee'))
-          <p class="mt-1 text-danger">{!!$errors->first('processing_fee')!!}</p>
+          <label for="input_pre_processing_cost">Pre-Processing Cost <code style="font-size: 12px;"><i>Note: Input 0 If there is no processing Fee</i></code></label>
+          <input type="text" class="form-control {{$errors->first('pre_processing_cost') ? 'is-invalid' : NULL}}" id="input_pre_processing_cost" name="pre_processing_cost" placeholder="Pre-Processing Cost" value="{{old('pre_processing_cost')}}" readonly>
+          @if($errors->first('pre_processing_cost'))
+          <p class="mt-1 text-danger">{!!$errors->first('pre_processing_cost')!!}</p>
+          @endif
+        </div>
+        <div class="form-group">
+          <label for="input_suffix">Post-Processing Code</label>
+          {!!Form::select("post_processing_code", $account_codes, old('post_processing_code'), ['id' => "input_post_processing_code", 'class' => "custom-select mb-2 mr-sm-2 ".($errors->first('post_processing_code') ? 'is-invalid' : NULL)])!!}
+          @if($errors->first('post_processing_code'))
+          <p class="mt-1 text-danger">{!!$errors->first('post_processing_code')!!}</p>
+          @endif
+        </div>
+        <div class="form-group">
+          <label for="input_post_processing_description">Post-Processing Description</label>
+          <input type="text" class="form-control {{$errors->first('post_processing_description') ? 'is-invalid' : NULL}}" id="input_post_processing_description" name="post_processing_description" placeholder="Post-Processing Description" value="{{old('post_processing_description')}}" readonly>
+          @if($errors->first('post_processing_description'))
+          <p class="mt-1 text-danger">{!!$errors->first('post_processing_description')!!}</p>
+          @endif
+        </div>
+        <div class="form-group">
+          <label for="input_post_processing_cost">Post-Processing Cost <code style="font-size: 12px;"><i>Note: Input 0 If there is no processing Fee</i></code></label>
+          <input type="text" class="form-control {{$errors->first('post_processing_cost') ? 'is-invalid' : NULL}}" id="input_post_processing_cost" name="post_processing_cost" placeholder="Post-Processing Cost" value="{{old('post_processing_cost')}}" readonly>
+          @if($errors->first('post_processing_cost'))
+          <p class="mt-1 text-danger">{!!$errors->first('post_processing_cost')!!}</p>
           @endif
         </div>
        <!--  <div class="form-group">
@@ -103,6 +124,41 @@
 <script type="text/javascript">
     $(document).ready(function(){
       $('#input_requirements_id').select2({placeholder: "Select Requirements"});
+
+    $.fn.get_pre_processing_amount = function(account_code_id){
+      $.getJSON('/cost?type_id='+account_code_id, function(result){
+          amount = parseFloat(result.data[0])
+          desc = result.data[1]
+          $('#input_pre_processing_cost').val(amount);
+          $('#input_pre_processing_description').val(desc);
+
+      });
+        // return result;
+    };
+
+    $.fn.get_post_processing_amount = function(account_code_id){
+      $.getJSON('/cost?type_id='+account_code_id, function(result){
+          amount = parseFloat(result.data[0])
+          desc = result.data[1]
+          $('#input_post_processing_cost').val(amount);
+          $('#input_post_processing_description').val(desc);
+
+      });
+        // return result;
+    };
+
+    $('#input_pre_processing_code').on("change",function(){
+        var account_code_id = $(this).val()
+        $(this).get_pre_processing_amount(account_code_id,"#input_application_id","")
+
+    });
+     $('#input_post_processing_code').on("change",function(){
+        var account_code_id = $(this).val()
+        $(this).get_post_processing_amount(account_code_id,"#input_application_id","")
+
+    });
+
+
     });//document ready
 </script>
 @endsection

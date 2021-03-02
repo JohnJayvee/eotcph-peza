@@ -8,7 +8,6 @@
 <!--team section start-->
 <section class="px-120 pt-110 pb-80 gray-light-bg">
     <div class="container">
-         
          <div class="row flex-row items-center px-4">
             <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> SUBMISSION</span></h5>
             <a href="{{route('web.transaction.history')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">Application History</a>
@@ -98,7 +97,7 @@
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleInputEmail1" class="text-form pb-2">Processing Fee</label>
+                                <label for="exampleInputEmail1" class="text-form pb-2">Pre-Processing Fee</label>
                                 <div class="input-group mb-3">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
@@ -188,7 +187,6 @@
                 </div>
             </form>
         </div>
-        
     </div>
 
 </section>
@@ -291,23 +289,7 @@ $(document).ready(function() {
         });
     };
 
-    /*$.fn.get_partial_amount = function(application_id){
-        $.getJSON('/amount?type_id='+application_id, function(result){
-            amount = parseFloat(result.data[0])
-            partial_amount = parseFloat(result.data[1])
-            collection_type = result.data[2]
-            if (partial_amount > 0) {
-                $('#input_partial_amount').prop("readonly" ,false);
-            }else{
-                $('#input_partial_amount').val('');
-                $('#input_partial_amount').prop("readonly" ,true);
-            }
-            $('#input_processing_fee').val(formatNumber(amount));
-            $('#input_collection_type').val(formatNumber(collection_type));
-        });
-        // return result;
-    };*/
-
+ 
     $("#input_department_id").on("change",function(){
       var department_id = $(this).val()
       var _text = $("#input_department_id option:selected").text();
@@ -320,18 +302,10 @@ $(document).ready(function() {
       $('#input_zone_name').val(_text);
     })
 
-    $.fn.get_partial_amount = function(application_id){
+    $.fn.get_pre_processing_cost = function(application_id){
         $.getJSON('/amount?type_id='+application_id, function(result){
             amount = parseFloat(result.data[0])
-            partial_amount = parseFloat(result.data[1])
-
-            if (partial_amount > 0) {
-                $('#input_partial_amount').prop("readonly" ,false);
-            }else{
-                $('#input_partial_amount').val('');
-                $('#input_partial_amount').prop("readonly" ,true);
-            }
-            $('#input_processing_fee').val(formatNumber(amount));
+            $('#input_processing_fee').val(amount);
         });
         // return result;
     };
@@ -345,7 +319,7 @@ $(document).ready(function() {
         var _text = $("#input_application_id option:selected").text();
 
         var application_id = $(this).val()
-        $(this).get_partial_amount(application_id,"#input_application_id","")
+        $(this).get_pre_processing_cost(application_id,"#input_application_id","")
         $(this).get_requirements(application_id,"#input_application_id","")
 
         $('#input_application_name').val(_text);
@@ -361,7 +335,7 @@ $(document).ready(function() {
     @if(old('department_id') and  old('application_id'))
         $(this).get_application_type("{{old('department_id')}}","#input_application_id","{{old('application_id')}}")
         $(this).get_requirements_id("{{old('application_id')}}","#input_application_id","{{old('application_id')}}")
-        $(this).get_partial_amount("{{old('application_id')}}","#input_application_id","{{old('application_id')}}")
+        $(this).get_pre_processing_cost("{{old('application_id')}}","#input_application_id","{{old('application_id')}}")
     @endif
 });
 </script>

@@ -69,12 +69,13 @@
             <th class="text-title p-3">Transaction Date</th>
             <th class="text-title p-3">Submitted By/Company Name</th>
             <th class="text-title p-3">Peza Unit</th>
-            <th class="text-title p-3">Account Code</th>
-            <th class="text-title p-3">Description</th>
             <th class="text-title p-3">Application Type</th>
-            <th class="text-title p-3">Processing Fee</th>
-            <th class="text-title p-3">Amount</th>
+            <th class="text-title p-3">Pre Processing Code</th>
+            <th class="text-title p-3">Pre Processing Cost</th>
+            <th class="text-title p-3">Pre Processing Code</th>
+            <th class="text-title p-3">Post Processing Cost</th>
             <th class="text-title p-3">Processor/Status</th>
+            <th class="text-title p-3">Is Validated ?</th>
             <th class="text-title p-3">Action</th>
           </tr>
         </thead>
@@ -84,14 +85,14 @@
             <td>{{ Helper::date_format($transaction->created_at)}}</td>
             <td>{{ $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name}}/<br>{{str::title($transaction->company_name)}}</td>
             <td>{{ $transaction->department->name}}</td>
-            <td>{{ $transaction->type ? str::title($transaction->type->accounts->code) : "N/A"}}</td>
-            <td>{{ $transaction->type ? str::title($transaction->type->description) : "N/A"}}</td>
             <td>{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</td>
+            <td>{{ $transaction->type ? $transaction->type->pre_process->code : "---"}}</td>
             <td>
               <div>{{Helper::money_format($transaction->processing_fee) ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small></div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->transaction_status)}} p-2 mt-1">{{Str::upper($transaction->transaction_status)}}</span></small></div>
             </td>
+            <td>{{ $transaction->type ? $transaction->type->post_process->code : "---"}}</td>
             <td>
               <div>{{Helper::money_format($transaction->amount) ?: '---'}}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::upper($transaction->application_payment_status)}}</span></small></div>
@@ -105,6 +106,7 @@
                 <div class="mt-1"><p>{{ $transaction->admin ? $transaction->admin->full_name : '---' }}</p></div>
               @endif
             </td>
+            <td>{{ $transaction->is_validated == "0" ? "No" : "Yes"}}</td>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">

@@ -10,12 +10,16 @@ use App\Laravel\Requests\PageRequest;
 /*
  * Models
  */
-use App\Laravel\Models\{Transaction,TransactionRequirements,Department,ZoneLocation,ApplicationRequirements,Application};
+use App\Laravel\Models\{Transaction,TransactionRequirements,Department,ZoneLocation,ApplicationRequirements,Application,Document};
 
 use App\Laravel\Requests\System\ProcessorTransactionRequest;
+use App\Laravel\Requests\System\FileRequest;
+
 
 use App\Laravel\Events\SendApprovedReference;
 use App\Laravel\Events\SendDeclinedReference;
+use App\Laravel\Events\SendValidatedEmailReference;
+
 
 use App\Laravel\Events\SendProcessorTransaction;
 use App\Laravel\Events\SendEmailProcessorTransaction;
@@ -331,10 +335,10 @@ class TransactionController extends Controller{
 		return view('system.transaction.resent',$this->data);
 	}
 
-
 	public function show(PageRequest $request,$id = NULL){
 		$this->data['count_file'] = TransactionRequirements::where('transaction_id',$id)->count();
 		$this->data['attachments'] = TransactionRequirements::where('transaction_id',$id)->get();
+		$this->data['attached_docs'] = Document::where('transaction_id',$id)->get();
 		$this->data['transaction'] = $request->get('transaction_data');
 		$id = $this->data['transaction']->requirements_id;
 
@@ -357,9 +361,7 @@ class TransactionController extends Controller{
 
 	public function store(ProcessorTransactionRequest $request){
 
-		$full_name = $request->get('firstname') ." ". $request->get("middlename") ." ". $request->get('lastname');
-		
-		
+			$full_name = $request->get('firstname') ." ". $request->get("middlename") ." ". $request->get('lastname');
 
 			$new_transaction = new Transaction;
 			$new_transaction->company_name = $request->get('company_name');
@@ -424,82 +426,176 @@ class TransactionController extends Controller{
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg','Application was successfully submitted.');
 			return redirect()->route('system.transaction.approved');
-		
-		
-
 	}
-	public function process($id = NULL,PageRequest $request){
-		$type = strtoupper($request->get('status_type'));
+
+	public function validate_transaction($id = NULL,PageRequest $request){
 		DB::beginTransaction();
 		try{
 
 			$transaction = $request->get('transaction_data');
-
-
-			if ($request->get('amount') < $transaction->partial_amount) {
+ 
+			if (!$transaction->type) {
 				session()->flash('notification-status', "success");
-				session()->flash('notification-msg', "Invalid Amount.");
+				session()->flash('notification-msg', "Invalid , Application Type has no Post Processing Cost.");
 				return redirect()->route('system.transaction.show',[$transaction->id]);
 			}
-			$transaction->status = $type;
-			$transaction->amount = $type == "APPROVED" ? $request->get('amount') : NULL;
-			$transaction->remarks = $type == "DECLINED" ? $request->get('remarks') : NULL;
+
+			$transaction->is_validated =  1;
+			$transaction->amount = $transaction->type->post_processing_cost;
+			$transaction->remarks = $request->get('remarks');
 			$transaction->processor_user_id = Auth::user()->id;
-			$transaction->modified_at = Carbon::now();
+			$transaction->validated_at = Carbon::now();
 			$transaction->save();
 
-			if ($type == "APPROVED") {
 
-				$requirements = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"pending")->update(['status' => "APPROVED"]);
-				$insert[] = [
-	            	'contact_number' => $transaction->contact_number,
-	            	'email' => $transaction->email,
-	                'ref_num' => $transaction->transaction_code,
-	                'amount' => $transaction->amount,
-	                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
-	                'application_name' => $transaction->application_name,
-	                'department_name' => $transaction->department_name,
-	                'modified_at' => Helper::date_only($transaction->modified_at)
-            	];	
+			$requirements = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"pending")->update(['status' => "APPROVED"]);
+			$insert[] = [
+            	'contact_number' => $transaction->contact_number,
+            	'email' => $transaction->email,
+                'ref_num' => $transaction->transaction_code,
+                'amount' => $transaction->amount,
+                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
+                'application_name' => $transaction->application_name,
+                'department_name' => $transaction->department_name,
+                'modified_at' => Helper::date_only($transaction->validated_at)
+        	];	
 
-				/*$notification_data = new SendApprovedReference($insert);
-			    Event::dispatch('send-sms-approved', $notification_data);*/
+			/*$notification_data = new SendApprovedReference($insert);
+		    Event::dispatch('send-sms-approved', $notification_data);*/
 
-			    $notification_data_email = new SendApprovedEmailReference($insert);
-			    Event::dispatch('send-email-approved', $notification_data_email);
-			}
-			if ($type == "DECLINED") {
-				$requirements = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"pending")->update(['status' => "DECLINED"]);
-				$insert[] = [
-	            	'contact_number' => $transaction->contact_number,
-	                'ref_num' => $transaction->document_reference_code,
-	                'email' => $transaction->email,
-	                'remarks' => $transaction->remarks,
-	                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
-	                'application_name' => $transaction->application_name,
-	                'department_name' => $transaction->department_name,
-	                'modified_at' => Helper::date_only($transaction->modified_at),
-	                'link' => env("APP_URL")."show-pdf/".$transaction->id,
-            	];	
-
-				/*$notification_data = new SendDeclinedReference($insert);
-			    Event::dispatch('send-sms-declined', $notification_data);*/
-
-			    $notification_data_email = new SendDeclinedEmailReference($insert);
-			    Event::dispatch('send-email-declined', $notification_data_email);
-			}
-			
-
+		    $notification_data_email = new SendValidatedEmailReference($insert);
+		    Event::dispatch('send-email-validated', $notification_data_email);
+		
 			DB::commit();
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg', "Transaction has been successfully Processed.");
-			return redirect()->route('system.transaction.'.strtolower($type));
+			return redirect()->route('system.transaction.pending');
+
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");
 			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
 			return redirect()->back();
 		}
+	}
+	public function declined_transaction($id = NULL , PageRequest $request){
+		DB::beginTransaction();
+		try{
+
+			$transaction = $request->get('transaction_data');
+
+			if (!$transaction->type) {
+				session()->flash('notification-status', "success");
+				session()->flash('notification-msg', "Invalid , Application Type has no Post Processing Cost.");
+				return redirect()->route('system.transaction.show',[$transaction->id]);
+			}
+
+			$transaction->status = "DECLINED";
+			$transaction->remarks = $request->get('remarks');
+			$transaction->processor_user_id = Auth::user()->id;
+			$transaction->modified_at = Carbon::now();
+			$transaction->save();
+			
+			$requirements = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"pending")->update(['status' => "DECLINED"]);
+			$insert[] = [
+            	'contact_number' => $transaction->contact_number,
+                'ref_num' => $transaction->document_reference_code,
+                'email' => $transaction->email,
+                'remarks' => $transaction->remarks,
+                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
+                'application_name' => $transaction->application_name,
+                'department_name' => $transaction->department_name,
+                'modified_at' => Helper::date_only($transaction->validated_at),
+                'link' => env("APP_URL")."show-pdf/".$transaction->id,
+        	];	
+
+			/*$notification_data = new SendDeclinedReference($insert);
+		    Event::dispatch('send-sms-declined', $notification_data);*/
+
+		    $notification_data_email = new SendDeclinedEmailReference($insert);
+		    Event::dispatch('send-email-declined', $notification_data_email);
+
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Transaction has been successfully DECLINED.");
+			return redirect()->route('system.transaction.pending');
+
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
+		}
+	}
+
+	public function  upload(PageRequest $request,$id = NULL){
+		$this->data['page_title'] .= " - upload Documents";
+		$this->data['transaction'] = $request->get('transaction_data');
+
+		return view('system.transaction.upload',$this->data);
+	}
+
+	public function upload_documents(FileRequest $request , $id = NULL){
+
+		DB::beginTransaction();
+		try{
+			$transaction = $request->get('transaction_data');
+
+			$transaction->status = "APPROVED";
+			$transaction->approved_at = Carbon::now();
+			$transaction->save();
+
+			if($request->get('name')) { 
+				foreach ($request->get('name') as $key => $image) {
+					if ($request->file('document.'.$key)) {
+						$ext = $request->file('document.'.$key)->getClientOriginalExtension();
+						if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
+							$type = 'file';
+							$original_filename = $request->file('document.'.$key)->getClientOriginalName();
+							$upload_image = FileUploader::upload($request->file('document.'.$key), "uploads/documents/transaction/documents/{$transaction->code}");
+						} 
+						$new_file = new Document;
+						$new_file->transaction_id = $transaction->id;
+						$new_file->name = $image;
+						$new_file->path = $upload_image['path'];
+						$new_file->directory = $upload_image['directory'];
+						$new_file->filename = $upload_image['filename'];
+						$new_file->type =$type;
+						$new_file->original_name =$original_filename;
+						$new_file->save();
+					}
+						
+				}
+			}
+			$attachments = Document::where('transaction_id', $transaction->id)->get();
+			$insert[] = [
+            	'contact_number' => $transaction->contact_number,
+            	'email' => $transaction->email,
+                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
+                'application_name' => $transaction->application_name,
+                'department_name' => $transaction->department_name,
+                'attachment_details' => $attachments,
+                'approved_at' => Helper::date_only($transaction->approved_at)
+        	];	
+
+			/*$notification_data = new SendApprovedReference($insert);
+		    Event::dispatch('send-sms-approved', $notification_data);*/
+
+		    $notification_data_email = new SendApprovedEmailReference($insert);
+		    Event::dispatch('send-email-approved', $notification_data_email);
+
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Transaction has been successfully APPROVED.");
+			return redirect()->route('system.transaction.approved');
+
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
+		}
+
 	}
 
 	public function process_requirements($id = NULL,$status = NULL,PageRequest $request){
@@ -521,7 +617,7 @@ class TransactionController extends Controller{
 			return redirect()->back();
 		}
 	}
-
+	
 	public function  destroy(PageRequest $request,$id = NULL){
 		$transaction = $request->get('transaction_data');
 		DB::beginTransaction();

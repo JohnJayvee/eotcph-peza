@@ -3,7 +3,7 @@
 namespace App\Laravel\Middlewares\System;
 
 use Closure, Helper,Str;
-use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation,AccountCode};
+use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation,AccountCode,PostProcess};
 
 class ExistRecord
 {

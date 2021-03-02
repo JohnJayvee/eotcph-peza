@@ -49,6 +49,9 @@ class EventServiceProvider extends ServiceProvider
         'send-email-declined' => [
             'App\Laravel\Listeners\SendDeclinedEmailListener'
         ],
+        'send-email-validated' => [
+            'App\Laravel\Listeners\SendValidatedEmailListener'
+        ],
         'send-email-approved' => [
             'App\Laravel\Listeners\SendApprovedEmailListener'
         ],

@@ -64,9 +64,10 @@
 			</tr>
 			<tr>
 				<th colspan="2"><p style="float: left;text-align: justify;">Hello {{Str::title($full_name)}}, <p>
-					<p style="float: left;text-align: justify;">Good day, we'd like to inform you that we have approved your application. Please see the attached files for your requested documents.</p>
+					<p style="float: left;text-align: justify;">Good day. We are pleased to inform you that your application has been validated by our processor and is now for payment.</p>
 				</th>
 			</tr>
+			
 			<tr class="text-blue">
 				<th style="text-align: left;padding: 10px;">Application Name:</th>
 				<th style="text-align: right;">{{Str::title($application_name)}}</th>
@@ -80,27 +81,13 @@
 				<th style="text-align: right;">{{Str::title($modified_at)}}</th>
 			</tr>
 			<tr class="text-blue">
+				<th style="text-align: left;padding: 10px;">Amount:</th>
+				<th style="text-align: right;">{{Str::title($amount)}}</th>
+			</tr>
+			<tr class="text-blue">
 				<th style="text-align: left;padding: 10px;">Payment Reference Number:</th>
 				<th style="text-align: right;">{{Str::title($ref_num)}}</th>
 			</tr>
-			<tr>
-				<th colspan="2" style="border: none;padding-top: 20px;"><hr class="new2"></th>
-			</tr>
-			<tr>
-				<th colspan="2"  style="padding: 10px;">Attachments</th>
-			</tr>
-			@forelse($attachment_details as $detail)
-				<tr class="text-blue">
-					<th style="text-align: left;padding: 10px;">File Name</th>
-					<th style="text-align: right;">{{Str::title($detail->name)}}</th>
-				</tr>
-				<tr class="text-blue">
-					<th style="text-align: left;padding: 10px;">File</th>
-					<th style="text-align: right;"><a href="{{$detail->directory}}/{{$detail->filename}}" target="_blank">{{$detail->original_name}}</a></th>
-					
-				</tr>
-			@empty
-			@endforelse
 			<tr>
 				<th colspan="2">
 					<p style="float: left;text-align: justify;">Please visit the <a href="{{env('APP_URL')}}">{{env("APP_URL")}}</a> and input the payment reference number to the E-Payment section to pay. This payment reference number will expire at 11:59 PM. You can pay via online(Debit/Credit card, e-wallet, etc.) or over-the-counter (7Eleven, Bayad Center, Cebuana Lhuillier, and to other affiliated partners)</p><br>

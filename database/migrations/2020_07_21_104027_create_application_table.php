@@ -17,9 +17,12 @@ class CreateApplicationTable extends Migration
             $table->bigIncrements('id');
             $table->string('department_id')->nullable();
             $table->string('name')->nullable();
-            $table->string('has_processing_fee')->default(0)->nullable();
-            $table->string('processing_fee')->nullable();
-            $table->string('processing_days')->nullable();
+            $table->string('pre_processing_code')->nullable();
+            $table->string('pre_processing_description')->nullable();
+            $table->string('pre_processing_cost')->nullable();
+            $table->string('post_processing_code')->nullable();
+            $table->string('post_processing_description')->nullable();
+            $table->string('post_processing_cost')->nullable();
             $table->string('requirements_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

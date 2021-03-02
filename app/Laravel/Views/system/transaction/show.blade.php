@@ -34,6 +34,7 @@
             <p class="text-title fw-500">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}} [{{$transaction->code}}] </span></p>
             <p class="text-title fw-500">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
             <p class="text-title fw-500">Processor Status: <span class="badge badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::title($transaction->status)}}</span></p>
+            <p class="text-title fw-500">Validated: <span class="text-black">{{$transaction->is_validated == 0 ? "No" : " Yes"}}</span></p>
           </div>
           <div class="col-md-6">
             <p class="text-title fw-500">Peza Unit: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
@@ -44,18 +45,26 @@
             @endif
           </div>
           <div class="col-md-6 mt-4">
-            <p class="text-title fw-500">Transaction Details:</span></p>
+            <p class="text-title fw-500">Pre-Processing Details:</p>
             <p class="text-title fw-500">Status: <span class="badge  badge-{{Helper::status_badge($transaction->transaction_status)}} p-2">{{Str::title($transaction->transaction_status)}}</span></p>
             <p class="fw-500" style="color: #DC3C3B;">Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}} [{{$transaction->processing_fee_code}}]</p>
             <p class="text-title fw-500">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::title($transaction->payment_status)}}</span></p>
             {{-- <p class="text-title fw-500">Partial Payment : Php {{Helper::money_format($transaction->partial_amount)}} </p> --}}
           </div>
           <div class="col-md-6 mt-4">
-            <p class="text-title fw-500">Application Details:</span></p>
+            <p class="text-title fw-500">Post-Processing Details:</p>
             <p class="text-title fw-500">Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_transaction_status)}} p-2">{{Str::title($transaction->application_transaction_status)}}</span></p>
             <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->amount ? $transaction->amount : "0.00")}} [{{ $transaction->transaction_code }}]</p>
             <p class="text-title fw-500">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::title($transaction->application_payment_status)}}</span></p>
           </div>
+          @if($transaction->status == "APPROVED")
+            @foreach($attached_docs as $attached_doc)
+            <div class="col-md-6 mt-4">
+              <p class="text-title fw-500">Attached Documents:</p>
+              <p class="text-title fw-500">File Name: {{$attached_doc->name}}
+            </div>
+            @endforeach
+          @endif
           @if($transaction->process_by == "processor")
           <div class="col-md-6">
             <table>
@@ -123,13 +132,17 @@
         </div>
       </div>  
     @endif
-   @if(Auth::user()->type == "processor")
-      @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->transaction_status == "COMPLETED")
-        <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approve Transactions</a>
-        <a  data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=declined" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
+
+    @if(Auth::user()->type == "super_user")
+      @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->transaction_status == "COMPLETED" AND $transaction->is_validated == 0)
+        <a data-url="{{route('system.transaction.validate',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Validate Transactions</a>
+        <a  data-url="{{route('system.transaction.declined',[$transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
+      @endif
+      @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->application_transaction_status == "COMPLETED" AND $transaction->is_validated == 1)
+        <a data-url="{{route('system.transaction.upload',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Appproved Transactions</a>
+        <a  data-url="{{route('system.transaction.declined',[$transaction->id])}}?status_type=declined" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
       @endif
     @endif
-     
   </div>
   
 </div>
@@ -188,21 +201,15 @@
       var url = $(this).data('url');
       var self = $(this)
       Swal.fire({
-        title: "All the submitted requirements will be marked as approved. Are you sure you want to approve this application?",
-        
-        icon: 'info',
-        input: 'number',
-        inputPlaceholder: "Put Amount",
+        title: 'All the submitted requirements will be marked as approved. Are you sure you want to validate this application?',
+        text: "You will not be able to undo this action, proceed?",
+        showDenyButton: true,
         showCancelButton: true,
-        confirmButtonText: 'Approved!',
-        cancelButtonColor: '#d33'
+        confirmButtonText: `Proceed`,
       }).then((result) => {
-        if (result.value === "") {
-          alert("You need to write something")
-          return false
-        }
-        if (result.value) {
-          window.location.href = url + "&amount="+result.value;
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          window.location.href = url
         }
       });
     });

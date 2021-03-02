@@ -12,7 +12,7 @@ use App\Laravel\Requests\Web\UploadRequest;
 /*
  * Models
  */
-use App\Laravel\Models\{Transaction,Department,ZoneLocation,ApplicationRequirements,Application,TransactionRequirements};
+use App\Laravel\Models\{Transaction,Department,ZoneLocation,ApplicationRequirements,Application,TransactionRequirements,Document};
 
 
 /* App Classes
@@ -156,6 +156,7 @@ class CustomerTransactionController extends Controller
 		$this->data['page_title'] = "Application Details"; 
 		$this->data['transaction'] = Transaction::find($id);
 		$this->data['attachments'] = TransactionRequirements::where('transaction_id',$id)->get();
+		$this->data['attached_docs'] = Document::where('transaction_id',$id)->get();
 		$this->data['count_file'] = TransactionRequirements::where('transaction_id',$id)->count();
 		return view('web.transaction.show',$this->data);
 

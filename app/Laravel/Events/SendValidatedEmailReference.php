@@ -4,7 +4,7 @@ namespace App\Laravel\Events;
 use Illuminate\Queue\SerializesModels;
 use Mail,Str,Helper,Carbon;
 
-class SendApprovedEmailReference extends Event {
+class SendValidatedEmailReference extends Event {
 
 
 	use SerializesModels;
@@ -32,10 +32,11 @@ class SendApprovedEmailReference extends Event {
 			$this->data['full_name'] = $value['full_name'];
 			$this->data['application_name'] = $value['application_name'];
 			$this->data['department_name'] = $value['department_name'];
-			$this->data['attachment_details'] = $value['attachment_details'];
+			$this->data['ref_num'] = $value['ref_num'];
 			$this->data['modified_at'] = $value['modified_at'];
+			$this->data['amount'] = $value['amount'];
 
-			Mail::send('emails.application-approved', $this->data, function($message) use ($mailname,$user_email){
+			Mail::send('emails.application-validated', $this->data, function($message) use ($mailname,$user_email){
 				$message->from('eotcph-noreply@ziaplex.biz');
 				$message->to($user_email);
 				$message->subject("Application Details");

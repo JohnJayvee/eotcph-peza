@@ -52,9 +52,11 @@
         <thead>
           <tr>
             <th class="text-title p-3">Application Name</th>
-            <th class="text-title p-3">Payment Fee</th>
             <th class="text-title p-3">Peza Unit</th>
-            <th class="text-title p-3">Account Code</th>
+            <th class="text-title p-3">Pre-Processing Code</th>
+            <th class="text-title p-3">Pre-Processing Cost</th>
+            <th class="text-title p-3">Post-Processing Code</th>
+            <th class="text-title p-3">Post-Processing Cost</th>
             <th class="text-title p-3">Created At</th>
             <th class="text-title p-3">Action</th>
           </tr>
@@ -63,10 +65,11 @@
           @forelse($applications as $application)
           <tr>
             <td>{{ $application->name}}</td>
-            <td>PHP {{ Helper::money_format($application->processing_fee)}}</td>
             <td>{{ $application->department ? Str::title($application->department->name) : "N/A"}}</td>
-            <td>{{ $application->accounts ? Str::title($application->accounts->code) : "N/A"}}</td>
-
+            <td>{{ $application->pre_process ? $application->pre_process->code : "N/A"}}</td>
+            <td>{{ $application->post_process ? "PHP ".helper::money_format($application->pre_process->default_cost) : "N/A"}}</td>
+             <td>{{ $application->post_process ? $application->post_process->code : "N/A"}}</td>
+            <td>{{ $application->post_process ? "PHP ".helper::money_format($application->post_process->default_cost) : "N/A"}}</td>
             <td>{{ Helper::date_format($application->created_at)}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>

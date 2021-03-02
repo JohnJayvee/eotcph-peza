@@ -35,7 +35,10 @@ Route::group(['as' => "auth."], function(){
 			Route::get('create',['as' => "create",'uses' => "TransactionController@create"]);
 			Route::post('create',['uses' => "TransactionController@store"]);
 			Route::get('show/{id?}',['as' => "show",'uses' => "TransactionController@show",'middleware' => "system.exist:transaction"]);
-			Route::get('process/{id?}',['as' => "process",'uses' => "TransactionController@process",'middleware' => "system.exist:transaction"]);
+			Route::get('validate/{id?}',['as' => "validate",'uses' => "TransactionController@validate_transaction",'middleware' => "system.exist:transaction"]);
+			Route::get('declined/{id?}',['as' => "declined",'uses' => "TransactionController@declined_transaction",'middleware' => "system.exist:transaction"]);
+			Route::get('upload/{id?}',['as' => "upload",'uses' => "TransactionController@upload",'middleware' => "system.exist:transaction"]);
+			Route::post('upload/{id?}',['uses' => "TransactionController@upload_documents",'middleware' => "system.exist:transaction"]);
 			Route::get('requirements/{id?}',['as' => "requirements",'uses' => "TransactionController@process_requirements"]);
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "TransactionController@destroy"]);
 		});
@@ -101,6 +104,7 @@ Route::group(['as' => "auth."], function(){
 			Route::any('get-region',['as' => "get_region", 'uses' => "ZoneLocationController@get_region"]);
 			
 		});
+
 
 		Route::group(['as' => "regional_office.",'prefix' => "regional-office"], function(){
 			Route::get('/',['as' => "index",'uses' => "RegionalOfficeController@index"]);

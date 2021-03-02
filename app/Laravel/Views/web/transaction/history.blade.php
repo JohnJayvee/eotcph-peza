@@ -4,9 +4,8 @@
 @section('content')
 
 <!--team section start-->
-<section class="px-120 pt-110 pb-80 gray-light-bg">
+<section class="px-120 pt-110 pb-120 gray-light-bg">
     <div class="container">
-         
          <div class="row flex-row items-center px-4">
             <h5 class="text-title pb-2 mt-2"><i class="fa fa-file"></i> E<span class="text-title-two"> Application History</span></h5>
             <a href="{{route('web.transaction.create')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">E-Submission</a>
@@ -18,8 +17,8 @@
                 <tr class="text-center">
                   <th class="text-title fs-15 fs-500 p-3" width="15%">Company Name</th>
                   <th class="text-title fs-15 fs-500 p-3" width="15%">Application</th>
-                  <th class="text-title fs-15 fs-500 p-3" width="15%">Processing Fee</th>
-                  <th class="text-title fs-15 fs-500 p-3" width="15%">Amount</th>
+                  <th class="text-title fs-15 fs-500 p-3" width="15%">Pre-Processing Fee</th>
+                  <th class="text-title fs-15 fs-500 p-3" width="15%">Post-Processing Fee</th>
                   <th class="text-title fs-15 fs-500 p-3" width="15%">Status</th>
                   <th class="text-title fs-15 fs-500 p-3" width="15%">Date</th>
                 </tr>

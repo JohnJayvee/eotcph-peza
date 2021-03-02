@@ -63,8 +63,12 @@ class Application extends Authenticatable{
         return $this->BelongsTo("App\Laravel\Models\Department",'department_id','id');
     }
 
-    public function accounts(){
-        return $this->BelongsTo("App\Laravel\Models\AccountCode",'account_code','id');
+    public function pre_process(){
+        return $this->BelongsTo("App\Laravel\Models\AccountCode",'pre_processing_code','id');
+    }
+
+    public function post_process(){
+        return $this->BelongsTo("App\Laravel\Models\AccountCode",'post_processing_code','id');
     }
 
     public function assignAppTransaction(){

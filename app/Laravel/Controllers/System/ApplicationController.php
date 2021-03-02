@@ -80,16 +80,19 @@ class ApplicationController extends Controller
 	public function store(ApplicationRequest $request){
 		DB::beginTransaction();
 		try{
+			
 			$new_application = new Application;
 			$new_application->department_id = $request->get('department_id');
 			$new_application->name = $request->get('name');
-			$new_application->description = $request->get('description');
-			$new_application->account_code = $request->get('account_code');
-			$new_application->processing_fee = Helper::db_amount($request->get('processing_fee'));
-			//$new_application->partial_amount = Helper::db_amount($request->get('partial_amount'));
-			// $new_application->processing_days = $request->get('processing_days');
+			$new_application->pre_processing_code = $request->get('pre_processing_code');
+			$new_application->pre_processing_description = $request->get('pre_processing_description');
+			$new_application->pre_processing_cost = $request->get('pre_processing_cost');
+			$new_application->post_processing_code = $request->get('post_processing_code');
+			$new_application->post_processing_description = $request->get('post_processing_description');
+			$new_application->post_processing_cost = $request->get('post_processing_cost');
 			$new_application->requirements_id = implode(",", $request->get('requirements_id'));
 			$new_application->save();
+
 			DB::commit();
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg', "New Application has been added.");
@@ -115,11 +118,12 @@ class ApplicationController extends Controller
 			$application = $request->get('application_data');
 			$application->department_id = $request->get('department_id');
 			$application->name = $request->get('name');
-			$application->description = $request->get('description');
-			$application->account_code = $request->get('account_code');
-			$application->processing_fee = Helper::db_amount($request->get('processing_fee') ?: 0);
-			//$application->partial_amount = Helper::db_amount($request->get('partial_amount') ?: 0);
-			//$application->processing_days = $request->get('processing_days');
+			$application->pre_processing_code = $request->get('pre_processing_code');
+			$application->pre_processing_description = $request->get('pre_processing_description');
+			$application->pre_processing_cost = $request->get('pre_processing_cost');
+			$application->post_processing_code = $request->get('post_processing_code');
+			$application->post_processing_description = $request->get('post_processing_description');
+			$application->post_processing_cost = $request->get('post_processing_cost');
 			$application->requirements_id = implode(",", $request->get('requirements_id'));
 			$application->save();
 
