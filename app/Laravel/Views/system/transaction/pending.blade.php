@@ -62,8 +62,8 @@
     </form>
   </div>
   <div class="col-md-12">
-     <div class="table-responsive shadow fs-15">
-      <table class="table table-striped table-wrap" style="table-layout: fixed;">
+     <div class="shadow fs-15">
+      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
         <thead>
           <tr class="text-center ">
             <th class="text-title p-3">Transaction Date</th>

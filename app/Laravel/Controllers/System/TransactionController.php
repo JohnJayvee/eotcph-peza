@@ -38,13 +38,16 @@ class TransactionController extends Controller{
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
-
-		if (Auth::user()->type == "super_user" || Auth::user()->type == "admin") {
-			$this->data['department'] = ['' => "Choose Peza Unit"] + Department::pluck('name', 'id')->toArray();
-		}elseif (Auth::user()->type == "office_head" || Auth::user()->type == "processor") {
-			$this->data['department'] = ['' => "Choose Peza Unit"] + Department::where('id',Auth::user()->department_id)->pluck('name', 'id')->toArray();
+		if (Auth::user()) {
+			if (Auth::user()->type == "super_user" || Auth::user()->type == "admin") {
+				$this->data['department'] = ['' => "Choose Peza Unit"] + Department::pluck('name', 'id')->toArray();
+			}elseif (Auth::user()->type == "office_head" || Auth::user()->type == "processor") {
+				$this->data['department'] = ['' => "Choose Peza Unit"] + Department::where('id',Auth::user()->department_id)->pluck('name', 'id')->toArray();
+			}
+		}else{
+			$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
 		}
-
+		
 		$this->data['zone_locations'] = ['' => "Choose Zone Location"] + ZoneLocation::pluck('ecozone', 'id')->toArray();
 		$this->data['requirements'] =  ApplicationRequirements::pluck('name','id')->toArray();
 		$this->data['status'] = ['' => "Choose Payment Status",'PAID' => "Paid" , 'UNPAID' => "Unpaid"];

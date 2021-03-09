@@ -51,19 +51,19 @@
         <a href="{{route('system.processor.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+    <div class="shadow fs-15 table-responsive">
+      <table class="table table-striped table-wrap">
         <thead>
           <tr>
-            <th width="25%" class="text-title p-3">Last Name</th>
-            <th width="25%" class="text-title p-3">Username</th>
-            <th width="25%" class="text-title p-3">Last Name</th>
-            <th width="25%" class="text-title p-3">First Name</th>
-            <th width="10%" class="text-title p-3">Department</th>
-            <th width="10%" class="text-title p-3">Status</th>
-            <th width="10%" class="text-title p-3">Type</th>
-            <th width="10%" class="text-title p-3">Date Created</th>
-            <th width="10%" class="text-title p-3">Action</th>
+            <th class="text-title p-3">Last Name</th>
+            <th class="text-title p-3">Username</th>
+            <th class="text-title p-3">Last Name</th>
+            <th class="text-title p-3">First Name</th>
+            <th class="text-title p-3">Department</th>
+            <th class="text-title p-3">Status</th>
+            <th class="text-title p-3">Type</th>
+            <th class="text-title p-3">Date Created</th>
+            <th class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -88,7 +88,7 @@
           </tr>
           @empty
           <tr>
-            <td colspan="8" class="text-center"><i>No Accounts Records Available.</i></td>
+            <td colspan="9" class="text-center"><i>No Accounts Records Available.</i></td>
           </tr>
           @endforelse
           

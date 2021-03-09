@@ -48,7 +48,7 @@
       </span>
     </h4>
     <div class="table-responsive  shadow fs-15">
-      <table class="table table-striped table-wrap" style="table-layout: fixed;">
+      <table class="table table-striped table-wrap">
         <thead>
           <tr>
             <th class="text-title p-3">Application Name</th>

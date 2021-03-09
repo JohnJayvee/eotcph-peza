@@ -39,14 +39,14 @@
         <a href="{{route('system.application_requirements.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap w-auto" style="table-layout: fixed;">
+    <div class="shadow fs-15 table-responsive">
+      <table class="table table-striped table-wrap">
         <thead>
           <tr>
-            <th width="35%" class="text-title fs-15 fs-500 p-3">Name</th>
-            <th width="35%" class="text-title fs-15 fs-500 p-3">Is Required</th>
-            <th width="35%" class="text-title fs-15 fs-500 p-3">Created At</th>
-            <th width="35%" class="text-title fs-15 fs-500 p-3">Action</th>
+            <th class="text-title fs-15 fs-500 p-3">Name</th>
+            <th class="text-title fs-15 fs-500 p-3">Is Required</th>
+            <th class="text-title fs-15 fs-500 p-3">Created At</th>
+            <th class="text-title fs-15 fs-500 p-3">Action</th>
           </tr>
         </thead>
         <tbody>

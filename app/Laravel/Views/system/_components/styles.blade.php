@@ -38,7 +38,7 @@
     .text-danger{
         color: #df1234 !important;
     }
-    .table-wrap td{
+    .table-wrap td,th{
         word-wrap:break-word !important;
         white-space: normal !important;
     }
@@ -47,6 +47,10 @@
     }
     .text-success{
         color: #14a70a;
+    }
+    .table-wrap td{
+        word-wrap:break-word !important;
+        white-space: normal !important;
     }
     .text-title{
         color: #254DA0 !important;

@@ -59,18 +59,20 @@
     </form>
   </div>
   <div class="col-md-12">
-     <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+     <div class="table-responsive shadow fs-15">
+      <table class="table table-striped table-wrap">
         <thead>
           <tr class="text-center ">
-            <th class="text-title p-3" width="15%">Transaction Date</th>
-            <th class="text-title p-3" width="15%">Submitted By/Company Name</th>
-            <th class="text-title p-3" width="15%">Peza Unit</th>
-            <th class="text-title p-3" width="30%">Application Type</th>
-            <th class="text-title p-3" width="10%">Processing Fee</th>
-            <th class="text-title p-3" width="10%">Amount</th>
-            <th class="text-title p-3" width="10%">Processor/Status</th>
-            <th class="text-title p-3" width="10%">Action</th>
+            <th class="text-title p-3">Transaction Date</th>
+            <th class="text-title p-3">Submitted By/Company Name</th>
+            <th class="text-title p-3">Peza Unit</th>
+            <th class="text-title p-3">Application Type</th>
+            <th class="text-title p-3">Pre Processing Code</th>
+            <th class="text-title p-3">Pre Processing Cost</th>
+            <th class="text-title p-3">Pre Processing Code</th>
+            <th class="text-title p-3">Post Processing Cost</th>
+            <th class="text-title p-3">Processor/Status</th>
+            <th class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -80,11 +82,13 @@
             <td>{{ $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name}}/<br>{{str::title($transaction->company_name)}}</td>
             <td>{{ $transaction->department->name}}</td>
             <td>{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</td>
+            <td>{{ $transaction->type ? $transaction->type->pre_process->code : "---"}}</td>
             <td>
               <div>{{Helper::money_format($transaction->processing_fee) ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small></div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->transaction_status)}} p-2 mt-1">{{Str::upper($transaction->transaction_status)}}</span></small></div>
             </td>
+            <td>{{ $transaction->type ? $transaction->type->post_process->code : "---"}}</td>
             <td>
               <div>{{Helper::money_format($transaction->amount) ?: '---'}}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::upper($transaction->application_payment_status)}}</span></small></div>
