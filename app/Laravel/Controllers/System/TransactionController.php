@@ -442,6 +442,7 @@ class TransactionController extends Controller{
 
 			$transaction->is_validated =  1;
 			$transaction->amount = $transaction->type->post_processing_cost;
+			$transaction->total_amount = $transaction->type->post_processing_cost + $transaction->processing_fee;
 			$transaction->remarks = $request->get('remarks');
 			$transaction->processor_user_id = Auth::user()->id;
 			$transaction->validated_at = Carbon::now();

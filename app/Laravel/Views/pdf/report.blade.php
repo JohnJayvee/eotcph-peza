@@ -8,15 +8,13 @@
 		<thead>
 			<tr align="center">
 				<td>Transaction Date</td>
-				<td>Submitted By</td>
-				<td>Company Name</td>
-				<td>Peza unit</td>
-				<td>Account Code</td>
-				<td>Description</td>
-				<td>Processing Fee</td>
-				<td>Processing Fee Status</td>
-				<td>Application Amount</td>
-				<td>Application Status</td>
+				<td>Submitted By/Company Name</td>
+				<td>Peza Unit</td>
+				<td>Application Type</td>
+				<td>Pre Processing Code</td>
+				<td>Pre Processing Cost</td>
+				<td>Pre Processing Code</td>
+				<td>Post Processing Cost</td>
 				<td>Processor</td>
 				<td>Status</td>
 			</tr>
@@ -25,15 +23,13 @@
 			@forelse($transactions as $value)
 				<tr align="center">
 					<td>{{Helper::date_format($value->created_at)}}</td>
-					<td>{{$value->customer_name}}</td>
 					<td>{{$value->company_name}}</td>
 					<td>{{$value->department->name}}</td>
-					<td>{{ $value->type ? str::title($value->type->accounts->code) : "N/A"}}</td>
-            		<td>{{ $value->type ? str::title($value->type->description) : "N/A"}}</td>
-					<td>{{Helper::money_format($value->processing_fee)}}</td>
-					<td>{{$value->payment_status}}</td>
+					<td>{{ $value->type ? Strtoupper($value->type->name) : "N/A"}}<br> {{$value->code}}</td>
+            		<td>{{ $value->type ? $value->type->pre_process->code : "---"}}</td>
+					<td>{{Helper::money_format($value->processing_fee) ?: 0 }}</td>
+					<td>{{ $value->type ? $value->type->post_process->code : "---"}}</td>
 					<td>{{Helper::money_format($value->amount) ?: '---'}}</td>
-					<td>{{$value->application_payment_status}}</td>
 					<td>{{ $value->admin ? $value->admin->full_name : '---' }}</td>
 					<td>{{ $value->is_resent == 1 ? "RESENT" : $value->status}}</td>
 				</tr>

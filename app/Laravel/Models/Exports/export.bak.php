@@ -27,15 +27,19 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
         {
             return [
                 'Transaction Date',
-                'Submitted By/Company Name',
-                'Peza Unit',
-                'Application Type',
-                'Pre Processing Code',
-                'Pre Processing Cost',
-                'Pre Processing Code',
-                'Post Processing Cost',
-                'Processor',
-                'Status',
+                'Submitted By',
+                'Application Code',
+                "Application Type",
+                "Peza Unit",
+                "Account Code",
+                "Description",
+                "Processing Fee",
+                "Processing Fee Status",
+                "Application Fee",
+                "Application Fee Status",
+                "Processed By",
+                "Status",
+                
             ];
         }
 
@@ -43,13 +47,16 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
     {
         return [
             Helper::date_format($value->created_at),
-            $value->company_name,
-            $value->department ? $value->department->name : "N/A",
+            $value->customer ? $value->customer->full_name : $value->customer_name,
+            $value->code,
             $value->type ? Strtoupper($value->type->name) : "N/A",
-            $value->type ? $value->type->pre_process->code : "---",
+            $value->department ? $value->department->name : "N/A",
+            $value->type ? Strtoupper($value->type->accounts->code) : "N/A",
+            $value->type ? str::title($value->type->description) : "N/A",
             Helper::money_format($value->processing_fee) ?: 0 ,
-            $value->type ? $value->type->post_process->code : "---",
+            Str::upper($value->payment_status),
             Helper::money_format($value->amount) ?: '---',
+            Str::upper($value->application_payment_status),
             str::title($value->admin ? $value->admin->full_name : '---'),
             $value->is_resent == 1 ? "RESENT" : $value->status,
             

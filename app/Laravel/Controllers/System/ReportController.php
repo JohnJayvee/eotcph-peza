@@ -8,6 +8,9 @@ namespace App\Laravel\Controllers\System;
 use App\Laravel\Requests\PageRequest;
 
 use App\Laravel\Models\Exports\ReportTransactionExport;
+use App\Laravel\Models\Exports\TransactionSummaryExport;
+
+
 use App\Laravel\Models\{Transaction,Department,Application};
 
 /* App Classes
@@ -214,9 +217,13 @@ class ReportController extends Controller
 			})
 			->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])
 			->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])
-			->orderBy('created_at',"DESC")->paginate($this->per_page);
+			->orderBy('created_at',"DESC")->get();
 
-       return Excel::download(new ReportTransactionExport($transactions), 'transaction-record'.Carbon::now()->format('Y-m-d').'.xlsx'); 
+			$transaction_count = Transaction::where('transaction_status', "COMPLETED")->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])->select(DB::raw('count(*) as count, DATE(created_at) as date'))
+                            ->groupBy('date')
+                            ->get();
+
+       	return Excel::download(new ReportTransactionExport($transactions,$transaction_count), 'transaction-record'.Carbon::now()->format('Y-m-d').'.xlsx'); 
     }
 
     public function pdf (PageRequest $request){
@@ -292,6 +299,27 @@ class ReportController extends Controller
 		$pdf = PDF::loadView('pdf.report',$this->data)->setPaper('a4', 'landscape');;
 		return $pdf->download("report.pdf");	
 
+    }
+
+
+    public function export_paid(PageRequest $request){
+
+    	$first_record = Transaction::orderBy('created_at','ASC')->first();
+		$start_date = $request->get('start_date',Carbon::now()->startOfMonth());
+
+		if($first_record){
+			$start_date = $request->get('start_date',$first_record->created_at->format("Y-m-d"));
+		}
+		$this->data['start_date'] = Carbon::parse($start_date)->format("Y-m-d");
+		$this->data['end_date'] = Carbon::parse($request->get('end_date',Carbon::now()))->format("Y-m-d");
+
+		$transactions = Transaction::where('transaction_status', "COMPLETED")->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])->orderBy('created_at',"ASC")->get();
+
+    	$transaction_count = Transaction::where('transaction_status', "COMPLETED")->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])->select(DB::raw('count(*) as count, DATE(created_at) as date'))
+                            ->groupBy('date')
+                            ->get();
+
+       	return Excel::download(new TransactionSummaryExport($transactions,$transaction_count), 'transaction-record'.Carbon::now()->format('Y-m-d').'.xlsx'); 
     }
 
 }
