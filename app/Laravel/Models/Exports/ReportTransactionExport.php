@@ -14,7 +14,7 @@ use App\Schedule;
 
 use Helper,Str,Carbon;
 
-class  ReportTransactionExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSize
+class ReportTransactionExport implements FromCollection,WithMapping,WithHeadings,ShouldAutoSize
 {
     use Exportable;
 
@@ -46,19 +46,7 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
     public function map($value): array
     {
         return [
-            Helper::date_format($value->created_at),
-            $value->customer ? $value->customer->full_name : $value->customer_name,
-            $value->code,
-            $value->type ? Strtoupper($value->type->name) : "N/A",
-            $value->department ? $value->department->name : "N/A",
-            $value->type ? Strtoupper($value->type->accounts->code) : "N/A",
-            $value->type ? str::title($value->type->description) : "N/A",
-            Helper::money_format($value->processing_fee) ?: 0 ,
-            Str::upper($value->payment_status),
-            Helper::money_format($value->amount) ?: '---',
-            Str::upper($value->application_payment_status),
-            str::title($value->admin ? $value->admin->full_name : '---'),
-            $value->is_resent == 1 ? "RESENT" : $value->status,
+           
             
         ];
     }
