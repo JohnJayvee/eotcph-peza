@@ -207,7 +207,7 @@ class CustomerTransactionController extends Controller
 			return redirect()->back();
 		}
 
-		if($transaction->status == "PENDING" AND $prefix == "APP") {
+		if($transaction->is_validated == "0" AND $prefix == "APP") {
 			session()->flash('notification-status',"warning");
 			session()->flash('notification-msg', "The processor has not yet validated your application.");
 			return redirect()->back();
@@ -279,7 +279,7 @@ class CustomerTransactionController extends Controller
 			return redirect()->back();
 		}
 
-		if($transaction->status == "PENDING" AND $prefix == "APP") {
+		if($transaction->is_validated == "0" AND $prefix == "APP") {
 			session()->flash('notification-status',"warning");
 			session()->flash('notification-msg', "The processor has not yet validated your application.");
 			return redirect()->back();
