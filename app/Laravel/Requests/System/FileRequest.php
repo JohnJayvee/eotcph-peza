@@ -8,7 +8,7 @@ class FileRequest extends RequestManager{
 	public function rules(){
 		
 		foreach(range(1,count($this->get('name'))) as $index => $value){
-          $rules["document.{$index}"] = "required";
+          $rules["document.{$index}"] = "required|mimes:png,jpg,jpeg,pdf,xlsx";
           $rules["name.{$index}"] = "required";
         }
 

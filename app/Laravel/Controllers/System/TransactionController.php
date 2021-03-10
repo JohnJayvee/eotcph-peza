@@ -557,7 +557,12 @@ class TransactionController extends Controller{
 							$type = 'file';
 							$original_filename = $request->file('document.'.$key)->getClientOriginalName();
 							$upload_image = FileUploader::upload($request->file('document.'.$key), "uploads/documents/transaction/documents/{$transaction->code}");
-						} 
+						}
+						if($ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){ 
+							$type = 'image';
+							$original_filename = $request->file('file')->getClientOriginalName();
+							$upload_image = ImageUploader::upload($image, 'uploads/transaction/assessment/{$id}');
+						}
 						$new_file = new Document;
 						$new_file->transaction_id = $transaction->id;
 						$new_file->name = $image;

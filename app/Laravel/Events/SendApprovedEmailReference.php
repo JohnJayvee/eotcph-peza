@@ -33,7 +33,7 @@ class SendApprovedEmailReference extends Event {
 			$this->data['application_name'] = $value['application_name'];
 			$this->data['department_name'] = $value['department_name'];
 			$this->data['attachment_details'] = $value['attachment_details'];
-			$this->data['modified_at'] = $value['modified_at'];
+			$this->data['approved_at'] = $value['approved_at'];
 
 			Mail::send('emails.application-approved', $this->data, function($message) use ($mailname,$user_email){
 				$message->from('eotcph-noreply@ziaplex.biz');

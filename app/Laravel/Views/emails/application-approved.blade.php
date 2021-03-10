@@ -77,11 +77,7 @@
 			</tr>
 			<tr class="text-blue">
 				<th style="text-align: left;padding: 10px;">Date:</th>
-				<th style="text-align: right;">{{Str::title($modified_at)}}</th>
-			</tr>
-			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Payment Reference Number:</th>
-				<th style="text-align: right;">{{Str::title($ref_num)}}</th>
+				<th style="text-align: right;">{{Str::title($approved_at)}}</th>
 			</tr>
 			<tr>
 				<th colspan="2" style="border: none;padding-top: 20px;"><hr class="new2"></th>
