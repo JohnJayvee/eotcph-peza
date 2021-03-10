@@ -12,13 +12,14 @@ use App\Laravel\Requests\Web\UploadRequest;
 /*
  * Models
  */
-use App\Laravel\Models\{Transaction,Department,ZoneLocation,ApplicationRequirements,Application,TransactionRequirements,Document};
+use App\Laravel\Models\{Transaction,Department,ZoneLocation,ApplicationRequirements,Application,TransactionRequirements,Document,User};
 
 
 /* App Classes
  */
 use App\Laravel\Events\SendReference;
 use App\Laravel\Events\SendApplication;
+use App\Laravel\Events\SendProcessorApplication;
 use App\Laravel\Events\SendEorUrl;
 
 use Carbon,Auth,DB,Str,ImageUploader,Event,FileUploader,PDF,QrCode,Helper,Curl,Log;
@@ -48,12 +49,11 @@ class CustomerTransactionController extends Controller
 
 	public function store(TransactionRequest $request){
 
-
-		$temp_id = time();
-		$auth = Auth::guard('customer')->user();
-		
-		
 		DB::beginTransaction();
+		
+			$temp_id = time();
+			$auth = Auth::guard('customer')->user();
+		
 			$new_transaction = new Transaction;
 			$new_transaction->company_name = $request->get('company_name');
 			$new_transaction->email = $request->get('email');
@@ -131,6 +131,24 @@ class CustomerTransactionController extends Controller
 				    Event::dispatch('send-application', $application_data);
 				}
 			}
+
+			$processors = User::where('department_id', $request->get('department_id'))->where('type','processor')->get();
+
+			foreach ($processors as $key => $value) {
+				$insert[] = [
+		            'email' => $value->email,
+		            'full_name' => $new_transaction->customer->full_name,
+		            'company_name' => $new_transaction->company_name,
+		            'application_name' => $new_transaction->application_name,
+                	'department_name' => $new_transaction->department_name,
+		            'ref_code' => $new_transaction->code,
+		            'created_at' => Helper::date_only($new_transaction->created_at),
+		        ];	
+
+				$data = new SendProcessorApplication($insert);
+			    Event::dispatch('send-processor-application', $data);
+			}
+
 			if($new_transaction->processing_fee > 0){
 				return redirect()->route('web.pay', [$new_transaction->processing_fee_code]);
 			}
@@ -138,7 +156,7 @@ class CustomerTransactionController extends Controller
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg',' Thank you, we have received your application. Our processor in charge will process your application and will inform you of the status');
 			return redirect()->route('web.transaction.history');
-			
+		
 		
 		
 	}
