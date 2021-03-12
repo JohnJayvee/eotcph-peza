@@ -63,8 +63,8 @@
 				<th colspan="2" class="text-gray" style="padding: 10px;">Date: {{Helper::date_only(Carbon::now())}} | {{Helper::time_only(Carbon::now())}}</th>
 			</tr>
 			<tr>
-				<th colspan="2"><p style="float: left;text-align: justify;">Dear Processor, <p>
-					<p style="float: left;text-align: justify;">Good day. New application</p>
+				<th colspan="2"><p style="float: left;text-align: justify;">Good day, Processor! <p>
+					<p style="float: left;text-align: justify;">This is to inform you that you have received a new application. Below are the details:</p>
 				</th>
 			</tr>
 			<tr class="text-blue">
