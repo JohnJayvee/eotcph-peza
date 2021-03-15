@@ -36,7 +36,7 @@ class CustomerTransactionController extends Controller
 		$this->data['department'] = ['' => "Choose Peza Unit"] + Department::pluck('name', 'id')->toArray();
 		$this->data['zone_locations'] = ['' => "Choose Zone Location"] + ZoneLocation::pluck('ecozone', 'id')->toArray();
 
-		$this->data['applications'] = ['' => "Choose Application"] + Application::pluck('department_id', Auth::user()->department_id)->toArray();
+		
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
