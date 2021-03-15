@@ -108,7 +108,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="input_title">Type of Application</label>
-              {!!Form::select('application_id',$applications,old('application_id'),['id' => "input_application_id",'class' => "custom-select ".($errors->first('application_id') ? 'border-red' : NULL)])!!}
+              {!!Form::select('application_id',$zone_locations,old('application_id'),['id' => "input_application_id",'class' => "custom-select ".($errors->first('application_id') ? 'border-red' : NULL)])!!}
               @if($errors->first('application_id'))
               <p class="mt-1 text-danger">{!!$errors->first('application_id')!!}</p>
               @endif
@@ -118,7 +118,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="exampleInputEmail1" class="text-form">Processing Fee</label>
+              <label for="exampleInputEmail1" class="text-form">Pre-Processing Fee</label>
               <div class="input-group">
                 <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="processing_fee" id="input_processing_fee" value="{{old('processing_fee')}}" readonly>
                 <div class="input-group-append">
@@ -132,10 +132,15 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="input_title">Amount</label>
-              <input type="text" class="form-control {{$errors->first('amount') ? 'is-invalid' : NULL}}" id="input_amount" name="amount" placeholder="Amount" value="{{old('amount')}}">
-              @if($errors->first('amount'))
-              <p class="mt-1 text-danger">{!!$errors->first('amount')!!}</p>
+              <label for="exampleInputEmail1" class="text-form">Post-Processing Fee</label>
+              <div class="input-group">
+                <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('post_processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="post_processing_fee" id="input_post_processing_fee" value="{{old('post_processing_fee')}}" readonly>
+                <div class="input-group-append">
+                  <span class="input-group-text text-title fw-600">| <span class="text-gray pl-2 pr-2 pt-1"> .00</span></span>
+                </div>
+              </div>
+              @if($errors->first('post_processing_fee'))
+                  <small class="form-text pl-1" style="color:red;">{{$errors->first('post_processing_fee')}}</small>
               @endif
             </div>
           </div>
@@ -192,8 +197,10 @@
   $('#input_application_id').change(function() {
     var _text = $("#input_application_id option:selected").text();
     $.getJSON('/amount?type_id='+this.value, function(result){
-        amount = parseFloat(result.data)
-        $('#input_processing_fee').val(formatNumber(amount));
+        pre_processing_amount = parseFloat(result.data[0])
+        post_processing_amount = parseFloat(result.data[1])
+        $('#input_processing_fee').val(formatNumber(pre_processing_amount));
+        $('#input_post_processing_fee').val(formatNumber(post_processing_amount));
     });
     var application_id = $(this).val()
     $('#input_application_name').val(_text);

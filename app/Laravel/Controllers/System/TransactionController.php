@@ -390,8 +390,12 @@ class TransactionController extends Controller{
 			$new_transaction->status = "APPROVED";
 			$new_transaction->modified_at = Carbon::now();
 			$new_transaction->hereby_check = $request->get('hereby_check');
-			$new_transaction->amount = $request->get('amount');
-
+			$new_transaction->processing_fee = Helper::db_amount($request->get('processing_fee'));
+			$new_transaction->amount = Helper::db_amount($request->get('post_processing_fee'));
+			$total = $request->get('processing_fee') + $request->get('post_processing_fee');
+			$new_transaction->total_amount = Helper::db_amount($total);
+			$new_transaction->is_validated =  1;
+			$new_transaction->validated_at = Carbon::now();
 			$new_transaction->save();
 
 			$new_transaction->code = 'EOTC-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));

@@ -59,7 +59,7 @@ class MainController extends Controller{
 		$payment_amount = Application::find($id);
 		$response['msg'] = "List of Application";
 		$response['status_code'] = "TYPE_LIST";
-		$response['data'] = [$payment_amount->pre_processing_cost];
+		$response['data'] = [$payment_amount->pre_processing_cost,$payment_amount->post_processing_cost];
 		callback:
 		
 		return response()->json($response, 200);
