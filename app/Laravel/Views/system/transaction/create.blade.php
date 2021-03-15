@@ -108,7 +108,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="input_title">Type of Application</label>
-              {!!Form::select('application_id',$zone_locations,old('application_id'),['id' => "input_application_id",'class' => "custom-select ".($errors->first('application_id') ? 'border-red' : NULL)])!!}
+              {!!Form::select('application_id',$applications,old('application_id'),['id' => "input_application_id",'class' => "custom-select ".($errors->first('application_id') ? 'border-red' : NULL)])!!}
               @if($errors->first('application_id'))
               <p class="mt-1 text-danger">{!!$errors->first('application_id')!!}</p>
               @endif
