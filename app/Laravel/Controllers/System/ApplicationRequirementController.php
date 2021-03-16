@@ -35,9 +35,11 @@ class ApplicationRequirementController extends Controller
 
 		$this->data['keyword'] = Str::lower($request->get('keyword'));
 
+		$this->data['trim_keyword'] = addslashes($this->data['keyword']);
+
 		$this->data['application_requirements'] = ApplicationRequirements::orderBy('created_at',"DESC")->where(function($query){
-		if(strlen($this->data['keyword']) > 0){
-			return $query->WhereRaw("LOWER(name)  LIKE  '%{$this->data['keyword']}%'");
+		if(strlen($this->data['trim_keyword']) > 0){
+			return $query->WhereRaw("LOWER(name)  LIKE  '%{$this->data['trim_keyword']}%'");
 			}
 		})->paginate($this->per_page);
 		return view('system.application-requirements.index',$this->data);
