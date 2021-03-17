@@ -323,7 +323,9 @@ class CustomerTransactionController extends Controller
 				'cancel_url' => route('web.digipep.cancel',[$code]),
 				'return_url' => route('web.confirmation',[$code]),
 				'failed_url' => route('web.digipep.failed',[$code]),
-				'first_name' => $transaction->company_name,
+				'first_name' => $transaction->company_name ? $transaction->company_name : $transaction->customer->firstname,
+				'middle_name' => $transaction->company_name ? " " : $transaction->customer->middlename,
+				'last_name' => $transaction->company_name ? " " : $transaction->customer->lastname,
 				'contact_number' => $transaction->contact_number,
 				'email' => $transaction->email
 			]);  
