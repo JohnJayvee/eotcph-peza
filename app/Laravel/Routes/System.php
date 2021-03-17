@@ -103,6 +103,8 @@ Route::group(['as' => "auth."], function(){
 			Route::any('get-municipalities',['as' => "get_municipalities", 'uses' => "ZoneLocationController@get_municipalities"]);
 			Route::any('get-province',['as' => "get_provinces", 'uses' => "ZoneLocationController@get_provinces"]);
 			Route::any('get-region',['as' => "get_region", 'uses' => "ZoneLocationController@get_region"]);
+			Route::get('upload',['as' => "upload",'uses' => "ZoneLocationController@upload"]);
+			Route::post('upload',['uses' => "ZoneLocationController@upload_zone_location"]);
 			
 		});
 

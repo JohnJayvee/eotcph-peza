@@ -4,8 +4,8 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{route('system.dashboard')}}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{{route('system.department.index')}}">Peza Unit Management</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Add New Peza Unit</li>
+    <li class="breadcrumb-item"><a href="{{route('system.department.index')}}">Zone Location Management</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add New Zone Location</li>
   </ol>
 </nav>
 @stop
@@ -14,7 +14,7 @@
 <div class="col-md-8 grid-margin stretch-card">
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Peza Unit Create Form</h4>
+      <h4 class="card-title">Zone Location Create Form</h4>
       <form class="create-form" method="POST" enctype="multipart/form-data">
         @include('system._components.notifications')
         {!!csrf_field()!!}
@@ -26,10 +26,10 @@
               @endif
             </div>
 
-            <p class="help-block">Please download the <a href="{{asset('template/template.xlsx')}}"><strong>mass upload template(.xls) <i class="fa fa-download"></i> </strong></a> template to upload bulk Peza Unit.</p>
+            <p class="help-block">Please download the <a href="{{asset('template/zone-location-template.xlsx')}}"><strong>mass upload template(.xls) <i class="fa fa-download"></i> </strong></a> template to upload bulk Zone Location.</p>
 
         <button type="submit" class="btn btn-primary mr-2">Create Record</button>
-        <a href="{{route('system.department.index')}}" class="btn btn-light">Return to Peza Unit list</a>
+        <a href="{{route('system.zone_location.index')}}" class="btn btn-light">Return to Zone Location list</a>
       </form>
     </div>
   </div>

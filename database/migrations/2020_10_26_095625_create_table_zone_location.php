@@ -22,12 +22,9 @@ class CreateTableZoneLocation extends Migration
             $table->string('address')->nullable();
             $table->string('developer')->nullable();
             $table->string('city')->nullable();
-            $table->string('city_name')->nullable();
             $table->string('province')->nullable();
-            $table->string('province_name')->nullable();
-            $table->string('region_code')->nullable();
             $table->string('region')->nullable();
-            $table->string('region_name')->nullable();
+            $table->string('region_code')->nullable();
             $table->string('dev_comp_code')->nullable();
             $table->string('obo_cluster')->nullable();
             $table->string('income_cluster')->nullable();

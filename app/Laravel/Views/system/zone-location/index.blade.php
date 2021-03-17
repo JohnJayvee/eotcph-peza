@@ -39,6 +39,7 @@
   <div class="col-md-12">
     <h4 class="pb-4">Record Data
       <span class="float-right">
+        <a href="{{route('system.zone_location.upload')}}" class="btn btn-sm btn-primary">Bulk Upload</a>
         <a href="{{route('system.zone_location.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>

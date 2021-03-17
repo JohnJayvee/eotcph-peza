@@ -36,7 +36,7 @@ class ZoneLocation extends Model{
      *
      * @var array
      */
-    protected $fillable = ['code','ecozone','type','nature','address','developer','city','city_name','province','province_name','region','region_name','dev_comp_code','obo_cluster','income_cluster','serial','region_code'];
+    protected $fillable = ['code','ecozone','type','nature','address','developer','city','province','region','dev_comp_code','obo_cluster','income_cluster','serial','region_code'];
 
 
     /**

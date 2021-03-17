@@ -81,14 +81,11 @@
             </div>
           </div>
         </div>
-        <input type="hidden" class="form-control" name="region_name" id="input_region_name" value="{{old('region_name',$zone_location->region_name)}}">
-        <input type="hidden" class="form-control" name="province_name" id="input_province_name" value="{{old('province_name',$zone_location->province_name)}}">
-        <input type="hidden" class="form-control" name="city_name" id="input_city_name" value="{{old('city_name',$zone_location->city_name)}}">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="input_title">Region</label>
-               {!!Form::select('region',[],old('region',$zone_location->region),['id' => "input_region",'class' => "form-control ".($errors->first('region') ? 'border-red' : NULL)])!!}
+                <input type="text" class="form-control {{$errors->first('region') ? 'is-invalid' : NULL}}" id="input_region" name="region" placeholder="Region Code" value="{{old('region',$zone_location->region)}}">
                 @if($errors->first('region'))
                 <p class="mt-1 text-danger">{!!$errors->first('region')!!}</p>
                 @endif
@@ -108,7 +105,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="input_title">Province</label>
-              {!!Form::select('province',[],old('province',$zone_location->rovince),['id' => "input_province",'class' => "form-control ".($errors->first('city') ? 'border-red' : NULL)])!!}
+              <input type="text" class="form-control {{$errors->first('province') ? 'is-invalid' : NULL}}" id="input_province" name="province" placeholder="Province" value="{{old('province',$zone_location->province)}}">
               @if($errors->first('province'))
               <p class="mt-1 text-danger">{!!$errors->first('province')!!}</p>
               @endif
@@ -117,7 +114,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="input_title">City</label>
-              {!!Form::select('city',[],old('city'),['id' => "input_city",'class' => "form-control ".($errors->first('city') ? 'border-red' : NULL)])!!}
+              <input type="text" class="form-control {{$errors->first('city') ? 'is-invalid' : NULL}}" id="input_city" name="city" placeholder="City" value="{{old('city',$zone_location->city)}}">
               @if($errors->first('city'))
               <p class="mt-1 text-danger">{!!$errors->first('city')!!}</p>
               @endif
@@ -178,119 +175,4 @@
         border:solid 2px #dc3545 !important;
     }
 </style>
-@endsection
-@section('page-scripts')
-<script type="text/javascript">
-    $.fn.get_region = function(input_region,input_province,input_city,selected){
-    
-      $(input_province).empty().prop('disabled',true)
-      $(input_city).empty().prop('disabled',true)
-
-      $(input_region).append($('<option>', {
-                value: "",
-                text: "Loading Content..."
-            }));
-      $.getJSON("{{route('system.zone_location.get_region')}}", function( response ) {
-          $(input_region).empty().prop('disabled',true)
-          $.each(response.data,function(index,value){
-            $(input_region).append($('<option>', {
-                value: index,
-                text: value
-            }));
-          })
-
-          $(input_region).prop('disabled',false)
-          $(input_region).prepend($('<option>',{value : "",text : "--Select Region--"}))
-          if(selected.length > 0){
-            $(input_region).val($(input_region+" option[value="+selected+"]").val());
-          }else{
-            $(input_region).val($(input_region+" option:first").val());
-          }
-      });
-      // return result;
-    };
-
-   $.fn.get_province = function(reg_code,input_province,selected){
-      $(input_city).empty().prop('disabled',true)
-      $(input_province).append($('<option>', {
-            value: "",
-            text: "Loading Content..."
-        }));
-      $.getJSON("{{route('system.zone_location.get_provinces')}}?region_code="+reg_code, function( response ) {
-          $(input_province).empty().prop('disabled',true)
-          $.each(response.data,function(index,value){
-              $(input_province).append($('<option>', {
-                  value: index,
-                  text: value
-              }));
-          })
-
-          $(input_province).prop('disabled',false)
-          $(input_province).prepend($('<option>',{value : "",text : "--SELECT MUNICIPALITY/CITY, PROVINCE--"}))
-          if(selected.length > 0){
-            $(input_province).val($(input_province+" option[value="+selected+"]").val());
-          }else{
-            $(input_province).val($(input_province+" option:first").val());
-          }
-      });
-      // return result;
-    };
-
-    $.fn.get_city = function(prov_code,input_city,selected){
-      $(input_city).empty().prop('disabled',true)
-      $(input_city).append($('<option>', {
-            value: "",
-            text: "Loading Content..."
-        }));
-      $.getJSON("{{route('system.zone_location.get_municipalities')}}?province_code="+prov_code, function( response ) {
-          $(input_city).empty().prop('disabled',true)
-          $.each(response.data,function(index,value){
-              $(input_city).append($('<option>', {
-                  value: index,
-                  text: value
-              }));
-          })
-
-          $(input_city).prop('disabled',false)
-          $(input_city).prepend($('<option>',{value : "",text : "--SELECT MUNICIPALITY/CITY, PROVINCE--"}))
-          if(selected.length > 0){
-            $(input_city).val($(input_city+" option[value="+selected+"]").val());
-          }else{
-            $(input_city).val($(input_city+" option:first").val());
-          }
-      });
-      // return result;
-    };
-    $(function(){
-      $(this).get_region("#input_region","#input_province","#input_city","{{old('region')}}")
-      $("#input_region").on("change",function(){
-        var _val = $(this).val();
-        var _text = $("#input_region option:selected").text();
-        $(this).get_province($("#input_region").val(), "#input_province", "{{old('province')}}");
-        $('#input_region_name').val(_text);
-      });
-
-      $("#input_province").on("change",function(){
-        var _val = $(this).val();
-        var _text = $("#input_province option:selected").text();
-        $(this).get_city($("#input_province").val(), "#input_city", "{{old('city')}}");
-        $('#input_province_name').val(_text);
-      });
-        $(this).get_region("#input_region","#input_province","#input_city","{{old('region',$zone_location->region)}}")
-
-        @if(strlen(old('region')) > 0 || strlen($zone_location->region))
-          $(this).get_province("{{old('region',$zone_location->region)}}", "#input_province", "#input_city", "{{old('province',$zone_location->province)}}");
-        @endif
-
-        @if(strlen(old('province')) > 0 || strlen($zone_location->province))
-          $(this).get_city("{{old('province',$zone_location->province)}}", "#input_city", "{{old('city',$zone_location->city)}}");
-        @endif
-
-      $("#input_city").on("change",function(){
-        var _text = $("#input_city option:selected").text();
-        $('#input_city_name').val(_text);
-      });
-
-    });
-</script>
 @endsection

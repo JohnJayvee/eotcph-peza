@@ -28,7 +28,7 @@ class UpdateTableTransactionAddFieldsValidatedAtValidatedByApprovedAtApprovedBy 
     public function down()
     {
         Schema::table('transaction', function($table){
-            $table->dropColumn(['validated_at','validated_by','approved_at','approved_by','is_validated']);
+            $table->dropColumn(['is_validated','validated_at','approved_at']);
         });
     }
 }
