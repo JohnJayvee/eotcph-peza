@@ -27,7 +27,7 @@
                 @forelse($transactions as $transaction)
                 <tr class="text-center table-font">
                   <td>{{$transaction->company_name}}</th>
-                  <td>{{$transaction->type->name}}<br><a href="{{route('web.transaction.show',[$transaction->id])}}">{{$transaction->code}}</a></th>
+                  <td>{{$transaction->type ? $transaction->type->name : "---"}}<br><a href="{{route('web.transaction.show',[$transaction->id])}}">{{$transaction->code}}</a></th>
                   <td>
                     <div>{{$transaction->processing_fee_code ?: '- - -'}}</div>
                     <div>{{Helper::money_format($transaction->processing_fee ?: 0) }}</div>
@@ -39,8 +39,8 @@
                     </div>
                   </td>
                   <td>
-                    <div>{{$transaction->transaction_code ?: '- - -'}}</div>
-                    <div>{{$transaction->amount ?: '- - -'}}</div>
+                    <div>{{$transaction->transaction_code ?: '---'}}</div>
+                    <div>{{$transaction->amount ?: '---'}}</div>
                     <div>
                       <small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::upper($transaction->application_payment_status)}}</span></small>
                     </div>
