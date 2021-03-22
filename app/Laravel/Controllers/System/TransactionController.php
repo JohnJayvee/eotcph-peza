@@ -92,7 +92,6 @@ class TransactionController extends Controller{
 			$this->data['applications'] = ['' => "Choose Applications"] + Application::where('department_id',$request->get('department_id'))->pluck('name', 'id')->toArray();
 		}
 
-
 		$this->data['transactions'] = Transaction::where('status',"PENDING")->where('is_resent',0)->where(function($query){
 				if(strlen($this->data['keyword']) > 0){
 					return $query->WhereRaw("LOWER(company_name)  LIKE  '%{$this->data['keyword']}%'")
