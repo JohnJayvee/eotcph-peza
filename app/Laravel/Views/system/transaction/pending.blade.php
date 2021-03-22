@@ -86,13 +86,13 @@
             <td>{{ $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name}}/<br>{{str::title($transaction->company_name)}}</td>
             <td>{{ $transaction->department->name}}</td>
             <td>{{ $transaction->type ? Strtoupper($transaction->type->name) : "N/A"}}<br> {{$transaction->code}}</td>
-            <td>{{ $transaction->type ? $transaction->type->pre_process->code : "---"}}</td>
+            <td>{{ $transaction->type->pre_process ? $transaction->type->pre_process->code : "---"}}</td>
             <td>
               <div>{{Helper::money_format($transaction->processing_fee) ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small></div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->transaction_status)}} p-2 mt-1">{{Str::upper($transaction->transaction_status)}}</span></small></div>
             </td>
-            <td>{{ $transaction->type ? $transaction->type->post_process->code : "---"}}</td>
+            <td>{{ $transaction->type->post_process ? $transaction->type->post_process->code : "---"}}</td>
             <td>
               <div>{{Helper::money_format($transaction->amount) ?: '---'}}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::upper($transaction->application_payment_status)}}</span></small></div>

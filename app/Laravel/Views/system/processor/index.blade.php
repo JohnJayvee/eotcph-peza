@@ -55,7 +55,7 @@
       <table class="table table-striped table-wrap">
         <thead>
           <tr>
-            <th class="text-title p-3">Last Name</th>
+            <th class="text-title p-3">UserID</th>
             <th class="text-title p-3">Username</th>
             <th class="text-title p-3">Last Name</th>
             <th class="text-title p-3">First Name</th>

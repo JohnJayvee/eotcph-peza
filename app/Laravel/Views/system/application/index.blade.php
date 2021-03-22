@@ -67,9 +67,9 @@
             <td>{{ $application->name}}</td>
             <td>{{ $application->department ? Str::title($application->department->name) : "N/A"}}</td>
             <td>{{ $application->pre_process ? $application->pre_process->code : "N/A"}}</td>
-            <td>{{ $application->post_process ? "PHP ".helper::money_format($application->pre_process->default_cost) : "N/A"}}</td>
-             <td>{{ $application->post_process ? $application->post_process->code : "N/A"}}</td>
-            <td>{{ $application->post_process ? "PHP ".helper::money_format($application->post_process->default_cost) : "N/A"}}</td>
+            <td>{{ Helper::money_format($application->pre_processing_cost)}}</td>
+            <td>{{ $application->post_process ? $application->post_process->code : "N/A"}}</td>
+            <td>{{ Helper::money_format($application->post_processing_cost)}}</td>
             <td>{{ Helper::date_format($application->created_at)}}</th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>

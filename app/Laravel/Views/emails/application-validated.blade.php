@@ -54,7 +54,7 @@
 				<th colspan="2" class="primary" style="padding: 25px;">
 					<div id="pageElement">
 						<div style="float: left;color: #000;padding-left: 30px;">Thank You for using &nbsp;</div>
-					  	<div style="padding-right: 30px;"> <img src="{{asset('web/img/peza-epams-logo.png')}}" alt="" style="width: 130px;"> </div>
+					  	<div style="padding-right: 30px;"> <img src="{{asset('web/img/peza-eotcphp-logo.png')}}" alt="" style="width: 130px;"> </div>
 					</div>
 				</th>
 			</tr>
@@ -64,7 +64,7 @@
 			</tr>
 			<tr>
 				<th colspan="2"><p style="float: left;text-align: justify;">Hello {{Str::title($full_name)}}, <p>
-					<p style="float: left;text-align: justify;">Good day. We are pleased to inform you that your application has been validated by our processor and is now for payment.</p>
+					<p style="float: left;text-align: justify;">Good day. We are pleased to inform you that your application has been validated by our processor {{$amount > 0 " and is now for payment" : "."}}</p>
 				</th>
 			</tr>
 			

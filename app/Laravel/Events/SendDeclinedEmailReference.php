@@ -29,6 +29,8 @@ class SendDeclinedEmailReference extends Event {
 		foreach($this->data as $index =>$value){
 			$mailname = "Application Details";
 			$user_email = $value['email'];
+			$ref_num = $value['ref_num'];
+
 			$this->data['full_name'] = $value['full_name'];
 			$this->data['application_name'] = $value['application_name'];
 			$this->data['department_name'] = $value['department_name'];
@@ -37,10 +39,10 @@ class SendDeclinedEmailReference extends Event {
 			$this->data['modified_at'] = $value['modified_at'];
 			$this->data['remarks'] = $value['remarks'];
 
-			Mail::send('emails.application-declined', $this->data, function($message) use ($mailname,$user_email){
+			Mail::send('emails.application-declined', $this->data, function($message) use ($mailname,$user_email,$ref_num){
 				$message->from('eotcph-noreply@ziaplex.biz');
 				$message->to($user_email);
-				$message->subject("Application Details");
+				$message->subject("Application Denied: Reference Code: " .$ref_num);
 			});
 		}
 

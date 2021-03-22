@@ -29,16 +29,17 @@ class SendApprovedEmailReference extends Event {
 		foreach($this->data as $index =>$value){
 			$mailname = "Application Details";
 			$user_email = $value['email'];
+			$ref_num = $value['ref_num'];
 			$this->data['full_name'] = $value['full_name'];
 			$this->data['application_name'] = $value['application_name'];
 			$this->data['department_name'] = $value['department_name'];
 			$this->data['attachment_details'] = $value['attachment_details'];
 			$this->data['approved_at'] = $value['approved_at'];
 
-			Mail::send('emails.application-approved', $this->data, function($message) use ($mailname,$user_email){
+			Mail::send('emails.application-approved', $this->data, function($message) use ($mailname,$user_email,$ref_num){
 				$message->from('eotcph-noreply@ziaplex.biz');
 				$message->to($user_email);
-				$message->subject("Application Details");
+				$message->subject("Payment Successful. Reference Code: " . $ref_num);
 			});
 		}
 

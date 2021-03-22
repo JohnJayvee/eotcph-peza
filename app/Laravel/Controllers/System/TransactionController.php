@@ -445,34 +445,40 @@ class TransactionController extends Controller{
 				session()->flash('notification-msg', "Invalid , Application Type has no Post Processing Cost.");
 				return redirect()->route('system.transaction.show',[$transaction->id]);
 			}
+			if ($transaction->type->post_processing_cost == 0) {
+				$transaction->application_payment_status = "PAID";
+				$transaction->application_transaction_status = "COMPLETED";
+				$transaction->is_validated =  1;
+				$transaction->save();
+			}else{
+				$transaction->is_validated =  1;
+				$transaction->amount = $transaction->type->post_processing_cost;
+				$transaction->total_amount = $transaction->type->post_processing_cost + $transaction->processing_fee;
+				$transaction->remarks = $request->get('remarks');
+				$transaction->processor_user_id = Auth::user()->id;
+				$transaction->validated_at = Carbon::now();
+				$transaction->save();
 
-			$transaction->is_validated =  1;
-			$transaction->amount = $transaction->type->post_processing_cost;
-			$transaction->total_amount = $transaction->type->post_processing_cost + $transaction->processing_fee;
-			$transaction->remarks = $request->get('remarks');
-			$transaction->processor_user_id = Auth::user()->id;
-			$transaction->validated_at = Carbon::now();
-			$transaction->save();
+				$insert[] = [
+	            	'contact_number' => $transaction->contact_number,
+	            	'email' => $transaction->email,
+	                'ref_num' => $transaction->transaction_code,
+	                'amount' => $transaction->amount,
+	                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
+	                'application_name' => $transaction->application_name,
+	                'department_name' => $transaction->department_name,
+	                'modified_at' => Helper::date_only($transaction->validated_at)
+	        	];	
 
+				/*$notification_data = new SendApprovedReference($insert);
+			    Event::dispatch('send-sms-approved', $notification_data);*/
 
+			    $notification_data_email = new SendValidatedEmailReference($insert);
+			    Event::dispatch('send-email-validated', $notification_data_email);
+			}
+			
 			$requirements = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"pending")->update(['status' => "APPROVED"]);
-			$insert[] = [
-            	'contact_number' => $transaction->contact_number,
-            	'email' => $transaction->email,
-                'ref_num' => $transaction->transaction_code,
-                'amount' => $transaction->amount,
-                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
-                'application_name' => $transaction->application_name,
-                'department_name' => $transaction->department_name,
-                'modified_at' => Helper::date_only($transaction->validated_at)
-        	];	
-
-			/*$notification_data = new SendApprovedReference($insert);
-		    Event::dispatch('send-sms-approved', $notification_data);*/
-
-		    $notification_data_email = new SendValidatedEmailReference($insert);
-		    Event::dispatch('send-email-validated', $notification_data_email);
-		
+			
 			DB::commit();
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg', "Transaction has been successfully Processed.");
@@ -581,6 +587,7 @@ class TransactionController extends Controller{
 			}
 			$attachments = Document::where('transaction_id', $transaction->id)->get();
 			$insert[] = [
+				'ref_num' => $transaction->transaction_code,
             	'contact_number' => $transaction->contact_number,
             	'email' => $transaction->email,
                 'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,

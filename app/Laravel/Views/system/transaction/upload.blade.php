@@ -15,7 +15,7 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title mb-3">Transaction Upload Form</h4>
-      <form class="create-form" method="POST" enctype="multipart/form-data">
+      <form class="create-form" method="POST" enctype="multipart/form-data" id="upload_form">
         @include('system._components.notifications')
         {!!csrf_field()!!}
         <div class="row">
@@ -60,7 +60,7 @@
           </div>
           @endforeach
         </div>
-        <button type="submit" class="btn btn-primary mr-2">Create Record</button>
+        <a href="#" class="btn btn-primary mr-2 btn-submit">Finalize</a>
         <a href="{{route('system.transaction.show',[$transaction->id])}}" class="btn btn-light">Return to Transaction</a>
       </form>
     </div>
@@ -69,6 +69,7 @@
 @stop
 
 @section('page-styles')
+<link rel="stylesheet" href="{{asset('system/vendors/sweet-alert2/sweetalert2.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('system/vendors/select2/select2.min.css')}}"/>
 <style type="text/css">
   .is-invalid{
@@ -87,6 +88,8 @@
 </style>
 @endsection
 @section('page-scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{{asset('system/vendors/sweet-alert2/sweetalert2.min.js')}}"></script>
 <script src="{{asset('system/vendors/select2/select2.min.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 
@@ -103,6 +106,21 @@
         var main_holder = $(this).parents(".row").parent();
 
     $("#repeat_form").append(repeat_item).find("div[class^=col]:last").parent().append('<div class="col-md-2"><a style="margin-top: 28px;" class="btn btn-danger btn-remove text-white">Remove</a></div>').find(".service-input").val('')
+    });
+
+    $(".btn-submit").on('click', function(){
+      var form = $(this).parents('form');
+      Swal.fire({
+        title: 'Once you finalized this application, the client will be notified.  Do you want to proceed? ',
+        text: "You can't undo this action.",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: `Proceed`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        }
+      });
     });
 </script>
 
