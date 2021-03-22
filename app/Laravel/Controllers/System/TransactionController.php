@@ -447,6 +447,8 @@ class TransactionController extends Controller{
 			if ($transaction->type->post_processing_cost == 0) {
 				$transaction->application_payment_status = "PAID";
 				$transaction->application_transaction_status = "COMPLETED";
+				$transaction->amount = Helper::db_amount($transaction->type->post_processing_cost);
+				$transaction->total_amount = 0.00;
 				$transaction->is_validated =  1;
 				$transaction->save();
 			}else{
