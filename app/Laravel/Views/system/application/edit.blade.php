@@ -48,7 +48,7 @@
         </div>
         <div class="form-group">
           <label for="input_pre_processing_cost">Pre-Processing Cost <code style="font-size: 12px;"><i>Note: Input 0 If there is no processing Fee</i></code></label>
-          <input type="text" class="form-control {{$errors->first('pre_processing_cost') ? 'is-invalid' : NULL}}" id="input_pre_processing_cost" name="pre_processing_cost" placeholder="Pre-Processing Cost" value="{{old('pre_processing_cost',$application->pre_processing_cost)}}">
+          <input type="number" class="form-control {{$errors->first('pre_processing_cost') ? 'is-invalid' : NULL}}" id="input_pre_processing_cost" name="pre_processing_cost" placeholder="Pre-Processing Cost" value="{{old('pre_processing_cost',$application->pre_processing_cost)}}">
           @if($errors->first('pre_processing_cost'))
           <p class="mt-1 text-danger">{!!$errors->first('pre_processing_cost')!!}</p>
           @endif
@@ -69,7 +69,7 @@
         </div>
         <div class="form-group">
           <label for="input_post_processing_cost">Post-Processing Cost <code style="font-size: 12px;"><i>Note: Input 0 If there is no processing Fee</i></code></label>
-          <input type="text" class="form-control {{$errors->first('post_processing_cost') ? 'is-invalid' : NULL}}" id="input_post_processing_cost" name="post_processing_cost" placeholder="Post-Processing Cost" value="{{old('post_processing_cost',$application->post_processing_cost)}}">
+          <input type="number" class="form-control {{$errors->first('post_processing_cost') ? 'is-invalid' : NULL}}" id="input_post_processing_cost" name="post_processing_cost" placeholder="Post-Processing Cost" value="{{old('post_processing_cost',$application->post_processing_cost)}}">
           @if($errors->first('post_processing_cost'))
           <p class="mt-1 text-danger">{!!$errors->first('post_processing_cost')!!}</p>
           @endif
