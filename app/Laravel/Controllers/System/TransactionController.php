@@ -362,7 +362,6 @@ class TransactionController extends Controller{
 	}
 
 	public function store(ProcessorTransactionRequest $request){
-
 			$full_name = $request->get('firstname') ." ". $request->get("middlename") ." ". $request->get('lastname');
 
 			$new_transaction = new Transaction;
@@ -390,7 +389,7 @@ class TransactionController extends Controller{
 			$new_transaction->hereby_check = $request->get('hereby_check');
 			$new_transaction->processing_fee = Helper::db_amount($request->get('processing_fee'));
 			$new_transaction->amount = Helper::db_amount($request->get('post_processing_fee'));
-			$total = $request->get('processing_fee') + $request->get('post_processing_fee');
+			$total = $request->get('processing_fee') ?: 0 + $request->get('post_processing_fee') ?: 0;
 			$new_transaction->total_amount = Helper::db_amount($total);
 			$new_transaction->is_validated =  1;
 			$new_transaction->validated_at = Carbon::now();
@@ -411,9 +410,9 @@ class TransactionController extends Controller{
 				'email' => $new_transaction->email,
             	'contact_number' => $new_transaction->contact_number,
                 'ref_num' => $new_transaction->processing_fee_code,
-                'amount' => $new_transaction->amount,
-                'transaction_code' => $new_transaction->transaction_code,
                 'processing_fee' => $new_transaction->processing_fee,
+                'transaction_code' => $new_transaction->transaction_code,
+                'amount' => $new_transaction->amount,
                 'full_name' => $new_transaction->customer_name,
                 'application_name' => $new_transaction->application_name,
                 'department_name' => $new_transaction->department_name,
@@ -430,7 +429,7 @@ class TransactionController extends Controller{
 
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg','Application was successfully submitted.');
-			return redirect()->route('system.transaction.approved');
+			return redirect()->route('system.transaction.pending');
 	}
 
 	public function validate_transaction($id = NULL,PageRequest $request){

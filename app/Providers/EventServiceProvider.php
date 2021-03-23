@@ -64,6 +64,9 @@ class EventServiceProvider extends ServiceProvider
         'send-processor-application' => [
             'App\Laravel\Listeners\SendProcessorApplicationListener'
         ],
+        'send-pre-processor' => [
+            'App\Laravel\Listeners\SendPreProcessListener'
+        ],
 
     ];
 

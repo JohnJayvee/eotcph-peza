@@ -64,7 +64,8 @@
 			</tr>
 			<tr>
 				<th colspan="2"><p style="float: left;text-align: justify;">Hello {{Str::title($full_name)}}, <p>
-					<p style="float: left;text-align: justify;">Good day. We are pleased to inform you that your application has been approved by our processor and is now for payment.</p>
+					<p style="float: left;text-align: justify;">Good day. We have received your application and is now for validation of our processor.
+					 {{$amount > 0 ? " and is now for payment" : "."}}</p>
 				</th>
 			</tr>
 			
@@ -78,43 +79,18 @@
 			</tr>
 			<tr class="text-blue">
 				<th style="text-align: left;padding: 10px;">Date:</th>
-				<th style="text-align: right;">{{Str::title($created_at)}}</th>
-			</tr>
-			<tr>
-				<th colspan="2" style="border: none;padding-top: 20px;"><hr class="new2"></th>
-			</tr>
-			<tr>
-				<th  style="text-align: left;padding: 10px;"><p>Pre-Processing Details<p></th>
-			</tr>
-			@if($processing_fee > 0)
-			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Pre-Processing Reference Number:</th>
-				<th style="text-align: right;">{{$ref_num}}</th>
-			</tr>
-			@endif
-			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Pre-Processing Cost:</th>
-				<th style="text-align: right;">{{$processing_fee}}</th>
-			</tr>
-			<tr>
-				<th colspan="2" style="border: none;padding-top: 20px;"><hr class="new2"></th>
-			</tr>
-			<tr>
-				<th style="text-align: left;padding: 10px;"><p>Post-Processing Details<p></th>
+				<th style="text-align: right;">{{Helper::date_only($created_at)}}</th>
 			</tr>
 			@if($amount > 0)
 			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Post-Processing Reference Number:</th>
-				<th style="text-align: right;">{{$transaction_code}}</th>
+				<th style="text-align: left;padding: 10px;">Pre-Process Cost:</th>
+				<th style="text-align: right;">{{Helper::money_format($amount)}}</th>
+			</tr>
+			<tr class="text-blue">
+				<th style="text-align: left;padding: 10px;">Pre-Process Reference Number:</th>
+				<th style="text-align: right;">{{$ref_num}}</th>
 			</tr>
 			@endif
-			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Post-Processing Cost:</th>
-				<th style="text-align: right;">{{$amount}}</th>
-			</tr>
-			<tr>
-				<th colspan="2" style="border: none;padding-top: 20px;"><hr class="new2"></th>
-			</tr>
 			<tr>
 				<th colspan="2">
 					<p style="float: left;text-align: justify;">Please visit the <a href="{{env('APP_URL')}}">{{env("APP_URL")}}</a> and input the payment reference number to the E-Payment section to pay. This payment reference number will expire at 11:59 PM. You can pay via online(Debit/Credit card, e-wallet, etc.) or over-the-counter (7Eleven, Bayad Center, Cebuana Lhuillier, and to other affiliated partners)</p><br>

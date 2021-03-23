@@ -30,7 +30,7 @@
               <p class="text-title fw-600 m-0">Processor Status: <span class="badge badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::title($transaction->status)}}</span></p>
             </div>
             <div class="col-md-6">
-              <p class="text-title fw-600 m-0">Deparatment/Agency: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
+              <p class="text-title fw-600 m-0">Peza Unit: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
               <p class="text-title fw-600 m-0">Contact Number: <span class="text-black">+63{{$transaction->contact_number}}</span></p>
               @if($transaction->status == "DECLINED")
                 <p class="text-title fw-600 m-0">Remarks: <span class="text-black">{{$transaction->remarks}}</span></p>
@@ -38,15 +38,15 @@
             </div>
 
             <div class="col-md-6 mt-4">
-              <p class="text-title fw-600 m-0">Transaction Details:</span></p>
+              <p class="text-title fw-600 m-0">Pre-Processing Details:</p>
               <p class="text-title fw-600 m-0">Status: <span class="badge  badge-{{Helper::status_badge($transaction->transaction_status)}} p-2">{{Str::title($transaction->transaction_status)}}</span></p>
-              <p class="fw-600 m-0" style="color: #DC3C3B;">Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}} [{{$transaction->processing_fee_code}}]</p>
+              <p class="fw-600 m-0" style="color: #DC3C3B;">Pre-Processing Fee: Php {{Helper::money_format($transaction->processing_fee)}} [{{$transaction->processing_fee_code}}]</p>
               <p class="text-title fw-600 m-0">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::title($transaction->payment_status)}}</span></p>
             </div>
             <div class="col-md-6 mt-4">
-              <p class="text-title fw-600 m-0">Application Details:</span></p>
+              <p class="text-title fw-600 m-0">Post-Processing Details:</p>
               <p class="text-title fw-600 m-0">Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_transaction_status)}} p-2">{{Str::title($transaction->application_transaction_status)}}</span></p>
-              <p class="fw-600 m-0" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->amount ? $transaction->amount : "0.00")}} [{{$transaction->transaction_code}}]</p>
+              <p class="fw-600 m-0" style="color: #DC3C3B;">Post-Processing Fee: Php {{Helper::money_format($transaction->amount ? $transaction->amount : "0.00")}} [{{$transaction->transaction_status == "COMPELTED" ? $transaction->transaction_code:"N/A"}}]</p>
               <p class="text-title fw-600 m-0">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::title($transaction->application_payment_status)}}</span></p>
             </div>
 

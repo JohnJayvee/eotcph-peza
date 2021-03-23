@@ -21,6 +21,8 @@ use App\Laravel\Events\SendReference;
 use App\Laravel\Events\SendApplication;
 use App\Laravel\Events\SendProcessorApplication;
 use App\Laravel\Events\SendEorUrl;
+use App\Laravel\Events\SendPreProcessEmail;
+
 
 use Carbon,Auth,DB,Str,ImageUploader,Event,FileUploader,PDF,QrCode,Helper,Curl,Log;
 
@@ -151,6 +153,20 @@ class CustomerTransactionController extends Controller
 				$data = new SendProcessorApplication($insert);
 			    Event::dispatch('send-processor-application', $data);
 			}
+
+			$insert_pre_process[] = [
+	            'email' => $new_transaction->email,
+	            'full_name' => $new_transaction->customer->full_name,
+	            'company_name' => $new_transaction->company_name,
+	            'application_name' => $new_transaction->application_name,
+            	'department_name' => $new_transaction->department_name,
+	            'ref_num' => $new_transaction->processing_fee_code,
+	            'amount' => $new_transaction->processing_fee,
+	            'created_at' => Helper::date_only($new_transaction->created_at),
+	        ];	
+
+			$data_pre_process = new SendPreProcessEmail($insert_pre_process);
+		    Event::dispatch('send-pre-processor', $data_pre_process);
 
 			if($new_transaction->processing_fee > 0){
 				return redirect()->route('web.pay', [$new_transaction->processing_fee_code]);

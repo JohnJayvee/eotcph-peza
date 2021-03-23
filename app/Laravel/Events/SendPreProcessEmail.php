@@ -4,7 +4,7 @@ namespace App\Laravel\Events;
 use Illuminate\Queue\SerializesModels;
 use Mail,Str,Helper,Carbon;
 
-class SendApplication extends Event {
+class SendPreProcessEmail extends Event {
 
 
 	use SerializesModels;
@@ -30,17 +30,17 @@ class SendApplication extends Event {
 			$mailname = "Application Details";
 			$user_email = $value['email'];
 			$ref_num = $value['ref_num'];
-
 			$this->data['full_name'] = $value['full_name'];
-			$this->data['department_name'] = $value['department_name'];
 			$this->data['application_name'] = $value['application_name'];
+			$this->data['department_name'] = $value['department_name'];
+			$this->data['amount'] = $value['amount'];
 			$this->data['ref_num'] = $value['ref_num'];
 			$this->data['created_at'] = $value['created_at'];
-			$this->data['link'] = $value['link'];
-			Mail::send('emails.application', $this->data, function($message) use ($mailname,$user_email,$ref_num){
+
+			Mail::send('emails.pre-process', $this->data, function($message) use ($mailname,$user_email,$ref_num){
 				$message->from('eotcph-noreply@ziaplex.biz');
 				$message->to($user_email);
-				$message->subject("Application Details. Reference Number: ".$ref_num);
+				$message->subject("Pre-Process Details. Reference Code: " .$ref_num);
 			});
 		}
 

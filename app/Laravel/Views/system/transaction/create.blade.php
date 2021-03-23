@@ -120,7 +120,7 @@
             <div class="form-group">
               <label for="exampleInputEmail1" class="text-form">Pre-Processing Fee</label>
               <div class="input-group">
-                <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="processing_fee" id="input_processing_fee" value="{{old('processing_fee')}}" readonly>
+                <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="processing_fee" id="input_processing_fee" value="{{old('processing_fee')}}">
                 <div class="input-group-append">
                   <span class="input-group-text text-title fw-600">| <span class="text-gray pl-2 pr-2 pt-1"> .00</span></span>
                 </div>
@@ -134,7 +134,7 @@
             <div class="form-group">
               <label for="exampleInputEmail1" class="text-form">Post-Processing Fee</label>
               <div class="input-group">
-                <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('post_processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="post_processing_fee" id="input_post_processing_fee" value="{{old('post_processing_fee')}}" readonly>
+                <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('post_processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="post_processing_fee" id="input_post_processing_fee" value="{{old('post_processing_fee')}}">
                 <div class="input-group-append">
                   <span class="input-group-text text-title fw-600">| <span class="text-gray pl-2 pr-2 pt-1"> .00</span></span>
                 </div>
