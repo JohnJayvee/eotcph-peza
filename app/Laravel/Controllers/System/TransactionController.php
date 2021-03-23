@@ -393,7 +393,7 @@ class TransactionController extends Controller{
 			$new_transaction->amount = Helper::db_amount($request->get('post_processing_fee'));
 			$total = $request->get('processing_fee') ?: 0 + $request->get('post_processing_fee') ?: 0;
 			$new_transaction->total_amount = Helper::db_amount($total);
-			$new_transaction->is_validated =  1;
+			$new_transaction->is_validated =  $request->get('processing_fee') > 0 ? 0 : 1;
 			$new_transaction->validated_at = Carbon::now();
 			$new_transaction->save();
 
