@@ -382,6 +382,8 @@ class TransactionController extends Controller{
 			$new_transaction->zone_name = $request->get('zone_name');
 			$new_transaction->payment_status = $request->get('processing_fee') > 0 ? "UNPAID" : "PAID";
 			$new_transaction->transaction_status = $request->get('processing_fee') > 0 ? "PENDING" : "COMPLETED";
+			$new_transaction->application_payment_status = $request->get('post_processing_fee') > 0 ? "UNPAID" : "PAID";
+			$new_transaction->application_transaction_status = $request->get('post_processing_fee') > 0 ? "PENDING" : "COMPLETED";
 			$new_transaction->processor_user_id = Auth::user()->id;
 			$new_transaction->requirements_id = implode(",", $request->get('requirements_id'));
 			$new_transaction->process_by = "processor";
