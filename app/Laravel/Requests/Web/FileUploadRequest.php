@@ -4,11 +4,10 @@ use Session,Auth;
 use App\Laravel\Requests\RequestManager;
 use App\Laravel\Models\ApplicationRequirements;
 
-class UploadRequest extends RequestManager{
+class FileUploadRequest extends RequestManager{
 
 	public function rules(){
 
-		$id = $this->route('id')?:0;
 		
 
 		$required = ApplicationRequirements::whereIn('id',$this->get('requirements_id'))->get();
@@ -23,10 +22,8 @@ class UploadRequest extends RequestManager{
 	public function messages(){
 		return [
 			'required'	=> "Field is required.",
-			'file.required'	=> "No File Uploaded.",
-			'file.*' => 'Only PDF File are allowed.',
-			'mimes' => 'The file Failed to upload.'
-			'max' => "Maximum file size to upload is 8MB (8192 KB)."
+			'contact_number.phone' => "Please provide a valid PH mobile number.",
+			'password_format' => "Password must be 6-20 alphanumeric and some allowed special characters only.",
 		];
 	}
 }

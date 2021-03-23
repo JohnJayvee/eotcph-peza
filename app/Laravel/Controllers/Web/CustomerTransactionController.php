@@ -7,7 +7,7 @@ namespace App\Laravel\Controllers\Web;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\Web\TransactionRequest;
-use App\Laravel\Requests\Web\UploadRequest;
+use App\Laravel\Requests\Web\FileUploadRequest;
 
 /*
  * Models
@@ -388,7 +388,7 @@ class CustomerTransactionController extends Controller
 		return view('web.page.upload', $this->data);
 	}
 
-	public function store_documents(UploadRequest $request , $code = NULL){
+	public function store_documents(FileUploadRequest $request , $code = NULL){
 		$code = $request->has('code') ? $request->get('code') : $code;
 		$transaction = Transaction::where('code', $code)->first();
 		
