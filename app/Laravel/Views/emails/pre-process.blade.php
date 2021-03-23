@@ -64,7 +64,7 @@
 			</tr>
 			<tr>
 				<th colspan="2"><p style="float: left;text-align: justify;">Hello {{Str::title($full_name)}}, <p>
-					<p style="float: left;text-align: justify;">Good day. We have received your application and is now for validation of our processor.
+					<p style="float: left;text-align: justify;">Good day. We have received your application and is now for validation of our processor
 					 {{$amount > 0 ? " and is now for payment" : "."}}</p>
 				</th>
 			</tr>
