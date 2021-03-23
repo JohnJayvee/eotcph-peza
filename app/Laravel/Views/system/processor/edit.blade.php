@@ -111,10 +111,10 @@
               <span class="input-group-text" id="basic-addon3" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">+63</span>
             </div>
             <input type="text" class="form-control {{$errors->first('contact_number') ? 'is-invalid' : NULL}}" id="input_contact_number" name="contact_number" placeholder="Contact Number" value="{{old('contact_number',$processor->contact_number)}}">
-            @if($errors->first('contact_number'))
-            <p class="mt-1 text-danger">{!!$errors->first('contact_number')!!}</p>
-            @endif
           </div>
+          @if($errors->first('contact_number'))
+            <p class="mt-1 text-danger">{!!$errors->first('contact_number')!!}</p>
+          @endif
         </div>
 
         <button type="submit" class="btn btn-primary mr-2">Update Record</button>
