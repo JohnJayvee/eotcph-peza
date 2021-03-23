@@ -24,6 +24,7 @@ class FileUploadRequest extends RequestManager{
 			'required'	=> "Field is required.",
 			'contact_number.phone' => "Please provide a valid PH mobile number.",
 			'password_format' => "Password must be 6-20 alphanumeric and some allowed special characters only.",
+			'max' => "Maximum file size to upload is 8MB (8192 KB).",
 		];
 	}
 }

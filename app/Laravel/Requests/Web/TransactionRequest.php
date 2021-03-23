@@ -22,7 +22,7 @@ class TransactionRequest extends RequestManager{
 			//'partial_amount' => "nullable|minimum_amount:application_id,partial_amount",
 			'zone_id' => "required",
 			'contact_number' => "required|max:10|phone:PH",
-    		'file.*' => 'required|mimes:pdf,docx,doc|max:204800',
+    		'file.*' => 'required|mimes:pdf,docx,doc|max:8192',
 		];
 
 		$required = ApplicationRequirements::whereIn('id',explode(",", $this->get('requirements_id')))->where('is_required',"yes")->get();
@@ -45,6 +45,7 @@ class TransactionRequest extends RequestManager{
 			'file.*' => 'Only PDF File are allowed.',
 			'file_count.with_count' => 'Please Submit minimum requirements.',
 			'mimes' => 'The file Failed to upload.',
+			'max' => "Maximum file size to upload is 8MB (8192 KB).",
 		];
 
 	}

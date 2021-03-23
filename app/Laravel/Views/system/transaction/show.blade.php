@@ -199,8 +199,8 @@
       var url = $(this).data('url');
       var self = $(this)
       Swal.fire({
-        title: 'Are you sure you want to approve and finalize this application??',
-        text: "You can't undo this action.?",
+        title: 'Are you sure you want to approve and finalize this application?',
+        text: "You can't undo this action.",
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: `Proceed`,
