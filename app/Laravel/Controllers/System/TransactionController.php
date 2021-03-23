@@ -503,7 +503,6 @@ class TransactionController extends Controller{
 				session()->flash('notification-msg', "Invalid , Application Type has no Post Processing Cost.");
 				return redirect()->route('system.transaction.show',[$transaction->id]);
 			}
-			dd($request->get('remarks'));
 			$transaction->status = "DECLINED";
 			$transaction->remarks = $request->get('remarks');
 			$transaction->processor_user_id = Auth::user()->id;

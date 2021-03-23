@@ -80,7 +80,7 @@
 				<th style="text-align: right;">{{Str::title($application_name)}}</th>
 			</tr>
 			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Department Name:</th>
+				<th style="text-align: left;padding: 10px;">Peza Unit:</th>
 				<th style="text-align: right;">{{Str::title($department_name)}}</th>
 			</tr>
 			<tr class="text-blue">
