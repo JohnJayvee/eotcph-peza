@@ -199,8 +199,8 @@
       var url = $(this).data('url');
       var self = $(this)
       Swal.fire({
-        title: 'All the submitted requirements will be marked as approved. Are you sure you want to validate this application?',
-        text: "You will not be able to undo this action, proceed?",
+        title: 'Are you sure you want to approve and finalize this application??',
+        text: "You can't undo this action.?",
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: `Proceed`,
