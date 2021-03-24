@@ -98,6 +98,8 @@ class DigipepController extends Controller
 					$transaction->payment_status  = "PAID";
 					$transaction->transaction_status  = "COMPLETED";
 					$transaction->eor_url = $response->eorUrl;
+					$transaction->is_validated = $transaction->process_by == "processor" ? 1 : 0;
+
 					// $convenience_fee = $response->payment->convenienceFee;
 					// $transaction->convenience_fee = $convenience_fee; 
 					// $transaction->total_amount = $transaction->processing_fee + $convenience_fee;

@@ -132,15 +132,14 @@
         </div>
       </div>  
     @endif
-    @if(Auth::user()->type != "super_user")
+    
       @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->transaction_status == "COMPLETED" AND $transaction->is_validated == 0)
-        <a data-url="{{route('system.transaction.validate',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Validate Transaction</a>
+        <a data-url="{{route('system.transaction.validate',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-validate border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Validate Transaction</a>
         <a  data-url="{{route('system.transaction.declined',[$transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transaction</a>
       @endif
       @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->application_transaction_status == "COMPLETED" AND $transaction->is_validated == 1)
         <a data-url="{{route('system.transaction.upload',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Appprove Transaction</a>
       @endif
-    @endif
   </div>
   
 </div>
@@ -192,6 +191,27 @@
         }
         if (result.value) {
           window.location.href = url + "?remarks="+result.value;
+        }
+      });
+    });
+    $(".btn-validate").on('click', function(){
+      var url = $(this).data('url');
+      var self = $(this)
+      Swal.fire({
+        title: "Are you sure you want to approve and finalize this application?",
+        icon: 'warning',
+        input: 'text',
+        inputPlaceholder: "Put Amount",
+        showCancelButton: true,
+        confirmButtonText: 'Validate',
+        cancelButtonColor: '#d33'
+      }).then((result) => {
+        if (result.value === "") {
+          alert("You need to write something")
+          return false
+        }
+        if (result.value) {
+          window.location.href = url + "?penalty="+result.value;
         }
       });
     });

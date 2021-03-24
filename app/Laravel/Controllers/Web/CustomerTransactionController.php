@@ -183,7 +183,7 @@ class CustomerTransactionController extends Controller
 		$auth_id = Auth::guard('customer')->user()->id;
 
 		$this->data['transactions'] = Transaction::where('customer_id', $auth_id)->orderBy('created_at',"DESC")->get();
-		$this->data['page_title'] = "Application history";
+		$this->data['page_title'] = "Transaction History";
 		return view('web.transaction.history',$this->data);
 
 	}

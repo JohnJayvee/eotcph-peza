@@ -32,7 +32,11 @@
                             </div>
                         </form>
                     </div>
-
+                     <div class="col-lg-12">
+                        <div class="col-lg-12 pt-2">
+                           <a href="{{route('web.transaction.history')}}" class="btn btn-white" type="submit"> TRANSACTION HISTORY</a>
+                        </div>
+                    </div>
                     <div class="col-lg-12">
                          <div class="col-lg-12 pt-4">
                             <h5 style="letter-spacing: 3px;"><i class="fa fa-calculator"></i> E<span class="font-weight-lighter">PAYMENT</span></h5>

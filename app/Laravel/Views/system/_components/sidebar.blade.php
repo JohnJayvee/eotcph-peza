@@ -52,11 +52,11 @@
             @endif -->
           </a></li>
         </ul>
-        @if(in_array($auth->type,['processor']))
+        <!-- @if(in_array($auth->type,['processor']))
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.create')}}">Create New</a></li>
         </ul>
-        @endif
+        @endif -->
       </div>
     </li>
     @if(in_array($auth->type,['super_user','admin','office_head']))
