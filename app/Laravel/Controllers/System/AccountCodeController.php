@@ -58,7 +58,7 @@ class AccountCodeController extends Controller
 			$new_account_code->code = $request->get('code');
 			$new_account_code->description = $request->get('description');
 			$new_account_code->alias = $request->get('alias');
-			$new_account_code->default_cost = $request->get('default_cost');
+			$new_account_code->default_cost = Helper::db_amount($request->get('default_cost'));
 			$new_account_code->ngas_code = $request->get('ngas_code');
 			$new_account_code->assigned_to_unit = $request->get('assigned_to_unit');
 
