@@ -448,7 +448,8 @@ class TransactionController extends Controller{
 			if ($transaction->type->post_processing_cost == 0) {
 				$transaction->application_payment_status = "PAID";
 				$transaction->application_transaction_status = "COMPLETED";
-				$transaction->amount = Helper::db_amount($transaction->type->post_processing_cost);
+				$transaction->amount = Helper::db_amount($request->get('penalty'));
+				$transaction->penalty = Helper::db_amount($request->get('penalty'));
 				$transaction->total_amount = 0.00;
 				$transaction->is_validated =  1;
 				$transaction->save();
@@ -456,7 +457,7 @@ class TransactionController extends Controller{
 				$total_post_cost = $transaction->type->post_processing_cost + $request->get('penalty');
 				$transaction->is_validated =  1;
 				$transaction->amount = Helper::db_amount($total_post_cost);
-				$transaction->penalty = $request->get('penalty');
+				$transaction->penalty = Helper::db_amount($request->get('penalty'));
 				$transaction->total_amount = $transaction->type->post_processing_cost + $transaction->processing_fee;
 				$transaction->remarks = $request->get('remarks');
 				$transaction->processor_user_id = Auth::user()->id;
