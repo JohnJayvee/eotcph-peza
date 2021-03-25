@@ -132,7 +132,7 @@
         </div>
       </div>  
     @endif
-    
+    @if(Auth::user()->type != "super_user")
       @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->transaction_status == "COMPLETED" AND $transaction->is_validated == 0)
         <a data-url="{{route('system.transaction.validate',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-validate border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Validate Transaction</a>
         <a  data-url="{{route('system.transaction.declined',[$transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transaction</a>
@@ -140,6 +140,7 @@
       @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->application_transaction_status == "COMPLETED" AND $transaction->is_validated == 1)
         <a data-url="{{route('system.transaction.upload',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Appprove Transaction</a>
       @endif
+    @endif
   </div>
   
 </div>

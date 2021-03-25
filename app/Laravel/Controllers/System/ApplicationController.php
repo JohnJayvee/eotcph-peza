@@ -86,11 +86,11 @@ class ApplicationController extends Controller
 			$new_application->name = $request->get('name');
 			$new_application->pre_processing_code = $request->get('pre_processing_code');
 			$new_application->pre_processing_description = $request->get('pre_processing_description');
-			$new_application->pre_processing_cost = Helper::db_amount($request->get('pre_processing_cost')) ?: Helper::db_amount(0);
+			$new_application->pre_processing_cost = $request->get('pre_processing_cost') > 0 ? Helper::db_amount($request->get('pre_processing_cost')) : 0.00;
 
 			$new_application->post_processing_code = $request->get('post_processing_code');
 			$new_application->post_processing_description = $request->get('post_processing_description');
-			$new_application->post_processing_cost = Helper::db_amount($request->get('post_processing_cost')) ?: Helper::db_amount(0);
+			$new_application->post_processing_cost = $request->get('post_processing_cost') > 0 ? Helper::db_amount($request->get('post_processing_cost')) : 0.00;
 			$new_application->requirements_id = implode(",", $request->get('requirements_id'));
 			$new_application->save();
 
@@ -114,17 +114,16 @@ class ApplicationController extends Controller
 
 	public function  update(ApplicationRequest $request,$id = NULL){
 		DB::beginTransaction();
-		try{
-
+		try{	
 			$application = $request->get('application_data');
 			$application->department_id = $request->get('department_id');
 			$application->name = $request->get('name');
 			$application->pre_processing_code = $request->get('pre_processing_code');
 			$application->pre_processing_description = $request->get('pre_processing_description');
-			$application->pre_processing_cost = $request->get('pre_processing_cost');
+			$application->pre_processing_cost = $request->get('pre_processing_cost') > 0 ? Helper::db_amount($request->get('pre_processing_cost')) : "0.00";
 			$application->post_processing_code = $request->get('post_processing_code');
 			$application->post_processing_description = $request->get('post_processing_description');
-			$application->post_processing_cost = $request->get('post_processing_cost');
+			$application->post_processing_cost = $request->get('post_processing_cost') > 0 ? Helper::db_amount($request->get('post_processing_cost')) : "0.00";
 			$application->requirements_id = implode(",", $request->get('requirements_id'));
 			$application->save();
 

@@ -445,12 +445,12 @@ class TransactionController extends Controller{
 				session()->flash('notification-msg', "Invalid , Application Type has no Post Processing Cost.");
 				return redirect()->route('system.transaction.show',[$transaction->id]);
 			}
-			if ($transaction->type->post_processing_cost == 0) {
+			if ($transaction->type->post_processing_cost == 0 and $request->get('penalty') == 0) {
 				$transaction->application_payment_status = "PAID";
 				$transaction->application_transaction_status = "COMPLETED";
 				$transaction->amount = Helper::db_amount($request->get('penalty'));
 				$transaction->penalty = Helper::db_amount($request->get('penalty'));
-				$transaction->total_amount = 0.00;
+				$transaction->total_amount = "0.00";
 				$transaction->is_validated =  1;
 				$transaction->save();
 			}else{
