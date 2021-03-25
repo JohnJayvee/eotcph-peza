@@ -90,6 +90,11 @@
 				<th style="text-align: right;">{{Str::title($ref_num)}}</th>
 			</tr>
 			@endif
+			<tr>
+				<th colspan="2">
+					<p>Thank you for choosing EOTC-PHP!</p>
+				</th>
+			</tr>
 		
 	</table>
 	

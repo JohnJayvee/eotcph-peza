@@ -97,7 +97,11 @@
 				</tr>
 			@empty
 			@endforelse
-			
+			<tr>
+				<th colspan="2">
+					<p>Thank you for choosing EOTC-PHP!</p>
+				</th>
+			</tr>
 		
 	</table>
 	

@@ -115,6 +115,11 @@
 			<tr>
 				<th colspan="2" style="border: none;padding-top: 20px;"><hr class="new2"></th>
 			</tr>
+			<tr>
+				<th colspan="2">
+					<p>Thank you for choosing EOTC-PHP!</p>
+				</th>
+			</tr>
 		
 	</table>
 	
