@@ -456,7 +456,7 @@ class TransactionController extends Controller{
 			}else{
 				$transaction->is_validated =  1;
 				$transaction->amount = Helper::db_amount($request->get('penalty'));
-				$transaction->total_amount = $transaction->type->post_processing_cost + $transaction->processing_fee;
+				$transaction->total_amount = $request->get('penalty') + $transaction->processing_fee;
 				$transaction->remarks = $request->get('remarks');
 				$transaction->processor_user_id = Auth::user()->id;
 				$transaction->validated_at = Carbon::now();
@@ -472,7 +472,6 @@ class TransactionController extends Controller{
 	                'department_name' => $transaction->department_name,
 	                'modified_at' => Helper::date_only($transaction->validated_at)
 	        	];	
-
 				/*$notification_data = new SendApprovedReference($insert);
 			    Event::dispatch('send-sms-approved', $notification_data);*/
 
