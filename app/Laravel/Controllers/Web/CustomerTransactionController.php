@@ -346,7 +346,6 @@ class CustomerTransactionController extends Controller
 				'contact_number' => $transaction->contact_number,
 				'email' => $transaction->email
 			]);  
-
 			$response = Curl::to(env('DIGIPEP_CHECKOUT_URL'))
 			 		->withHeaders( [
 			 			"X-token: ".env('DIGIPEP_TOKEN'),
