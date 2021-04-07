@@ -25,7 +25,7 @@
             <p class="text-title fw-500 pl-3" style="padding-top: 15px;">|</p>
             <p class="text-title fw-500 pt-3 pl-3">Application Sent: <span class="text-black">{{ Helper::date_format($transaction->created_at)}}</span></p>
           </div>
-        </div> 
+        </div>
       </div>
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
@@ -81,7 +81,7 @@
             </table>
           </div>
           @endif
-        </div> 
+        </div>
       </div>
       @if($transaction->process_by == "customer")
       <div class="card-body d-flex">
@@ -130,19 +130,19 @@
             </table>
           </div>
         </div>
-      </div>  
+      </div>
     @endif
     @if(Auth::user()->type != "super_user")
       @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->transaction_status == "COMPLETED" AND $transaction->is_validated == 0)
         <a data-url="{{route('system.transaction.validate',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-validate border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Validate Transaction</a>
-        <a  data-url="{{route('system.transaction.declined',[$transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transaction</a>
+        <a  data-url="{{route('system.transaction.declined',[$transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-times-circle"></i> Decline Transaction</a>
       @endif
       @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->application_transaction_status == "COMPLETED" AND $transaction->is_validated == 1)
         <a data-url="{{route('system.transaction.upload',[$transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Appprove Transaction</a>
       @endif
     @endif
   </div>
-  
+
 </div>
 @stop
 
@@ -152,7 +152,7 @@
 <link rel="stylesheet" href="{{asset('system/vendors/sweet-alert2/sweetalert2.min.css')}}">
 <link rel="stylesheet" href="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
 <style type="text/css" >
-  .input-daterange input{ background: #fff!important; }  
+  .input-daterange input{ background: #fff!important; }
   .isDisabled{
     color: currentColor;
     display: inline-block;  /* For IE11/ MS Edge bug */
@@ -178,7 +178,7 @@
       var self = $(this)
       Swal.fire({
         title: "All the submitted requirements will be marked as declined. Are you sure you want to declined this application?",
-        
+
         icon: 'warning',
         input: 'text',
         inputPlaceholder: "Put remarks",
@@ -202,10 +202,14 @@
         title: "Are you sure you want to approve and finalize this application?",
         icon: 'warning',
         input: 'text',
-        inputPlaceholder: "Put Amount",
+        inputValue: '{{ $transaction->type->post_processing_cost }}',
+        inputPlaceholder: '{{ $transaction->type->post_processing_cost }} is the default post processing cost',
         showCancelButton: true,
         confirmButtonText: 'Validate',
-        cancelButtonColor: '#d33'
+        cancelButtonColor: '#d33',
+        customClass: {
+            content: 'row col-md-10',
+        }
       }).then((result) => {
         if (result.value === "") {
           alert("You need to write something")
