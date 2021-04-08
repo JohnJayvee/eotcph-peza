@@ -41,10 +41,6 @@ class TransactionForValidationTestSeeder extends Seeder
             'lname' => 'Alpha',
         ]);
 
-        factory(Transaction::class, 25)->states('for-validation')->create([
-            'department_id' => $officeHead->department_id,
-        ]);
-
         $processor = factory(User::class)->states('processor', 'active')->create([
             'fname' => 'Bob',
             'lname' => 'Bravo',
@@ -56,7 +52,7 @@ class TransactionForValidationTestSeeder extends Seeder
 
         foreach ($applicationIds as $applicationId) {
             foreach ($statuses as $status) {
-                factory(Transaction::class, 10 - $applicationId)->states($status)->create([
+                $transactions = factory(Transaction::class, 10)->states($status)->create([
                     'department_id' => $processor->department_id,
                     'application_id' => $applicationId,
                 ]);
