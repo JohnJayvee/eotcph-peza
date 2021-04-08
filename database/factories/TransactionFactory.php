@@ -40,6 +40,19 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'transaction_status' => 'COMPLETED',
         'is_validated' => 0,
     ];
+})->state(Transaction::class, 'approved', function (Faker $faker) {
+    return [
+        'status' => 'APPROVED',
+    ];
+})->state(Transaction::class, 'declined', function (Faker $faker) {
+    return [
+        'status' => 'DECLINED',
+    ];
+})->state(Transaction::class, 'resent', function (Faker $faker) {
+    return [
+        'is_resent' => 1,
+        'status' => 'PENDING',
+    ];
 })->afterMaking(Transaction::class, function (Transaction $transaction) {
     $transaction->email = $transaction->customer->email;
 });
