@@ -2,6 +2,7 @@
 
 use App\Laravel\Models\AccountCode;
 use App\Laravel\Models\Application;
+use App\Laravel\Models\Customer;
 use App\Laravel\Models\Department;
 use App\Laravel\Models\Transaction;
 use App\Laravel\Models\User;
@@ -54,5 +55,11 @@ class TransactionForValidationTestSeeder extends Seeder
                 'application_id' => $applicationId,
             ]);
         }
+
+        Customer::first()->update([
+            'fname' => 'charlie',
+            'lname' => 'charlie',
+            'email' => 'charlie@mail.com',
+        ]);
     }
 }
