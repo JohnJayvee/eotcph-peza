@@ -6,6 +6,7 @@ use App\Laravel\Models\Customer;
 use App\Laravel\Models\Department;
 use App\Laravel\Models\Transaction;
 use App\Laravel\Models\User;
+use App\Laravel\Models\ZoneLocation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
@@ -23,6 +24,8 @@ class TransactionForValidationTestSeeder extends Seeder
         Application::truncate();
         AccountCode::truncate();
         Transaction::truncate();
+        Customer::truncate();
+        ZoneLocation::truncate();
 
         $folder = 'public/uploads';
 
@@ -49,11 +52,15 @@ class TransactionForValidationTestSeeder extends Seeder
 
         $applicationIds = explode(',', $processor->application_id);
 
+        $statuses = ['for-validation', 'approved', 'declined', 'resent'];
+
         foreach ($applicationIds as $applicationId) {
-            factory(Transaction::class, 10 - $applicationId)->states('for-validation')->create([
-                'department_id' => $processor->department_id,
-                'application_id' => $applicationId,
-            ]);
+            foreach ($statuses as $status) {
+                factory(Transaction::class, 10 - $applicationId)->states($status)->create([
+                    'department_id' => $processor->department_id,
+                    'application_id' => $applicationId,
+                ]);
+            }
         }
 
         Customer::first()->update([
