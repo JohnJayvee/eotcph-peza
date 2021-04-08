@@ -6,7 +6,7 @@
 
 	<style>
 		th.primary{
-			background-color: #D4EDDA; 
+			background-color: #D4EDDA;
 		}
 		table, th, td {
 		  border-collapse: collapse;
@@ -15,7 +15,7 @@
 		}
 
 		table.center {
-			margin-left:auto; 
+			margin-left:auto;
 			margin-right:auto;
 			border-bottom: solid 1px #F0F0F0;
 			border-right: solid 1px #F0F0F0;
@@ -49,7 +49,7 @@
 <body style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;  font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em; margin: 0;">
 
 	<table class="center bg-white" width="55%">
-		
+
 			<tr>
 				<th colspan="2" class="primary" style="padding: 25px;">
 					<div id="pageElement">
@@ -58,7 +58,7 @@
 					</div>
 				</th>
 			</tr>
-		
+
 			<tr>
 				<th colspan="2" class="text-gray" style="padding: 10px;">Date: {{Helper::date_only(Carbon::now())}} | {{Helper::time_only(Carbon::now())}}</th>
 			</tr>
@@ -67,27 +67,35 @@
 					<p style="float: left;text-align: justify;">Good day. We are pleased to inform you that your application has been validated by our processor {{$amount > 0 ? " and is now for payment" : "."}}</p>
 				</th>
 			</tr>
-			
+
 			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Application Name:</th>
-				<th style="text-align: right;">{{Str::title($application_name)}}</th>
+				<th style="vertical-align:top; white-space:nowrap; text-align: left;padding: 10px;">Application Name:</th>
+				<th style="text-align: right; padding:10px;">{{Str::title($application_name)}}</th>
 			</tr>
 			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Peza Unit:</th>
-				<th style="text-align: right;">{{Str::title($department_name)}}</th>
+				<th style="vertical-align:top; white-space:nowrap; text-align: left;padding: 10px;">Peza Unit:</th>
+				<th style="text-align: right; padding:10px;">{{Str::title($department_name)}}</th>
 			</tr>
 			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Date:</th>
-				<th style="text-align: right;">{{Str::title($modified_at)}}</th>
+				<th style="vertical-align:top; white-space:nowrap; text-align: left;padding: 10px;">Date:</th>
+				<th style="text-align: right; padding:10px;">{{Str::title($modified_at)}}</th>
 			</tr>
 			@if($amount > 0)
 			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Post-Process Cost:</th>
-				<th style="text-align: right;">{{Str::title($amount)}}</th>
+				<th style="vertical-align:top; white-space:nowrap; text-align: left;padding: 10px;">Post-Process Cost:</th>
+				<th style="text-align: right; padding:10px;">{{Str::title($amount)}}</th>
 			</tr>
 			<tr class="text-blue">
-				<th style="text-align: left;padding: 10px;">Post-Process Reference Number:</th>
-				<th style="text-align: right;">{{Str::title($ref_num)}}</th>
+				<th style="vertical-align:top; white-space:nowrap; text-align: left;padding: 10px;">Post-Process Reference Number:</th>
+				<th style="text-align: right; padding:10px;">{{Str::title($ref_num)}}</th>
+			</tr>
+			<tr class="text-blue">
+				<th style="vertical-align:top; white-space:nowrap; text-align: left;padding: 10px;">Customer Notes:</th>
+				<th style="text-align: right; padding:10px;">{{Str::title($notes ?? 'N/A')}}</th>
+			</tr>
+			<tr class="text-blue">
+				<th style="vertical-align:top; white-space:nowrap; text-align: left;padding: 10px;">Processor Remarks:</th>
+				<th style="text-align: right; padding:10px;">{{Str::title($remarks ?? 'N/A')}}</th>
 			</tr>
 			@endif
 			<tr>
@@ -95,9 +103,9 @@
 					<p>Thank you for choosing EOTC-PHP!</p>
 				</th>
 			</tr>
-		
+
 	</table>
-	
+
 
 </body>
 </html>
