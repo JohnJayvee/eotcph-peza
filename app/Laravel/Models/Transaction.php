@@ -1,32 +1,34 @@
-<?php 
+<?php
 
 namespace App\Laravel\Models;
 
+use App\Laravel\Models\Application;
+use App\Laravel\Traits\DateFormatter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Laravel\Traits\DateFormatter;
 use Str;
 
-class Transaction extends Model{
-    
+class Transaction extends Model
+{
     use SoftDeletes,DateFormatter;
-    
+
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = "transaction";
+    protected $table = 'transaction';
 
     /**
      * The database connection used by the model.
      *
      * @var string
      */
-    protected $connection = "master_db";
+    protected $connection = 'master_db';
 
     /**
      * Enable soft delete in table
+     *
      * @var boolean
      */
     protected $softDelete = true;
@@ -36,8 +38,7 @@ class Transaction extends Model{
      *
      * @var array
      */
-    protected $fillable = ['company_name','department_id'];
-
+    protected $fillable = ['company_name', 'department_id', 'application_name', 'department_name'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -63,26 +64,33 @@ class Transaction extends Model{
     protected $casts = [
     ];
 
-    public function type(){
-        return $this->BelongsTo("App\Laravel\Models\Application",'application_id','id');
+    public function type()
+    {
+        return $this->BelongsTo("App\Laravel\Models\Application", 'application_id', 'id');
     }
 
-    public function department(){
-        return $this->BelongsTo("App\Laravel\Models\Department",'department_id','id');
+    public function department()
+    {
+        return $this->BelongsTo("App\Laravel\Models\Department", 'department_id', 'id');
     }
 
-    public function customer(){
-        return $this->BelongsTo("App\Laravel\Models\Customer",'customer_id','id');
+    public function customer()
+    {
+        return $this->BelongsTo("App\Laravel\Models\Customer", 'customer_id', 'id');
     }
 
-     public function admin(){
-        return $this->BelongsTo("App\Laravel\Models\User",'processor_user_id','id');
+    public function admin()
+    {
+        return $this->BelongsTo("App\Laravel\Models\User", 'processor_user_id', 'id');
     }
-    public function getCustomerNameAttribute(){
+
+    public function getCustomerNameAttribute()
+    {
         return Str::title("{$this->fname} {$this->lname} ");
     }
-    
-  
-   
 
+    public function application()
+    {
+        return $this->belongsTo(Application::class, 'application_id', 'id');
+    }
 }
