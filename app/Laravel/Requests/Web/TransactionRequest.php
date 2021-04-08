@@ -23,6 +23,7 @@ class TransactionRequest extends RequestManager{
 			'zone_id' => "required",
 			'contact_number' => "required|max:10|phone:PH",
     		'file.*' => 'required|mimes:pdf,docx,doc|max:8192',
+            'notes' => ['nullable', 'string'],
 		];
 
 		$required = ApplicationRequirements::whereIn('id',explode(",", $this->get('requirements_id')))->where('is_required',"yes")->get();
@@ -33,7 +34,7 @@ class TransactionRequest extends RequestManager{
 
 
 		return $rules;
-		
+
 	}
 
 	public function messages(){

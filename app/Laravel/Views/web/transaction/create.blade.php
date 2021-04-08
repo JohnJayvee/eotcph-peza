@@ -89,7 +89,7 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="text-form pb-2">Type of Application <span style="color:red">*</span></label>
                                 {!!Form::select('application_id',['' => "--Choose Application Type--"],old('application_id'),['id' => "input_application_id",'class' => "form-control form-control-sm classic ".($errors->first('application_id') ? 'border-red' : NULL)])!!}
-                               
+
                             </div>
                             @if($errors->first('application_id'))
                                 <small class="form-text pl-1" style="color:red;">{{$errors->first('application_id')}}</small>
@@ -112,9 +112,13 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <label for="notes" class="text-form pb-2">Notes</label>
+                            {!! Form::textarea('notes', old('notes'), ['id' => 'notes', 'class' => 'form-control form-conrol-sm classic', 'rows' => '4', 'style' => 'resize:none;']) !!}
+                        </div>
                     </div>
                     <div class="row">
-                        
+
                         {{-- <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="text-form pb-2">Patial Payment<code>(Optional)</code></label>
@@ -123,7 +127,7 @@
                                     <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
                                   </div>
                                   <input type="text" class="form-control br-left-white br-right-white {{ $errors->first('partial_amount') ? 'is-invalid': NULL  }}" placeholder="Partial Payment Amount" name="partial_amount" id="input_partial_amount" value="{{old('partial_amount')}}" readonly>
-                                  
+
                                 </div>
                                 @if($errors->first('partial_amount'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('partial_amount')}}</small>
@@ -131,16 +135,16 @@
                             </div>
                         </div> --}}
                     </div>
-                   
+
                     <input type="hidden" name="requirements_id" id="requirements_id_containter">
-                   
+
                     <div id="requirements_container">
                         <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;" id="requirements">
                             <thead>
-                               
+
                             </thead>
                             <tbody>
-                               
+
                             </tbody>
                         </table>
                     </div>
@@ -181,7 +185,7 @@
                     <div class="custom-control custom-checkbox mb-3">
                         <input type="checkbox" class="custom-control-input" id="customControlValidation1" name="is_check" value="1">
                         <label class="custom-control-label fs-14 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option if you're going to submit physical copies of your documents. The system will generate a QR Code that you'll have to attach to the envelope of your physical copies.</label>
-                        
+
                     </div>
                     <button class="btn badge badge-primary-2 text-white px-4 py-2 fs-14" type="submit"><i class="fa fa-paper-plane pr-2"></i>  Send Application</button>
                 </div>
@@ -289,7 +293,7 @@ $(document).ready(function() {
         });
     };
 
- 
+
     $("#input_department_id").on("change",function(){
       var department_id = $(this).val()
       var _text = $("#input_department_id option:selected").text();

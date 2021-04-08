@@ -2,16 +2,18 @@
 
 namespace App\Laravel\Models;
 
+use App\Laravel\Traits\DateFormatter;
+use Carbon;
+use Helper;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Laravel\Traits\DateFormatter;
+use Str;
 
-use Carbon, Helper, Str;
-
-class User extends Authenticatable{
-
+class User extends Authenticatable
+{
     use Notifiable,SoftDeletes,DateFormatter;
 
     /**
@@ -19,17 +21,18 @@ class User extends Authenticatable{
      *
      * @var string
      */
-    protected $table = "user";
+    protected $table = 'user';
 
     /**
      * The database connection used by the model.
      *
      * @var string
      */
-    protected $connection = "master_db";
+    protected $connection = 'master_db';
 
     /**
      * Enable soft delete in table
+     *
      * @var boolean
      */
     protected $softDelete = true;
@@ -39,8 +42,18 @@ class User extends Authenticatable{
      *
      * @var array
      */
-    protected $fillable = ['fname','lname','mname', 'email', 'contact_number',
-        'password'];
+    protected $fillable = [
+        'fname',
+        'lname',
+        'mname',
+        'email',
+        'contact_number',
+        'type',
+        'department_id',
+        'username',
+        'reference_id',
+        'password',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -52,9 +65,8 @@ class User extends Authenticatable{
     ];
 
     protected $appends = [
-        'name'
+        'name',
     ];
-
 
     /**
      * The attributes that should be cast to native types.
@@ -85,19 +97,23 @@ class User extends Authenticatable{
         return [];
     }*/
 
-    public function getNameAttribute(){
-        return Str::title("{$this->lname}".(strlen($this->mname) > 0 ? " ".Str::title($this->mname): NULL)." {$this->fname}");
+    public function getNameAttribute()
+    {
+        return Str::title("{$this->lname}" . (strlen($this->mname) > 0 ? ' ' . Str::title($this->mname) : null) . " {$this->fname}");
     }
 
-    public function getFullNameAttribute(){
+    public function getFullNameAttribute()
+    {
         return Str::title("{$this->fname} {$this->lname} ");
     }
 
-    public function department(){
-        return $this->BelongsTo("App\Laravel\Models\Department",'department_id','id');
-    }
-    public function application(){
-        return $this->BelongsTo("App\Laravel\Models\Application",'application_id','id');
+    public function department()
+    {
+        return $this->BelongsTo("App\Laravel\Models\Department", 'department_id', 'id');
     }
 
+    public function application()
+    {
+        return $this->BelongsTo("App\Laravel\Models\Application", 'application_id', 'id');
+    }
 }
