@@ -524,6 +524,8 @@ class TransactionController extends Controller{
                 'department_name' => $transaction->department_name,
                 'modified_at' => Helper::date_only($transaction->validated_at),
                 'link' => env("APP_URL")."show-pdf/".$transaction->id,
+                'notes' => $transaction->notes,
+                'remarks' => $transaction->remarks,
         	];
 
 			/*$notification_data = new SendDeclinedReference($insert);
