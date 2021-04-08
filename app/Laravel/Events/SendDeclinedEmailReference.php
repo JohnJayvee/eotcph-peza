@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Laravel\Events;
 
 use Illuminate\Queue\SerializesModels;
@@ -19,13 +19,13 @@ class SendDeclinedEmailReference extends Event {
 		$this->data = $form_data;
 		// $this->email = $form_data['insert'];
 
-	
+
 
 	}
 
-	public function job(){	
-		
-		
+	public function job(){
+
+
 		foreach($this->data as $index =>$value){
 			$mailname = "Application Details";
 			$user_email = $value['email'];
@@ -37,6 +37,7 @@ class SendDeclinedEmailReference extends Event {
 			$this->data['ref_num'] = $value['ref_num'];
 			$this->data['link'] = $value['link'];
 			$this->data['modified_at'] = $value['modified_at'];
+            $this->data['notes'] = $value['notes'];
 			$this->data['remarks'] = $value['remarks'];
 
 			Mail::send('emails.application-declined', $this->data, function($message) use ($mailname,$user_email,$ref_num){
@@ -47,8 +48,8 @@ class SendDeclinedEmailReference extends Event {
 		}
 
 
-		
-		
-		
+
+
+
 	}
 }

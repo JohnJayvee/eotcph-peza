@@ -40,9 +40,10 @@
             <p class="text-title fw-500">Peza Unit: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
             <p class="text-title fw-500">Company Name: <span class="text-black">{{str::title($transaction->company_name)}}</span></p>
             <p class="text-title fw-500">Contact Number: <span class="text-black">+63{{$transaction->contact_number}}</span></p>
-            @if($transaction->status == "DECLINED")
-              <p class="text-title fw-500">Remarks: <span class="text-black">{{$transaction->remarks}}</span></p>
-            @endif
+            <p class="text-title fw-500">Customer Notes: <span class="text-black">{{ $transaction->notes ?? 'N/A' }}</span></p>
+            {{-- @if($transaction->status == "DECLINED") --}}
+              <p class="text-title fw-500">Processor Remarks: <span class="text-black">{{$transaction->remarks ?? 'N/A'}}</span></p>
+            {{-- @endif --}}
           </div>
           <div class="col-md-6 mt-4">
             <p class="text-title fw-500">Pre-Processing Details:</p>

@@ -20,7 +20,7 @@
             <p class="text-title fw-500 pl-3" style="padding-top: 15px;">|</p>
             <p class="text-title fw-600 pt-3 pl-3">Application Sent: <span class="text-black">{{ Helper::date_format($transaction->created_at)}}</span></p>
           </div>
-        </div> 
+        </div>
       </div>
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
@@ -33,10 +33,10 @@
           <div class="col-md-6">
             <p class="text-title fw-600 m-0">Peza Unit: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
             <p class="text-title fw-600 m-0">Contact Number: <span class="text-black">+63{{$transaction->contact_number}}</span></p>
-          
-            @if($transaction->status == "DECLINED")
-              <p class="text-title fw-600 m-0">Remarks: <span class="text-black">{{$transaction->remarks}}</span></p>
-            @endif
+            <p class="text-title fw-600 m-0">Customer Notes: <span class="text-black">+63{{ $transaction->notes ?? 'N/A' }}</span></p>
+            {{-- @if($transaction->status == "DECLINED") --}}
+              <p class="text-title fw-600 m-0">Processor Remarks: <span class="text-black">{{ $transaction->remarks ?? 'N/A'}}</span></p>
+            {{-- @endif --}}
           </div>
           <div class="col-md-6 mt-4">
             <p class="text-title fw-600 m-0">Pre-Processing Details:</p>
@@ -50,7 +50,7 @@
             <p class="fw-600 m-0" style="color: #DC3C3B;">Post-Processing Fee: Php {{Helper::money_format($transaction->amount ? $transaction->amount : "0.00")}} [{{$transaction->transaction_status == "COMPELTED" ? $transaction->transaction_code:"N/A"}}]</p>
             <p class="text-title fw-600 m-0">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::title($transaction->application_payment_status)}}</span></p>
           </div>
-        </div> 
+        </div>
       </div>
       <div class="card-body d-flex">
         <button class="btn btn-transparent p-3" data-toggle="collapse" data-target="#collapseExample"><i class="fa fa-download" style="font-size: 1.5rem;"></i></button>

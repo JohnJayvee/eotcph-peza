@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Laravel\Controllers\System;
 
@@ -34,7 +34,7 @@ class TransactionController extends Controller{
 
 	protected $data;
 	protected $per_page;
-	
+
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
@@ -47,18 +47,18 @@ class TransactionController extends Controller{
 		}else{
 			$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
 		}
-		
+
 		$this->data['zone_locations'] = ['' => "Choose Zone Location"] + ZoneLocation::pluck('ecozone', 'id')->toArray();
 		$this->data['requirements'] =  ApplicationRequirements::pluck('name','id')->toArray();
 		$this->data['status'] = ['' => "Choose Payment Status",'PAID' => "Paid" , 'UNPAID' => "Unpaid"];
-		
+
 
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
 	public function  index(PageRequest $request){
 		$this->data['page_title'] = "Transactions";
-		$this->data['transactions'] = Transaction::orderBy('created_at',"DESC")->get(); 
+		$this->data['transactions'] = Transaction::orderBy('created_at',"DESC")->get();
 		return view('system.transaction.index',$this->data);
 	}
 
@@ -83,7 +83,7 @@ class TransactionController extends Controller{
 		$this->data['selected_processing_fee_status'] = $request->get('processing_fee_status');
 		$this->data['selected_application_ammount_status'] = $request->get('application_ammount_status');
 		$this->data['keyword'] = Str::lower($request->get('keyword'));
-		
+
 		if ($auth->type == "office_head") {
 			$this->data['applications'] = ['' => "Choose Applications"] + Application::where('department_id',$auth->department_id)->pluck('name', 'id')->toArray();
 		}elseif ($auth->type == "processor") {
@@ -115,13 +115,13 @@ class TransactionController extends Controller{
 						}else{
 							return $query->whereIn('application_id',explode(",", $this->data['auth']->application_id));
 						}
-						
+
 					}else{
 						if(strlen($this->data['selected_application_id']) > 0){
 							return $query->where('application_id',$this->data['selected_application_id']);
 						}
 					}
-					
+
 				})
 				->where(function($query){
 					if(strlen($this->data['selected_processing_fee_status']) > 0){
@@ -190,14 +190,14 @@ class TransactionController extends Controller{
 						}else{
 							return $query->whereIn('application_id',explode(",", $this->data['auth']->application_id));
 						}
-						
+
 					}else{
 						if(strlen($this->data['selected_application_id']) > 0){
 							return $query->where('application_id',$this->data['selected_application_id']);
 						}
 					}
 				})
-				
+
 				->where(function($query){
 					if(strlen($this->data['selected_application_status']) > 0){
 						return $query->where('application_payment_status',$this->data['selected_application_status']);
@@ -205,7 +205,7 @@ class TransactionController extends Controller{
 				})
 				->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])
 				->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])
-				->orderBy('created_at',"DESC")->paginate($this->per_page); 
+				->orderBy('created_at',"DESC")->paginate($this->per_page);
 
 		return view('system.transaction.approved',$this->data);
 
@@ -235,7 +235,7 @@ class TransactionController extends Controller{
 		}else{
 			$this->data['applications'] = ['' => "Choose Applications"] + Application::where('department_id',$request->get('department_id'))->pluck('name', 'id')->toArray();
 		}
-		
+
 		$this->data['transactions'] = Transaction::where('status',"DECLINED")
 				->where(function($query){
 				if(strlen($this->data['keyword']) > 0){
@@ -260,7 +260,7 @@ class TransactionController extends Controller{
 						}else{
 							return $query->whereIn('application_id',explode(",", $this->data['auth']->application_id));
 						}
-						
+
 					}else{
 						if(strlen($this->data['selected_application_id']) > 0){
 							return $query->where('application_id',$this->data['selected_application_id']);
@@ -269,13 +269,13 @@ class TransactionController extends Controller{
 				})
 				->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])
 				->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])
-				->orderBy('created_at',"DESC")->paginate($this->per_page); 
-				
+				->orderBy('created_at',"DESC")->paginate($this->per_page);
+
 		return view('system.transaction.declined',$this->data);
 	}
 	public function resent (PageRequest $request){
 		$this->data['page_title'] = "Resent Transactions";
-		
+
 		$auth = Auth::user();
 		$this->data['auth'] = Auth::user();
 
@@ -323,7 +323,7 @@ class TransactionController extends Controller{
 						}else{
 							return $query->whereIn('application_id',explode(",", $this->data['auth']->application_id));
 						}
-						
+
 					}else{
 						if(strlen($this->data['selected_application_id']) > 0){
 							return $query->where('application_id',$this->data['selected_application_id']);
@@ -332,7 +332,7 @@ class TransactionController extends Controller{
 				})
 				->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])
 				->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])
-				->orderBy('created_at',"DESC")->paginate($this->per_page); 
+				->orderBy('created_at',"DESC")->paginate($this->per_page);
 
 		return view('system.transaction.resent',$this->data);
 	}
@@ -345,11 +345,11 @@ class TransactionController extends Controller{
 		$id = $this->data['transaction']->requirements_id;
 
 		$this->data['physical_requirements'] = ApplicationRequirements::whereIn('id',explode(",", $id))->get();
-		
+
 		$this->data['page_title'] = "Transaction Details";
 		return view('system.transaction.show',$this->data);
 	}
-	
+
 	public function create(PageRequest $request){
 		$this->data['page_title'] = "- Add New Record";
 		$auth= Auth::user();
@@ -419,14 +419,14 @@ class TransactionController extends Controller{
                 'application_name' => $new_transaction->application_name,
                 'department_name' => $new_transaction->department_name,
                 'created_at' => Helper::date_only($new_transaction->created_at)
-        	];	
+        	];
 
 			/*$notification_data = new SendProcessorTransaction($insert);
 		    Event::dispatch('send-transaction-processor', $notification_data);*/
 
 		    $notification_email_data = new SendEmailProcessorTransaction($insert);
 		    Event::dispatch('send-transaction-processor-email', $notification_email_data);
-			
+
 			DB::commit();
 
 			session()->flash('notification-status', "success");
@@ -439,7 +439,7 @@ class TransactionController extends Controller{
 		try{
 
 			$transaction = $request->get('transaction_data');
- 
+
 			if (!$transaction->type) {
 				session()->flash('notification-status', "success");
 				session()->flash('notification-msg', "Invalid , Application Type has no Post Processing Cost.");
@@ -470,20 +470,23 @@ class TransactionController extends Controller{
 	                'full_name' => $transaction->customer ? $transaction->customer->full_name : $transaction->customer_name,
 	                'application_name' => $transaction->application_name,
 	                'department_name' => $transaction->department_name,
-	                'modified_at' => Helper::date_only($transaction->validated_at)
-	        	];	
+	                'modified_at' => Helper::date_only($transaction->validated_at),
+                    'notes' => $transaction->notes,
+                    'remarks' => $transaction->remarks,
+	        	];
 				/*$notification_data = new SendApprovedReference($insert);
 			    Event::dispatch('send-sms-approved', $notification_data);*/
 
 			    $notification_data_email = new SendValidatedEmailReference($insert);
 			    Event::dispatch('send-email-validated', $notification_data_email);
 			}
-			
+
 			$requirements = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"pending")->update(['status' => "APPROVED"]);
-			
+
 			DB::commit();
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg', "Transaction has been successfully Processed.");
+
 			return redirect()->route('system.transaction.pending');
 
 		}catch(\Exception $e){
@@ -509,7 +512,7 @@ class TransactionController extends Controller{
 			$transaction->processor_user_id = Auth::user()->id;
 			$transaction->modified_at = Carbon::now();
 			$transaction->save();
-			
+
 			$requirements = TransactionRequirements::where('transaction_id',$transaction->id)->where('status',"pending")->update(['status' => "DECLINED"]);
 			$insert[] = [
             	'contact_number' => $transaction->contact_number,
@@ -521,7 +524,9 @@ class TransactionController extends Controller{
                 'department_name' => $transaction->department_name,
                 'modified_at' => Helper::date_only($transaction->validated_at),
                 'link' => env("APP_URL")."show-pdf/".$transaction->id,
-        	];	
+                'notes' => $transaction->notes,
+                'remarks' => $transaction->remarks,
+        	];
 
 			/*$notification_data = new SendDeclinedReference($insert);
 		    Event::dispatch('send-sms-declined', $notification_data);*/
@@ -559,16 +564,16 @@ class TransactionController extends Controller{
 			$transaction->approved_at = Carbon::now();
 			$transaction->save();
 
-			if($request->get('name')) { 
+			if($request->get('name')) {
 				foreach ($request->get('name') as $key => $image) {
 					if ($request->file('document.'.$key)) {
 						$ext = $request->file('document.'.$key)->getClientOriginalExtension();
-						if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
+						if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){
 							$type = 'file';
 							$original_filename = $request->file('document.'.$key)->getClientOriginalName();
 							$upload_image = FileUploader::upload($request->file('document.'.$key), "uploads/documents/transaction/documents/{$transaction->code}");
 						}
-						if($ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){ 
+						if($ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
 							$type = 'image';
 							$original_filename = $request->file('file')->getClientOriginalName();
 							$upload_image = ImageUploader::upload($image, 'uploads/transaction/assessment/{$id}');
@@ -583,7 +588,7 @@ class TransactionController extends Controller{
 						$new_file->original_name =$original_filename;
 						$new_file->save();
 					}
-						
+
 				}
 			}
 			$attachments = Document::where('transaction_id', $transaction->id)->get();
@@ -596,7 +601,7 @@ class TransactionController extends Controller{
                 'department_name' => $transaction->department_name,
                 'attachment_details' => $attachments,
                 'approved_at' => Helper::date_only($transaction->approved_at)
-        	];	
+        	];
 
 			/*$notification_data = new SendApprovedReference($insert);
 		    Event::dispatch('send-sms-approved', $notification_data);*/
@@ -620,7 +625,7 @@ class TransactionController extends Controller{
 
 	public function process_requirements($id = NULL,$status = NULL,PageRequest $request){
 		DB::beginTransaction();
-		
+
 		try{
 			$transaction = TransactionRequirements::find($id);
 			$transaction->status = $request->get('status');
@@ -637,7 +642,7 @@ class TransactionController extends Controller{
 			return redirect()->back();
 		}
 	}
-	
+
 	public function  destroy(PageRequest $request,$id = NULL){
 		$transaction = $request->get('transaction_data');
 		DB::beginTransaction();
@@ -655,5 +660,5 @@ class TransactionController extends Controller{
 		}
 	}
 
-	
+
 }
