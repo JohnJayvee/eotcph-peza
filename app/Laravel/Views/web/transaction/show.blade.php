@@ -33,7 +33,7 @@
           <div class="col-md-6">
             <p class="text-title fw-600 m-0">Peza Unit: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
             <p class="text-title fw-600 m-0">Contact Number: <span class="text-black">+63{{$transaction->contact_number}}</span></p>
-            <p class="text-title fw-600 m-0">Customer Notes: <span class="text-black">+63{{ $transaction->notes ?? 'N/A' }}</span></p>
+            <p class="text-title fw-600 m-0">Customer Notes: <span class="text-black">{{ $transaction->notes ?? 'N/A' }}</span></p>
             {{-- @if($transaction->status == "DECLINED") --}}
               <p class="text-title fw-600 m-0">Processor Remarks: <span class="text-black">{{ $transaction->remarks ?? 'N/A'}}</span></p>
             {{-- @endif --}}
