@@ -97,8 +97,7 @@
     </div>
     <div class="col-md-12">
       <div class="table-responsive shadow fs-15">
-        <table class="table table-striped table-wrap"
-          style="table-layout: fixed;">
+        <table class="table table-striped table-wrap">
           <thead>
             <tr class="text-center ">
               <th class="text-title p-3">Transaction Date</th>
@@ -182,12 +181,20 @@
               </tr>
             @empty
               <tr>
-                <td colspan="8" class="text-center"><i>No transaction Records
+                <td colspan="11" class="text-center"><i>No transaction Records
                     Available.</i></td>
               </tr>
             @endforelse
-
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="11" class="text-center">
+                <div class="d-flex justify-content-md-center">
+                  {{ $transactions->links() }}
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
