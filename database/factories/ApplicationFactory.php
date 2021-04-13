@@ -13,7 +13,9 @@ $factory->define(Application::class, function (Faker $faker) {
         'name' => $faker->catchPhrase,
         'pre_processing_code' => factory(AccountCode::class),
         'pre_processing_cost' => $faker->numberBetween(5, 15),
+        'pre_processing_description' => $faker->words(3, true),
         'post_processing_code' => factory(AccountCode::class),
         'post_processing_cost' => $faker->numberBetween(5, 15),
+        'post_processing_description' => $faker->words(3, true),
     ];
 });
