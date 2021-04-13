@@ -300,7 +300,7 @@ class ReportController extends Controller
 
 
 		$pdf = PDF::loadView('pdf.report',$this->data)->setPaper('a4', 'landscape');;
-		return $pdf->download("report.pdf");
+		return $pdf->download('report-' . date('Y-m-d-H-i-s') . '.pdf');
 
     }
 
