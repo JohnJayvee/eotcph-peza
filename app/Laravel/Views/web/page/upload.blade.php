@@ -18,7 +18,7 @@
               <p class="text-title fw-500 pl-3" style="padding-top: 15px;">|</p>
               <p class="text-title fw-600 pt-3 pl-3">Application Sent: <span class="text-black">{{ Helper::date_format($transaction->created_at)}}</span></p>
             </div>
-          </div> 
+          </div>
         </div>
         <div class="card-body">
           <div class="row">
@@ -32,9 +32,10 @@
             <div class="col-md-6">
               <p class="text-title fw-600 m-0">Peza Unit: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
               <p class="text-title fw-600 m-0">Contact Number: <span class="text-black">+63{{$transaction->contact_number}}</span></p>
-              @if($transaction->status == "DECLINED")
-                <p class="text-title fw-600 m-0">Remarks: <span class="text-black">{{$transaction->remarks}}</span></p>
-              @endif
+              {{-- @if($transaction->status == "DECLINED") --}}
+                <p class="text-title fw-600 m-0">Customer Notes: <span class="text-black">{{ $transaction->notes ?? 'N/A' }}</span></p>
+                <p class="text-title fw-600 m-0">Processor Remarks: <span class="text-black">{{ $transaction->remarks ?? 'N/A' }}</span></p>
+              {{-- @endif --}}
             </div>
 
             <div class="col-md-6 mt-4">
@@ -50,7 +51,7 @@
               <p class="text-title fw-600 m-0">Payment Status: <span class="badge  badge-{{Helper::status_badge($transaction->application_payment_status)}} p-2">{{Str::title($transaction->application_payment_status)}}</span></p>
             </div>
 
-          </div> 
+          </div>
         </div>
       </div>
       <div class="card card-rounded shadow-sm mt-4">
