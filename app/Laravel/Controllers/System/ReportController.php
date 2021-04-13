@@ -60,7 +60,7 @@ class ReportController extends Controller
 			$this->data['selected_type'] = $request->get('type');
 			$this->data['selected_application_id'] = $request->get('application_id');
 			$this->data['selected_processing_fee_status'] = $request->get('processing_fee_status');
-			$this->data['selected_application_ammount_status'] = $request->get('application_ammount_status');
+			$this->data['selected_application_amount_status'] = $request->get('application_amount_status');
 			$this->data['keyword'] = Str::lower($request->get('keyword'));
 
 			if ($auth->type == "office_head") {
@@ -122,8 +122,8 @@ class ReportController extends Controller
 					}
 				})
 				->where(function($query){
-					if(strlen($this->data['selected_application_ammount_status']) > 0){
-						return $query->where('application_payment_status',$this->data['selected_application_ammount_status']);
+					if(strlen($this->data['selected_application_amount_status']) > 0){
+						return $query->where('application_payment_status',$this->data['selected_application_amount_status']);
 					}
 				})
 				->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])
@@ -152,7 +152,7 @@ class ReportController extends Controller
 		$this->data['selected_type'] = $request->get('type');
 		$this->data['selected_application_id'] = $request->get('application_id');
 		$this->data['selected_processing_fee_status'] = $request->get('processing_fee_status');
-		$this->data['selected_application_ammount_status'] = $request->get('application_ammount_status');
+		$this->data['selected_application_amount_status'] = $request->get('application_amount_status');
 		$this->data['keyword'] = Str::lower($request->get('keyword'));
 
 		if ($auth->type == "office_head") {
@@ -167,6 +167,7 @@ class ReportController extends Controller
 		if ($request->get('type') == "resent") {
 			$this->data['resent'] = "1";
 		}
+
 		$transactions = Transaction::where(function($query){
 			if(strlen($this->data['keyword']) > 0){
 				return $query->WhereRaw("LOWER(company_name)  LIKE  '%{$this->data['keyword']}%'")
@@ -214,8 +215,8 @@ class ReportController extends Controller
 				}
 			})
 			->where(function($query){
-				if(strlen($this->data['selected_application_ammount_status']) > 0){
-					return $query->where('application_payment_status',$this->data['selected_application_ammount_status']);
+				if(strlen($this->data['selected_application_amount_status']) > 0){
+					return $query->where('application_payment_status',$this->data['selected_application_amount_status']);
 				}
 			})
 			->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])
