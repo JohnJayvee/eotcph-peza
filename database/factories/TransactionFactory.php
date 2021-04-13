@@ -23,6 +23,8 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'notes' => $faker->sentence,
         'remarks' => $faker->sentence,
         'amount' => $faker->numberBetween(10, 50),
+        'application_payment_status' => $faker->randomElement(['PAID', 'UNPAID']),
+        'payment_status' => $faker->randomElement(['PAID', 'UNPAID']),
     ];
 })->state(Transaction::class, 'pending', function (Faker $faker) {
     return [
