@@ -51,8 +51,8 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
             $value->type ? $value->type->post_process->code : "---",
             Helper::money_format($value->amount) ?: '---',
             str::title($value->admin ? $value->admin->full_name : '---'),
-            $value->is_resent == 1 ? "RESENT" : $value->status,
-            
+            $value->status == 'APPROVED' ? $value->status : ($value->is_resent == 1 ? "RESENT" : $value->status),
+
         ];
     }
 
@@ -67,7 +67,7 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
     // {
     //     return [
     //         AfterSheet::class    => function(AfterSheet $event) {
-    //             $cellRange = 'A1:I100'; 
+    //             $cellRange = 'A1:I100';
     //             $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
     //             $event->sheet->getDelegate()->getRowDimension(1)->setRowHeight(30);
     //         },

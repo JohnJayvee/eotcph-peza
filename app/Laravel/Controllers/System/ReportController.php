@@ -176,7 +176,7 @@ class ReportController extends Controller
 				}
 			})
 			->where(function($query){
-				if ($this->data['auth']->type == "office_head" || $this->data['auth']->type == "office_head") {
+				if ($this->data['auth']->type == "office_head" || $this->data['auth']->type == "processor") {
 					return $query->where('department_id',$this->data['auth']->department_id);
 				}else{
 					if(strlen($this->data['selected_department_id']) > 0){
@@ -242,12 +242,11 @@ class ReportController extends Controller
 		$this->data['start_date'] = Carbon::parse($start_date)->format("Y-m-d");
 		$this->data['end_date'] = Carbon::parse($request->get('end_date',Carbon::now()))->format("Y-m-d");
 
-		$this->data['selected_type'] = $request->get('type');
 		$this->data['selected_department_id'] = $auth->type == "office_head" || $auth->type == "processor" ? $auth->department_id : $request->get('department_id');
-
+		$this->data['selected_type'] = $request->get('type');
 		$this->data['selected_application_id'] = $request->get('application_id');
-		$this->data['selected_payment_method'] = $request->get('payment_method');
-		$this->data['selected_payment_status'] = $request->get('payment_status');
+        $this->data['selected_processing_fee_status'] = $request->get('processing_fee_status');
+        $this->data['selected_application_amount_status'] = $request->get('application_amount_status');
 
 		$this->data['keyword'] = Str::lower($request->get('keyword'));
 
@@ -263,6 +262,30 @@ class ReportController extends Controller
 							->orWhereRaw("LOWER(code) LIKE  '%{$this->data['keyword']}%'");
 					}
 				})
+                ->where(function($query){
+					if ($this->data['auth']->type == "office_head" || $this->data['auth']->type == "processor") {
+						return $query->where('department_id',$this->data['auth']->department_id);
+					}else{
+						if(strlen($this->data['selected_department_id']) > 0){
+							return $query->where('department_id',$this->data['selected_department_id']);
+						}
+					}
+				})
+                ->where(function($query){
+					if ($this->data['auth']->type == "processor") {
+						if(strlen($this->data['selected_application_id']) > 0){
+							return $query->where('application_id',$this->data['selected_application_id']);
+						}else{
+							return $query->whereIn('application_id',explode(",", $this->data['auth']->application_id));
+						}
+
+					}else{
+						if(strlen($this->data['selected_application_id']) > 0){
+							return $query->where('application_id',$this->data['selected_application_id']);
+						}
+					}
+
+				})
 				->where(function($query){
 					if(strlen($this->data['selected_type']) > 0 and strlen($this->data['resent']) == 0){
 						return $query->where('status',$this->data['selected_type']);
@@ -273,26 +296,14 @@ class ReportController extends Controller
 						return $query->where('is_resent',$this->data['resent']);
 					}
 				})
-				->where(function($query){
-					if(strlen($this->data['selected_department_id']) > 0){
-						return $query->where('department_id',$this->data['selected_department_id']);
+                ->where(function($query){
+					if(strlen($this->data['selected_processing_fee_status']) > 0){
+						return $query->where('payment_status',$this->data['selected_processing_fee_status']);
 					}
 				})
-				->where(function($query){
-					if(strlen($this->data['selected_application_id']) > 0){
-						return $query->where('application_id',$this->data['selected_application_id']);
-					}
-				})
-				->where(function($query){
-					if(strlen($this->data['selected_payment_method']) > 0){
-						return $query->where('payment_method',$this->data['selected_payment_method'])
-								->orWhere('application_payment_method',$this->data['selected_payment_method']);
-					}
-				})
-				->where(function($query){
-					if(strlen($this->data['selected_payment_status']) > 0){
-						return $query->where('payment_status',$this->data['selected_payment_status'])
-								->orWhere('application_payment_status',$this->data['selected_payment_status']);
+                ->where(function($query){
+					if(strlen($this->data['selected_application_amount_status']) > 0){
+						return $query->where('application_payment_status',$this->data['selected_application_amount_status']);
 					}
 				})
 				->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])

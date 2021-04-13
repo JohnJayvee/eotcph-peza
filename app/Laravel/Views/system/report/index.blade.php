@@ -79,10 +79,14 @@
           <div class="">
             <div class="row justify-content-sm-end mx-0">
               <div class="pb-2 pr-1">
-                <a href="{{ route('system.report.pdf') }}?keyword={{ $keyword }}&start_date={{ $start_date }}&end_date={{ $end_date }}&type={{ $selected_type }}&department_id={{ $selected_department_id }}&application_id={{ $selected_application_id }}&application_amount_status={{ $selected_application_amount_status }}&processing_fee_status={{ $selected_processing_fee_status }}"
+                <a href="{{ route('system.report.pdf') }}?{{ collect(request()->query())->mapWithKeys(function($value, $key){
+                    return [$key => $key . '=' . $value];
+                  })->implode('&') }}"
                   class="btn btn-primary btn-sm p-2">Export
                   PDF</a>
-                <a href="{{ route('system.report.export') }}?keyword={{ $keyword }}&start_date={{ $start_date }}&end_date={{ $end_date }}&type={{ $selected_type }}&department_id={{ $selected_department_id }}&application_id={{ $selected_application_id }}&application_amount_status={{ $selected_application_amount_status }}&processing_fee_status={{ $selected_processing_fee_status }}"
+                <a href="{{ route('system.report.export') }}?{{ collect(request()->query())->mapWithKeys(function($value, $key){
+                    return [$key => $key . '=' . $value];
+                  })->implode('&') }}"
                   class="btn btn-primary btn-sm p-2">Export Excel</a>
               </div>
               <div class="pb-2">
