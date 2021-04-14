@@ -30,8 +30,10 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
                 'Submitted By/Company Name',
                 'Peza Unit',
                 'Application Type',
+                'Account Description',
                 'Pre Processing Code',
                 'Pre Processing Cost',
+                'Account Description',
                 'Pre Processing Code',
                 'Post Processing Cost',
                 'Processor',
@@ -46,13 +48,15 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
             $value->company_name,
             $value->department ? $value->department->name : "N/A",
             $value->type ? Strtoupper($value->type->name) : "N/A",
+            $value->type->pre_processing_description ?? 'N/A',
             $value->type ? $value->type->pre_process->code : "---",
             Helper::money_format($value->processing_fee) ?: 0 ,
+            $value->type->post_processing_description ?? 'N/A',
             $value->type ? $value->type->post_process->code : "---",
             Helper::money_format($value->amount) ?: '---',
             str::title($value->admin ? $value->admin->full_name : '---'),
-            $value->is_resent == 1 ? "RESENT" : $value->status,
-            
+            $value->status == 'APPROVED' ? $value->status : ($value->is_resent == 1 ? "RESENT" : $value->status),
+
         ];
     }
 
@@ -67,7 +71,7 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
     // {
     //     return [
     //         AfterSheet::class    => function(AfterSheet $event) {
-    //             $cellRange = 'A1:I100'; 
+    //             $cellRange = 'A1:I100';
     //             $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
     //             $event->sheet->getDelegate()->getRowDimension(1)->setRowHeight(30);
     //         },
