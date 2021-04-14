@@ -24,29 +24,31 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'remarks' => $faker->sentence,
         'amount' => $faker->numberBetween(10, 50),
     ];
-})->state(Transaction::class, 'pending', function (Faker $faker) {
-    return [
-        'status' => 'PENDING',
-        'is_resent' => 0,
-    ];
 })->state(Transaction::class, 'for-validation', function (Faker $faker) {
     return [
         'status' => $faker->randomElement(['PENDING', 'ONGOING']),
         'transaction_status' => 'COMPLETED',
         'is_validated' => 0,
     ];
-})->state(Transaction::class, 'approved', function (Faker $faker) {
+})->state(Transaction::class, 'pending', function (Faker $faker) {
     return [
-        'status' => 'APPROVED',
+        'status' => 'PENDING',
+        'is_resent' => 0,
     ];
 })->state(Transaction::class, 'declined', function (Faker $faker) {
     return [
         'status' => 'DECLINED',
+        'is_resent' => 0,
     ];
 })->state(Transaction::class, 'resent', function (Faker $faker) {
     return [
+        'status' => 'DECLINED',
         'is_resent' => 1,
-        'status' => 'PENDING',
+    ];
+})->state(Transaction::class, 'approved', function (Faker $faker) {
+    return [
+        'status' => 'APPROVED',
+        'is_resent' => $faker->numberBetween(0, 1),
     ];
 })->afterMaking(Transaction::class, function (Transaction $transaction) {
     $transaction->email = $transaction->customer->email;
