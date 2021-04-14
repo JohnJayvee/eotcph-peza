@@ -52,7 +52,7 @@ class TransactionForValidationTestSeeder extends Seeder
 
         $applicationIds = explode(',', $processor->application_id);
 
-        $statuses = ['for-validation', 'approved', 'declined', 'resent'];
+        $statuses = ['pending', 'declined', 'resent', 'approved'];
 
         Customer::first()->update([
             'fname' => 'charlie',
@@ -61,8 +61,8 @@ class TransactionForValidationTestSeeder extends Seeder
         ]);
 
         foreach ($applicationIds as $applicationId) {
-            foreach ($statuses as $status) {
-                factory(Transaction::class, 1)->states($status)->create([
+            foreach ($statuses as $key => $status) {
+                factory(Transaction::class, $key + 10)->states($status)->create([
                     'department_id' => $processor->department_id,
                     'application_id' => $applicationId,
                 ]);

@@ -35,7 +35,7 @@
 					<td>{{ $value->type ? $value->type->post_process->code : "---"}}</td>
 					<td>{{Helper::money_format($value->amount) ?: '---'}}</td>
 					<td>{{ $value->admin ? $value->admin->full_name : '---' }}</td>
-					<td>{{ $value->status == 'APPROVED' ? $value->status : ($value->is_resent == 1 ? "RESENT" : $value->status) }}</td>
+					<td>{{ $value->status == 'DECLINED' && $value->is_resent == 1 ? 'RESENT' : $value->status, }}</td>
 				</tr>
 			@empty
 			@endforelse

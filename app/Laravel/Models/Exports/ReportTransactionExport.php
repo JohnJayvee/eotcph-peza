@@ -55,8 +55,7 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
             $value->type ? $value->type->post_process->code : "---",
             Helper::money_format($value->amount) ?: '---',
             str::title($value->admin ? $value->admin->full_name : '---'),
-            $value->status == 'APPROVED' ? $value->status : ($value->is_resent == 1 ? "RESENT" : $value->status),
-
+            $value->status == 'DECLINED' && $value->is_resent == 1 ? 'RESENT' : $value->status,
         ];
     }
 
