@@ -45,7 +45,7 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
     {
         return [
             Helper::date_format($value->created_at),
-            $value->company_name,
+            ($value->customer ? $value->customer->full_name : $value->customer_name) . ' / ' . $value->company_name,
             $value->department ? $value->department->name : "N/A",
             $value->type ? Strtoupper($value->type->name) : "N/A",
             $value->type->pre_processing_description ?? 'N/A',
