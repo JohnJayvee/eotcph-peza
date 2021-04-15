@@ -300,7 +300,7 @@ class TransactionController extends Controller{
 		}else{
 			$this->data['applications'] = ['' => "Choose Applications"] + Application::where('department_id',$request->get('department_id'))->pluck('name', 'id')->toArray();
 		}
-		$this->data['transactions'] = Transaction::where('is_resent',1)->where('status',"PENDING")->where(function($query){
+		$this->data['transactions'] = Transaction::where('is_resent',1)->where('status',"DECLINED")->where(function($query){
 				if(strlen($this->data['keyword']) > 0){
 					return $query->WhereRaw("LOWER(company_name)  LIKE  '%{$this->data['keyword']}%'")
 							->orWhereRaw("LOWER(concat(fname,' ',lname))  LIKE  '%{$this->data['keyword']}%'")
