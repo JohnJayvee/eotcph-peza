@@ -134,11 +134,11 @@ class ReportController extends Controller
             return $query->WhereRaw("LOWER(company_name)  LIKE  '%{$this->data['keyword']}%'")
                 ->orWhereRaw("LOWER(concat(fname,' ',lname))  LIKE  '%{$this->data['keyword']}%'")
                 ->orWhereRaw("LOWER(code) LIKE  '%{$this->data['keyword']}%'");
-        })->where(function ($query) {
+        })->when($this->data['selected_department_id'], function ($query) {
             if (in_array($this->data['auth']->type, ['office_head', 'processor'])) {
-                $query->where('department_id', $this->data['auth']->department_id);
+                return $query->where('department_id', $this->data['auth']->department_id);
             } else {
-                $query->where('department_id', $this->data['selected_department_id']);
+                return $query->where('department_id', $this->data['selected_department_id']);
             }
         })->where(function ($query) {
             if ('processor' == $this->data['auth']->type) {
@@ -159,7 +159,7 @@ class ReportController extends Controller
             } elseif ('DECLINED' == $this->data['selected_type']) {
                 $query->where('is_resent', 0)
                     ->where('status', 'DECLINED');
-            } else {
+            } elseif ($this->data['selected_type']) {
                 $query->where('status', $this->data['selected_type']);
             }
         })->when($this->data['selected_processing_fee_status'], function ($query) {

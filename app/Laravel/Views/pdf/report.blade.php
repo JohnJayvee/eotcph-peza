@@ -25,7 +25,7 @@
 			@forelse($transactions as $value)
 				<tr align="center">
 					<td>{{Helper::date_format($value->created_at)}}</td>
-					<td>{{$value->company_name}}</td>
+					<td>{{($value->customer ? $value->customer->full_name : $value->customer_name) . ' / ' . $value->company_name}}</td>
 					<td>{{$value->department->name}}</td>
 					<td>{{ $value->type ? Strtoupper($value->type->name) : "N/A"}}<br> {{$value->code}}</td>
           <td>{{ $value->type->pre_processing_description ?? 'N/A' }}</td>
