@@ -28,7 +28,7 @@
             <p class="text-title fw-600 m-0">Name: <span class="text-black">{{str::title($transaction->customer ? $transaction->customer->full_name : $transaction->customer_name)}}</span></p>
             <p class="text-title fw-600 m-0">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}} [{{$transaction->code}}] </span></p>
             <p class="text-title fw-600 m-0">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
-            <p class="text-title fw-600 m-0">Processor Status: <span class="badge badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::title($transaction->status)}}</span></p>
+            <p class="text-title fw-600 m-0">Processor Status: <span class="badge badge-{{Helper::status_badge($transaction->status == 'DECLINED' && $transaction->is_resent == 1 ? 'pending' : $transaction->status)}} p-2">{{Str::title($transaction->status == 'DECLINED' && $transaction->is_resent == 1 ? 'RESENT' : $transaction->status)}}</span></p>
           </div>
           <div class="col-md-6">
             <p class="text-title fw-600 m-0">Peza Unit: <span class="text-black">{{$transaction->department ? Str::title($transaction->department->name) : "N/A"}}</span></p>
