@@ -25,6 +25,8 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'amount' => $faker->numberBetween(10, 50),
         'application_payment_status' => $faker->randomElement(['PAID', 'UNPAID']),
         'payment_status' => $faker->randomElement(['PAID', 'UNPAID']),
+        'transaction_status' => 'COMPLETED',
+        'is_validated' => 0,
     ];
 })->state(Transaction::class, 'for-validation', function (Faker $faker) {
     return [
