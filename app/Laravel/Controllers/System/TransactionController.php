@@ -508,6 +508,7 @@ class TransactionController extends Controller{
 				return redirect()->route('system.transaction.show',[$transaction->id]);
 			}
 			$transaction->status = "DECLINED";
+            $transaction->is_resent = 0;
 			$transaction->remarks = $request->get('remarks');
 			$transaction->processor_user_id = Auth::user()->id;
 			$transaction->modified_at = Carbon::now();

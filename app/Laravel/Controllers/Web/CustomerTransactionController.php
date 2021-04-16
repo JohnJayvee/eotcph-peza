@@ -421,7 +421,7 @@ class CustomerTransactionController extends Controller
 		try{
 			DB::beginTransaction();
 
-			$transaction->status = "PENDING";
+			$transaction->status = "DECLINED";
 			$transaction->is_resent = 1;
 			$transaction->save();
 

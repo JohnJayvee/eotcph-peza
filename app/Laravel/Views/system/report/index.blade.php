@@ -158,7 +158,7 @@
                 <td>
                   <div>
                     <span
-                      class="badge badge-pill badge-{{ Helper::status_badge($transaction->status) }} p-2">{{ Str::upper($transaction->status) }}</span>
+                      class="badge badge-pill badge-{{ Helper::status_badge($transaction->status == 'DECLINED' && $transaction->is_resent == 1 ? 'pending' : $transaction->status) }} p-2">{{ Str::upper($transaction->status == 'DECLINED' && $transaction->is_resent == 1 ? 'RESENT' : $transaction->status) }}</span>
                   </div>
                   @if ($transaction->status == 'APPROVED')
                     <div class="mt-1">

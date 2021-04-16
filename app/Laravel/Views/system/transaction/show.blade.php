@@ -33,7 +33,7 @@
             <p class="text-title fw-500">Name: <span class="text-black">{{str::title($transaction->customer ? $transaction->customer->full_name : $transaction->customer_name)}}</span></p>
             <p class="text-title fw-500">Application: <span class="text-black">{{$transaction->type ? Str::title($transaction->type->name) : "N/A"}} [{{$transaction->code}}] </span></p>
             <p class="text-title fw-500">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
-            <p class="text-title fw-500">Processor Status: <span class="badge badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::title($transaction->status)}}</span></p>
+            <p class="text-title fw-500">Processor Status: <span class="badge badge-{{Helper::status_badge($transaction->status == 'DECLINED' && $transaction->is_resent == 1 ? 'pending' : $transaction->status)}} p-2">{{Str::title($transaction->status == 'DECLINED' && $transaction->is_resent == 1 ? 'RESENT' : $transaction->status)}}</span></p>
             <p class="text-title fw-500">Validated: <span class="text-black">{{$transaction->is_validated == 0 ? "No" : " Yes"}}</span></p>
           </div>
           <div class="col-md-6">

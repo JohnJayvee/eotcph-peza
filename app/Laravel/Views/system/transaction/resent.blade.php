@@ -38,7 +38,7 @@
             <input type="text" class="form-control mb-2 mr-sm-2" value="{{$end_date}}" readonly="readonly" name="end_date">
           </div>
         </div>
-     
+
       </div>
       <div class="row">
         <div class="col-md-8 p-2">
@@ -92,7 +92,7 @@
             </td>
             <td>
               <div>
-                <span class="badge badge-pill badge-{{Helper::status_badge($transaction->status)}} p-2">{{Str::upper($transaction->status)}}</span>
+                <span class="badge badge-pill badge-warning p-2">RESENT</span>
               </div>
               @if($transaction->status == 'APPROVED')
                 <div class="mt-1"><p>{{ $transaction->admin ? $transaction->admin->full_name : '---' }}</p></div>
@@ -111,7 +111,7 @@
            <td colspan="8" class="text-center"><i>No transaction Records Available.</i></td>
           </tr>
           @endforelse
-          
+
         </tbody>
       </table>
     </div>
@@ -123,7 +123,7 @@
 @section('page-styles')
 <link rel="stylesheet" href="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
 <style type="text/css" >
-  .input-daterange input{ background: #fff!important; }  
+  .input-daterange input{ background: #fff!important; }
   .btn-sm{
     border-radius: 10px;
   }
