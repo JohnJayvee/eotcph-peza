@@ -17,7 +17,7 @@
         <td>Pre Processing Code</td>
         <td>Pre Processing Cost</td>
         <td>Account Description</td>
-        <td>Pre Processing Code</td>
+        <td>Post Processing Code</td>
         <td>Post Processing Cost</td>
         <td>Processor</td>
         <td>Status</td>
