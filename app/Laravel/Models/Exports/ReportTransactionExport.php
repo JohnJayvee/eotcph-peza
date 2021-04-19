@@ -34,7 +34,7 @@ class  ReportTransactionExport implements FromCollection,WithMapping,WithHeading
                 'Pre Processing Code',
                 'Pre Processing Cost',
                 'Account Description',
-                'Pre Processing Code',
+                'Post Processing Code',
                 'Post Processing Cost',
                 'Processor',
                 'Status',
